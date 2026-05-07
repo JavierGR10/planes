@@ -1,0 +1,83 @@
+---
+import type { ProfessionalBanner, ProfessionalBrandTheme } from '../types/professional';
+
+interface Props {
+  banners?: ProfessionalBanner[];
+  theme?: ProfessionalBrandTheme;
+}
+
+const { banners = [], theme } = Astro.props as Props;
+
+const slideBackgroundColor = theme?.surfaces?.heroSlideBackgroundColor ?? '#FFFFFF';
+const controlBackgroundColor = theme?.buttons?.heroCarouselControl?.backgroundColor ?? '#CBD5E1';
+const controlHoverBackgroundColor = theme?.buttons?.heroCarouselControl?.hoverBackgroundColor ?? '#64748B';
+const controlTextColor = theme?.buttons?.heroCarouselControl?.textColor ?? '#FFFFFF';
+const controlStyle = `background-color: ${controlBackgroundColor}; color: ${controlTextColor}; --professional-carousel-control-hover-background: ${controlHoverBackgroundColor};`;
+---
+
+<div id="hero" class="relative w-full scrolling-section carousel" data-carousel="static">
+  <div class="relative min-h-150 overflow-hidden">
+    {
+      Array.isArray(banners) &&
+        banners.map((banner) => (
+          <div
+            class="hidden duration-700 ease-in-out"
+            data-carousel-item
+            style={`background-color: ${slideBackgroundColor};`}
+          >
+            <img src={banner.image} alt={banner.alt} class="absolute block object-contain w-full h-full" />
+          </div>
+        ))
+    }
+  </div>
+  <!-- Slider controls -->
+  <button type="button" class="absolute top-0 inset-s-0 z-30 flex items-center justify-center h-full px-4">
+    <span
+      class="inline-flex items-center justify-center size-10 rounded-full transition-colors duration-300 ease-in-out group-focus:outline-none cursor-pointer professional-carousel-control"
+      style={controlStyle}
+      data-carousel-prev
+    >
+      <svg
+        class="w-5 h-5 text-white rtl:rotate-180"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+        ><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"
+        ></path></svg
+      >
+      <span class="sr-only">Previous</span>
+    </span>
+  </button>
+  <button
+    type="button"
+    class="absolute top-0 inset-e-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+    data-carousel-next
+  >
+    <span
+      class="inline-flex items-center justify-center size-10 rounded-full transition-colors duration-300 ease-in-out group-focus:outline-none cursor-pointer professional-carousel-control"
+      style={controlStyle}
+    >
+      <svg
+        class="w-5 h-5 text-white rtl:rotate-180"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+        ><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"
+        ></path></svg
+      >
+      <span class="sr-only">Next</span>
+    </span>
+  </button>
+</div>
+
+<style>
+  .professional-carousel-control:hover {
+    background-color: var(--professional-carousel-control-hover-background);
+  }
+</style>

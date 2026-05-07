@@ -1,0 +1,247 @@
+---
+import type { ProfessionalBrandTheme, ProfessionalEventItem } from '../types/professional';
+import Title from './Title.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  items: ProfessionalEventItem[];
+  theme?: ProfessionalBrandTheme;
+}
+
+const { title, subtitle, items, theme } = Astro.props;
+
+const accentColor = theme?.primaryColor;
+const headingFontFamily = theme?.typography?.headingFontFamily;
+const bodyFontFamily = theme?.typography?.bodyFontFamily;
+
+const sectionBackgroundColor = theme?.surfaces?.eventsSectionBackgroundColor ?? theme?.backgroundColor ?? '#E1E4E8';
+const eventCardBaseColor = theme?.surfaces?.eventCardBaseColor ?? '#000000';
+const eventCardOverlayColor = theme?.surfaces?.eventCardOverlayColor ?? 'rgba(0, 0, 0, 0)';
+const eventCardOverlayHoverColor = theme?.surfaces?.eventCardOverlayHoverColor ?? 'rgba(0, 0, 0, 0.4)';
+const eventCardTitleTextColor = theme?.surfaces?.eventCardTitleTextColor ?? '#FFFFFF';
+const emptyStateTextColor = theme?.surfaces?.emptyStateTextColor ?? '#6B7280';
+const modalBackdropColor = theme?.surfaces?.eventModal?.backdropColor ?? 'rgba(0, 0, 0, 0.8)';
+const modalImageBackgroundColor = theme?.surfaces?.eventModal?.imageBackgroundColor ?? '#000000';
+const modalTitleBackgroundColor = theme?.surfaces?.eventModal?.titleBackgroundColor ?? 'rgba(0, 0, 0, 0.7)';
+const modalTitleTextColor = theme?.surfaces?.eventModal?.titleTextColor ?? '#FFFFFF';
+const modalCloseBackgroundColor = theme?.surfaces?.eventModal?.closeButtonBackgroundColor ?? 'rgba(0, 0, 0, 0.6)';
+const modalCloseHoverBackgroundColor =
+  theme?.surfaces?.eventModal?.closeButtonHoverBackgroundColor ?? 'rgba(0, 0, 0, 0.8)';
+const modalCloseTextColor = theme?.surfaces?.eventModal?.closeButtonTextColor ?? '#FFFFFF';
+
+const sectionStyle = `background-color: ${sectionBackgroundColor}; --professional-event-overlay-color: ${eventCardOverlayColor}; --professional-event-overlay-hover-color: ${eventCardOverlayHoverColor}; --professional-event-title-color: ${eventCardTitleTextColor}; --professional-event-modal-backdrop-color: ${modalBackdropColor}; --professional-event-modal-close-hover-background: ${modalCloseHoverBackgroundColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const eventCardStyle = `background-color: ${eventCardBaseColor};`;
+const emptyStateStyle = `color: ${emptyStateTextColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const modalImageStyle = `background-color: ${modalImageBackgroundColor};`;
+const modalTitleStyle = `background-color: ${modalTitleBackgroundColor}; color: ${modalTitleTextColor};${headingFontFamily ? ` font-family: ${headingFontFamily};` : ''}`;
+const modalCloseStyle = `background-color: ${modalCloseBackgroundColor}; color: ${modalCloseTextColor};`;
+
+// columnas dinámicas (máx 4)
+const columns = Math.min(items.length, 4);
+
+// Tailwind NO acepta clases dinámicas
+const gridColsClass: Record<number, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-2',
+  3: 'grid-cols-3',
+  4: 'grid-cols-4',
+};
+
+// altura cuando solo hay 1 columna
+const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
+---
+
+<section class="w-full pb-10 scrolling-section" style={sectionStyle}>
+  <!-- Header -->
+  <div class="mx-auto w-full px-15 py-10 max-w-350 flex flex-col items-start">
+    <Title title={title} subtitle={subtitle} fontFamily={headingFontFamily} />
+  </div>
+
+  <!-- Grid -->
+  <section id="events" class={`mx-auto px-15 max-w-350 ${singleColHeight}`}>
+    <div class={`grid overflow-hidden ${gridColsClass[columns]}`}>
+      {
+        items.length > 0 ? (
+          items.map((event, idx) => {
+            const isFirst = idx === 0;
+            const isLast = idx === items.length - 1 || idx === columns - 1;
+
+            let roundedClass = '';
+            if (isFirst) roundedClass += ' rounded-l-3xl';
+            if (isLast) roundedClass += ' rounded-r-3xl';
+            return (
+              <button
+                class={`
+            group relative aspect-square cursor-pointer overflow-hidden professional-event-card
+            ${roundedClass} 
+          `}
+                style={eventCardStyle}
+                popovertarget="event-modal"
+                data-image={event.image}
+                data-title={event.title}
+              >
+                <img
+                  src={event.image}
+                  alt={`Imagen del evento: ${event.title}`}
+                  class="
+              h-full w-full object-cover
+              transition-transform duration-300
+              group-hover:scale-105
+            "
+                  loading="lazy"
+                />
+
+                <div
+                  class="
+              absolute inset-0 flex items-end professional-event-card-overlay
+              transition-colors duration-300
+            "
+                >
+                  <p
+                    class="
+                w-full p-4 text-center text-sm md:text-base
+                font-bold professional-event-card-title
+                translate-y-full transition-transform duration-300
+                group-hover:translate-y-0
+              "
+                  >
+                    {event.title}
+                  </p>
+                </div>
+              </button>
+            );
+          })
+        ) : (
+          <p class="col-span-full text-center text-lg md:text-xl" style={emptyStateStyle}>
+            No hay eventos disponibles en este momento.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <div id="event-modal" popover class="popover-modal">
+    <figure class="relative grid place-items-center">
+      <img
+        id="event-modal-image"
+        src=""
+        alt=""
+        class="max-h-[90vh] max-w-[90vw]
+          rounded-2xl object-contain"
+        style={modalImageStyle}
+      />
+
+      <figcaption
+        id="event-modal-title"
+        class="absolute bottom-4 left-1/2 -translate-x-1/2
+          rounded-full px-4 py-1
+          text-sm font-bold
+          backdrop-blur"
+        style={modalTitleStyle}
+      >
+      </figcaption>
+
+      <button
+        popovertarget="event-modal"
+        popovertargetaction="hide"
+        aria-label="Cerrar"
+        class="absolute right-3 top-3
+          grid h-8 w-8 place-items-center
+          rounded-full text-sm professional-event-modal-close
+          backdrop-blur
+          ease-in-out duration-300
+          cursor-pointer"
+        style={modalCloseStyle}
+      >
+        ✕
+      </button>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .professional-event-card-overlay {
+    background-color: var(--professional-event-overlay-color);
+  }
+
+  .professional-event-card:hover .professional-event-card-overlay {
+    background-color: var(--professional-event-overlay-hover-color);
+  }
+
+  .professional-event-card-title {
+    color: var(--professional-event-title-color);
+  }
+
+  .professional-event-modal-close:hover {
+    background-color: var(--professional-event-modal-close-hover-background);
+  }
+
+  .popover-modal {
+    display: grid;
+    place-items: center;
+    background: transparent;
+    height: 100%;
+    place-self: center;
+    pointer-events: none;
+  }
+
+  .popover-modal::backdrop {
+    background: var(--professional-event-modal-backdrop-color);
+    backdrop-filter: blur(10px);
+  }
+
+  .popover-modal {
+    opacity: 0;
+    transform: scale(0.96);
+    transition:
+      opacity 0.3s ease,
+      transform 0.2s ease-in-out;
+  }
+
+  .popover-modal:popover-open {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+  html[data-modal-open] {
+    overflow: hidden;
+  }
+
+  body[data-scroll-lock] {
+    position: fixed;
+    width: 100%;
+  }
+</style>
+
+<script is:inline>
+  const modal = document.getElementById('event-modal');
+  const modalImage = document.getElementById('event-modal-image');
+  const modalTitle = document.getElementById('event-modal-title');
+
+  document.querySelectorAll('[data-image]').forEach((card) => {
+    card.addEventListener('click', () => {
+      modalImage.src = card.dataset.image;
+      modalImage.alt = card.dataset.title;
+      modalTitle.textContent = card.dataset.title;
+    });
+  });
+
+  let scrollY = 0;
+
+  modal.addEventListener('toggle', (e) => {
+    if (e.newState === 'open') {
+      scrollY = window.scrollY;
+
+      document.body.style.top = `-${scrollY}px`;
+      document.body.setAttribute('data-scroll-lock', '');
+      document.documentElement.setAttribute('data-modal-open', '');
+    } else {
+      document.body.removeAttribute('data-scroll-lock');
+      document.body.style.top = '';
+      document.documentElement.removeAttribute('data-modal-open');
+
+      window.scrollTo(0, scrollY);
+    }
+  });
+</script>

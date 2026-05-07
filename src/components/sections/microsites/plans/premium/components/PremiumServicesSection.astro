@@ -1,0 +1,78 @@
+---
+import PremiumActionButton from './PremiumActionButton.astro';
+import PremiumSectionTitle from './PremiumSectionTitle.astro';
+import type { PremiumServicesSectionConfig } from '../types';
+
+interface Props {
+  services: PremiumServicesSectionConfig;
+  cardButtonText: string;
+}
+
+const { services, cardButtonText } = Astro.props as Props;
+---
+
+<section
+  data-absolute-section
+  data-section-padding="48"
+  class="premium-services-section section-container min-h-[50dvh] relative mb-4 mx-10"
+>
+  <PremiumSectionTitle title={services.sectionTitle} />
+
+  <div data-absolute-inner class="absolute top-0 left-1/2 -translate-x-1/2 w-full">
+    <div class="premium-services-panel max-w-7xl mx-auto px-5 mt-12 border rounded-3xl backdrop-blur-xs">
+      <p class="text-center text-lg lg:text-xl my-10">{services.description}</p>
+
+      <article class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+        {
+          services.items.map((item) => (
+            <div
+              class="premium-service-card item-stagger opacity-0 relative rounded-3xl border bg-cover bg-center overflow-hidden aspect-square h-full"
+              style={`background-image: url('${item.image}');`}
+            >
+              <div class="premium-service-card__overlay absolute inset-0" />
+
+              <div class="z-10 flex flex-col items-center justify-center text-center gap-3 relative h-full px-4">
+                <h3 class="font-extrabold text-xl lg:text-2xl">{item.title}</h3>
+                <p class="font-semibold">{item.description}</p>
+                <PremiumActionButton
+                  href={item.href ?? '#'}
+                  label={cardButtonText}
+                  variant="wave-outline"
+                  class="px-8 py-2 mb-2 text-sm lg:text-[15px]"
+                />
+              </div>
+            </div>
+          ))
+        }
+      </article>
+
+      <div class="flex justify-center my-8">
+        <PremiumActionButton
+          href={services.ctaLink}
+          label={services.cta}
+          variant="glow"
+          class="px-10 py-2 text-sm lg:text-[15px]"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .premium-services-section {
+    color: var(--premium-text-color);
+  }
+
+  .premium-services-panel {
+    border-color: var(--premium-panel-border-color);
+    background: var(--premium-services-panel-gradient);
+  }
+
+  .premium-service-card {
+    border-color: var(--premium-panel-border-color);
+  }
+
+  .premium-service-card__overlay {
+    background: var(--premium-service-card-overlay);
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
+import Navbar from '@/components/sections/microsites/plans/components/Navbar.astro';
+import ProductDetailSection from '@/components/sections/microsites/plans/premium/components/ProductDetailSection.astro';
+import { resolvePremiumTheme } from '@/components/sections/microsites/plans/premium/theme';
+import { getBrandDetailStaticPaths } from '@/components/sections/microsites/config/brand-configs';
+import { dellConfig } from '../../../components/sections/microsites/config/config-by-plan/dell.config';
+import Background from '@/assets/microsites/dell/index/background.png';
+import PremiumFooter from '@/components/sections/microsites/plans/premium/components/PremiumFooter.astro';
+
+export async function getStaticPaths() {
+  return getBrandDetailStaticPaths('dell');
+}
+
+const { details } = Astro.params;
+const { brand, meta, branding, navigation, sections, footer } = dellConfig;
+const { primaryColor } = branding.theme;
+const resolvedTheme = resolvePremiumTheme(branding.theme);
+
+const product = sections.productDetails?.find((p) => p.slug === details);
+const detailSections = product?.detailSections ?? [];
+const leadingSections = detailSections.filter((section) => section.variant !== 'closing');
+const [introSection, ...contentSections] = leadingSections;
+const closingSections = detailSections.filter((section) => section.variant === 'closing');
+const detailDescription = introSection?.paragraphs[0] ?? meta.description;
+const currentYear = new Date().getFullYear();
+---
+
+<MicrositeLayout
+  title={`${product?.hero.title ?? 'Producto'} - ${brand.name}`}
+  description={detailDescription}
+  favicon={meta.favicon}
+>
+  <div style={resolvedTheme.cssVars}>
+    <Navbar
+      logo={branding.logos.header}
+      basePath={navigation.basePath}
+      items={navigation.items}
+      transparent={true}
+      initialTone={resolvedTheme.navbar.initialTheme}
+      scrollBackground={resolvedTheme.navbar.scrollBackground}
+      scrollTone={resolvedTheme.navbar.scrollTheme}
+    />
+    {
+      product ? (
+        <section class="bg-[#1F242D] text-white">
+          <div class="px-3 md:px-5">
+            <section
+              class={`w-full h-[50vh] md:h-[60vh] lg:h-[70vh] rounded-3xl flex items-end ${product.hero.image ? 'bg-no-repeat bg-contain bg-center' : 'bg-[#27303B]'}`}
+              style={product.hero.image ? `background-image: url(${product.hero.image});` : undefined}
+            >
+              <div class="p-6 md:p-10 lg:p-16 z-10 tracking-[2px]">
+                <h1 class="text-4xl lg:text-5xl font-extrabold mb-2">{product.hero.title}</h1>
+                <p class="text-lg lg:text-xl">{product.hero.subtitle}</p>
+              </div>
+            </section>
+          </div>
+
+          <section class="px-6 lg:px-10 bg-no-repeat" style={`background-image: url(${Background.src});`}>
+            {introSection && (
+              <ProductDetailSection
+                section={introSection}
+                features={product.features}
+                primaryColor={primaryColor}
+                topSpacing
+              />
+            )}
+
+            {product.secondBanner?.image && (
+              <section class="w-full h-full grid place-items-center overflow-hidden rounded-3xl px-10 my-15">
+                <img
+                  src={product.secondBanner.image}
+                  alt={`Banner ${product.hero.title}`}
+                  class="object-contain object-center "
+                />
+              </section>
+            )}
+
+            {contentSections.map((section) => (
+              <ProductDetailSection
+                topSpacing
+                section={section}
+                features={product.features}
+                primaryColor={primaryColor}
+              />
+            ))}
+          </section>
+
+          {closingSections.length > 0 && (
+            <section
+              class="py-10 px-6 lg:px-10 bg-no-repeat bg-right"
+              style={`background-image: url(${Background.src});`}
+            >
+              {closingSections.map((section) => (
+                <ProductDetailSection
+                  topSpacing
+                  section={section}
+                  features={product.features}
+                  primaryColor={primaryColor}
+                />
+              ))}
+            </section>
+          )}
+
+          <PremiumFooter footer={footer} footerTheme={resolvedTheme.footer} />
+        </section>
+      ) : (
+        <section class="min-h-[60vh] flex items-center justify-center">
+          <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Producto no encontrado</h1>
+            <p class="text-gray-600 mb-6">El producto que buscas no existe.</p>
+            <a href={navigation.basePath} class="px-6 py-3 rounded-lg text-white font-bold transition-colors">
+              Volver al inicio
+            </a>
+          </div>
+        </section>
+      )
+    }
+  </div>
+</MicrositeLayout>

@@ -1,0 +1,21 @@
+---
+const { message, phone } = Astro.props;
+
+const formatPhone = phone.replace(/\s+/g, '');
+const WHATSAPP = {
+  message,
+  href: `https://wa.me/52${formatPhone}?text=${encodeURIComponent(message)}`,
+  label: 'WhatsApp',
+  icon: 'fab fa-whatsapp',
+  bg: 'bg-green-500 ',
+};
+---
+
+<a
+  href={WHATSAPP.href}
+  target="_blank"
+  aria-label={WHATSAPP.label}
+  class={`absolute bottom-8 right-5 text-white w-12 h-12 z-[32] bg-green-500 grid place-items-center rounded-full`}
+>
+  <i class={`${WHATSAPP.icon} text-[28px]`}></i>
+</a>

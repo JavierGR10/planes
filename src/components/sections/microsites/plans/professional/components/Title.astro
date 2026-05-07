@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  fontFamily?: string;
+}
+
+const { title, subtitle, fontFamily } = Astro.props;
+
+const titleStyle = fontFamily ? `font-family: ${fontFamily};` : undefined;
+---
+
+<div class="split-title-block">
+  <h2 class="split-title text-2xl md:text-3xl xl:text-4xl font-black tracking-[3px]" style={titleStyle}>
+    {title}
+  </h2>
+</div>
+<div class="split-title-block">
+  {
+    subtitle && (
+      <p class="split-title mt-2 text-lg lg:text-xl font-black tracking-[1px]" style={titleStyle}>
+        {subtitle}
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .split-title-block {
+    width: 100%;
+  }
+</style>

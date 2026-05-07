@@ -1,0 +1,57 @@
+---
+import PremiumActionButton from './PremiumActionButton.astro';
+import type { PremiumProductItem } from '../types';
+
+interface Props extends PremiumProductItem {
+  buttonText: string;
+  index: number;
+}
+
+const {
+  image,
+  titleProduct,
+  subtitleProduct,
+  descriptionTitle,
+  description,
+  href = '#',
+  buttonText,
+  index,
+} = Astro.props as Props;
+
+const surfaceColor = index === 0
+  ? 'var(--premium-product-card-featured-background)'
+  : 'var(--premium-product-card-default-background)';
+---
+
+<article
+  class="item-stagger opacity-0 premium-product-card rounded-3xl border px-5 py-8 flex flex-col space-y-5 backdrop-blur-xs relative overflow-hidden"
+  style={`background-color: ${surfaceColor}; background-image: var(--premium-product-card-gradient);`}
+>
+  <h3 class="font-bold text-lg lg:text-xl mb-4 relative z-10">{titleProduct}</h3>
+  {subtitleProduct && <p class="relative z-10 whitespace-pre-line">{subtitleProduct}</p>}
+  <img src={image} alt={titleProduct} class="mx-auto relative z-10" loading="lazy" />
+  {descriptionTitle && <p class="text-justify relative z-10">{descriptionTitle}</p>}
+  <p class="flex-1 relative z-10">{description}</p>
+  <PremiumActionButton
+    href={href}
+    label={buttonText}
+    variant="wave-outline"
+    class="w-fit self-end px-8 py-2 mb-2 text-sm lg:text-[15px]"
+    style="--premium-button-wave-border-color: var(--premium-product-card-cta-border-color); --premium-button-wave-text-color: var(--premium-product-card-cta-text-color); --premium-button-wave-hover-text-color: var(--premium-product-card-cta-hover-text-color); --premium-button-wave-fill-color: var(--premium-product-card-cta-fill-color); --premium-button-wave-filled-background: var(--premium-product-card-cta-filled-background);"
+  />
+</article>
+
+<style>
+  .premium-product-card {
+    border-color: var(--premium-panel-border-color);
+    color: var(--premium-product-card-text-color);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .premium-product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px -20px var(--premium-card-hover-shadow);
+  }
+</style>

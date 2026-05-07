@@ -1,0 +1,45 @@
+---
+import Carousel from './components/Carousel.astro';
+import Events from './components/Events.astro';
+import Footer from './components/Footer.astro';
+import Products from './components/Products.astro';
+import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
+
+import type { ProfessionalMicrositeConfig } from './types/professional';
+import Navbar from '../components/Navbar.astro';
+
+interface Props {
+  config: ProfessionalMicrositeConfig;
+}
+
+const { config } = Astro.props;
+
+// Desestructuración del objeto de configuración
+const { brand, meta, branding, navigation, sections } = config;
+---
+
+<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+  <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
+
+  <Carousel banners={sections.hero.banners} theme={branding.theme} />
+
+  <Products
+    title={sections.products.title}
+    subtitle={sections.products.subtitle}
+    items={sections.products.items}
+    theme={branding.theme}
+  />
+
+  <Events
+    title={sections.events.title}
+    subtitle={sections.events.subtitle}
+    items={sections.events.items}
+    theme={branding.theme}
+  />
+
+  <Footer logo={branding.logos.footer} brandName={brand.name} theme={branding.theme} />
+</MicrositeLayout>
+
+<script>
+  import './animations.ts';
+</script>

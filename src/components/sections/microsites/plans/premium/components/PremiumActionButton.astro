@@ -1,0 +1,137 @@
+---
+interface Props {
+  href?: string;
+  label: string;
+  variant?: 'wave-outline' | 'wave-filled' | 'glow';
+  target?: string;
+  rel?: string;
+  id?: string;
+  class?: string;
+  style?: string;
+}
+
+const { href = '#', label, variant = 'wave-outline', target, rel, id, class: className = '', style = '' } = Astro.props as Props;
+
+const safeRel = target === '_blank' ? (rel ?? 'noopener noreferrer') : rel;
+const isWaveVariant = variant === 'wave-outline' || variant === 'wave-filled';
+---
+
+<a
+  href={href}
+  id={id}
+  target={target}
+  rel={safeRel}
+  class:list={[
+    'premium-action-button',
+    isWaveVariant ? 'premium-action-button--wave' : 'premium-action-button--glow',
+    variant === 'wave-filled' && 'premium-action-button--wave-filled',
+    className,
+  ]}
+  style={style}
+>
+  <span class="premium-action-button__label">{label}</span>
+</a>
+
+<style>
+  .premium-action-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-weight: 800;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .premium-action-button__label {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+  }
+
+  .premium-action-button--wave {
+    border: 1px solid var(--premium-button-wave-border-color);
+    color: var(--premium-button-wave-text-color);
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .premium-action-button--wave-filled {
+    background: var(--premium-button-wave-filled-background);
+  }
+
+  .premium-action-button--wave::before {
+    content: '';
+    position: absolute;
+    left: -20%;
+    bottom: -100%;
+    width: 140%;
+    height: 300%;
+    background: var(--premium-button-wave-fill-color);
+    border-radius: 50%;
+    transform: translateY(100%) scale(0.9);
+    transition: transform 0.75s cubic-bezier(0.52, 0.61, 0.56, 1);
+    z-index: 0;
+  }
+
+  .premium-action-button--wave:hover::before {
+    transform: translateY(0) scale(1);
+  }
+
+  .premium-action-button--wave:hover .premium-action-button__label {
+    color: var(--premium-button-wave-hover-text-color);
+  }
+
+  .premium-action-button--glow {
+    border: 1px solid var(--premium-button-glow-border-color);
+    color: var(--premium-button-glow-text-color);
+    border-radius: 20px;
+    background: transparent;
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  .premium-action-button--glow:hover {
+    background: var(--premium-button-glow-hover-background);
+    border-color: var(--premium-button-glow-hover-border-color);
+    box-shadow: 0 0 30px 5px var(--premium-button-glow-shadow-color);
+  }
+
+  .premium-action-button--glow::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 86%;
+    position: absolute;
+    top: 7%;
+    left: 0;
+    opacity: 0;
+    background: #fff;
+    box-shadow: 0 0 50px 30px #fff;
+    transform: skewX(-20deg);
+  }
+
+  .premium-action-button--glow:hover::before {
+    animation: premium-glow-shimmer 0.5s linear;
+  }
+
+  @keyframes premium-glow-shimmer {
+    from {
+      opacity: 0;
+      left: 0;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+      left: 100%;
+    }
+  }
+</style>

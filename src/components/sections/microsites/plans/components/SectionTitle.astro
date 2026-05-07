@@ -1,0 +1,26 @@
+---
+/**
+ * SectionTitle - Título de sección con borde decorativo
+ * Componente reutilizable para títulos de secciones en micrositios
+ */
+
+interface Props {
+  /** Color del texto y borde (hex o variable CSS) */
+  color: string;
+  /** Clases adicionales opcionales */
+  class?: string;
+}
+
+const { color, class: className = '' } = Astro.props;
+---
+
+<h2
+  class:list={[
+    'text-2xl font-extrabold pl-15 py-3 pr-5 my-10 w-fit',
+    'border-t border-r border-b rounded-[5px]',
+    className,
+  ]}
+  style={`color: ${color}; border-color: ${color};`}
+>
+  <slot />
+</h2>

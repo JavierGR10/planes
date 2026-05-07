@@ -1,0 +1,14 @@
+---
+import type { ProfessionalFooterProps } from '../types/professional';
+
+const { logo, brandName, theme } = Astro.props as ProfessionalFooterProps;
+
+const footerBackgroundColor = theme?.surfaces?.footerBackgroundColor ?? '#1F242D';
+const footerStyle = `background-color: ${footerBackgroundColor};`;
+---
+
+<footer id="contact" class="w-full bottom-0 left-0 z-5 py-15" style={footerStyle}>
+  <div class="flex items-center justify-center gap-3">
+    {logo.src && <img src={logo.src} alt={logo.alt || `Logo ${brandName}`} class="max-h-12" />}
+  </div>
+</footer>

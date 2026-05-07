@@ -1,0 +1,72 @@
+---
+import AnimationProduct from '@/components/sections/microsites/AnimationProduct';
+import Navbar from '@/components/sections/microsites/plans/components/Navbar.astro';
+import { resolvePremiumTheme } from '@/components/sections/microsites/plans/premium/theme';
+import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
+import { getBrandConfig, isBrandPageEnabled } from '@/components/sections/microsites/config/brand-configs';
+import PremiumFooter from '@/components/sections/microsites/plans/premium/components/PremiumFooter.astro';
+
+const dellConfig = getBrandConfig('dell');
+const isProductsEnabled = isBrandPageEnabled('dell', 'products');
+const { meta, branding, navigation, sections, footer } = dellConfig;
+const { products } = sections;
+const resolvedTheme = resolvePremiumTheme(branding.theme);
+---
+
+<MicrositeLayout title={meta.productsTitle} description={meta.description} favicon={meta.favicon}>
+  <div style={resolvedTheme.cssVars}>
+    <div class="bg-[#1F242D] text-white">
+      <Navbar
+        logo={branding.logos.header}
+        basePath={navigation.basePath}
+        items={navigation.items}
+        transparent={true}
+        initialTone={resolvedTheme.navbar.initialTheme}
+        scrollBackground={resolvedTheme.navbar.scrollBackground}
+        scrollTone={resolvedTheme.navbar.scrollTheme}
+      />
+
+      {
+        isProductsEnabled ? (
+          <section id="products-section" class="min-h-screen relative pt-28">
+            <h2 class="relative text-center text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[10px]">
+              {products.sectionTitle}
+            </h2>
+            <div id="products-absolute" class="absolute top-40 left-1/2 -translate-x-1/2 w-full">
+              <article class="max-w-7xl mx-auto px-10 flex flex-col gap-5 duration-500 overflow-hidden w-full">
+                <AnimationProduct items={products.items} client:load />
+              </article>
+            </div>
+          </section>
+        ) : (
+          <section class="min-h-[60vh] flex items-center justify-center px-6 text-center">
+            <div>
+              <h1 class="text-3xl font-bold mb-4">Pagina no disponible</h1>
+              <p class="text-white/70">La pagina de productos no esta habilitada para esta marca.</p>
+            </div>
+          </section>
+        )
+      }
+    </div>
+
+    <PremiumFooter footer={footer} footerTheme={resolvedTheme.footer} />
+  </div>
+</MicrositeLayout>
+
+<script>
+  const section = document.getElementById('products-section');
+  const inner = document.getElementById('products-absolute');
+
+  if (section && inner) {
+    const TOP_OFFSET = 160; // top-40 = 10rem = 160px
+    const PADDING = 48;
+
+    const update = () => {
+      const needed = TOP_OFFSET + inner.scrollHeight + PADDING;
+      section.style.minHeight = `${needed}px`;
+    };
+
+    update();
+    new ResizeObserver(update).observe(inner);
+  }
+</script>

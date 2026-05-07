@@ -1,0 +1,71 @@
+---
+import type { ImageAsset } from '@/components/sections/microsites/config';
+import type { BusinessFooterTheme, FooterContact } from '../business/types';
+
+interface Props {
+  logo: ImageAsset;
+  brandName: string;
+  contact: FooterContact;
+  footerTheme?: BusinessFooterTheme;
+}
+
+const { logo, brandName, contact, footerTheme } = Astro.props as Props;
+const {
+  backgroundColor = '#FFFFFF',
+  backgroundGradient,
+  titleColor = '#101924',
+  itemColor = '#101924',
+  mutedColor = '#92939E',
+  dividerGradient = 'linear-gradient(90deg, #EEEEF1 0%, #000000 50%, #EEEEF0 100%)',
+  linkHoverColor,
+} = footerTheme ?? {};
+
+const footerStyle = `background: ${backgroundGradient ?? backgroundColor};`;
+const titleStyle = `color: ${titleColor};`;
+const itemStyle = `color: ${itemColor};`;
+const mutedStyle = `color: ${mutedColor};`;
+const dividerStyle = `background: ${dividerGradient};`;
+const linkStyle = `color: ${itemColor};${linkHoverColor ? ` --microsite-footer-link-hover-color: ${linkHoverColor};` : ''}`;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="py-5 mt-10" style={footerStyle}>
+  <img src={logo.src} alt={logo.alt} class="mb-3 max-h-8 px-15" loading="lazy" />
+
+  <div class="max-w-7xl mx-auto px-10 flex flex-col md:flex-row items-center justify-between gap-3 mb-15">
+    <div class="flex flex-col">
+      <p class="mb-4 font-semibold" style={titleStyle}>Contacto</p>
+      <ul class="flex flex-col gap-4 text-sm" style={itemStyle}>
+        <li>
+          <a href={`mailto:${contact.email}`} class="microsite-footer-link" style={linkStyle}>
+            {contact.email}
+          </a>
+        </li>
+        <li>
+          <a href={`tel:${contact.phone.replace(/\s/g, '')}`} class="microsite-footer-link" style={linkStyle}>
+            {contact.phone}
+          </a>
+        </li>
+        <li>{contact.address}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="h-px w-full" style={dividerStyle}></div>
+
+  <p class="text-sm font-medium pt-5" style={mutedStyle}>
+    &copy; {currentYear}
+    {brandName}. Todos los derechos reservados.
+  </p>
+</footer>
+
+<style>
+  .microsite-footer-link {
+    transition: color 300ms ease;
+  }
+
+  .microsite-footer-link:hover {
+    color: var(--microsite-footer-link-hover-color, currentColor);
+    text-decoration: underline;
+  }
+</style>

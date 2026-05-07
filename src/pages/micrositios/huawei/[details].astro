@@ -1,0 +1,114 @@
+---
+import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
+import Navbar from '@/components/sections/microsites/plans/components/Navbar.astro';
+import Footer from '@/components/sections/microsites/plans/professional/components/Footer.astro';
+import { getBrandDetailStaticPaths } from '@/components/sections/microsites/config/brand-configs';
+import { huaweiConfig } from '../../../components/sections/microsites/config/config-by-plan/huawei.config';
+
+export async function getStaticPaths() {
+  return getBrandDetailStaticPaths('huawei');
+}
+
+const { details } = Astro.params;
+const detailInfo = (huaweiConfig.productDetails ?? []).find((item) => item.slug === details);
+const { brand, meta, branding, navigation } = huaweiConfig;
+const detailAccentColor = branding.theme.detailAccentColor ?? '#929DAC';
+---
+
+<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+  <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
+
+  <script is:inline>
+    document.documentElement.setAttribute('data-professional-detail-motion', 'pending');
+  </script>
+
+  {
+    detailInfo ? (
+      <section class="professional-detail-hero relative min-h-[80dvh] flex items-end overflow-hidden">
+        <img
+          src={detailInfo?.banner}
+          alt={detailInfo?.bannerAlt}
+          class="professional-detail-hero-image w-full h-full absolute inset-0 object-cover min-h-1/2"
+        />
+        <div class="professional-detail-hero-copy relative z-10 w-full px-4 py-8 md:px-15 md:py-5">
+          <h2 class="professional-detail-hero-title text-2xl md:text-4xl font-extrabold drop-shadow-lg leading-tight">
+            {detailInfo?.title}
+            </h2>
+          <h3 class="professional-detail-hero-subtitle text-lg md:text-xl font-bold drop-shadow leading-tight">
+            {detailInfo?.subtitle}
+          </h3>
+        </div>
+      </section>
+    
+      <section class="professional-detail-intro max-w-7xl mx-auto px-15 py-10 font-DMSans text-lg md:text-xl">
+        <p>{detailInfo?.intro}</p>
+      </section>
+    
+      <section class="professional-detail-product-section grid grid-cols-1 md:grid-cols-2 min-h-[50dvh] place-items-center gap-8">
+        <div class="professional-detail-product-copy text-2xl p-10 lg:p-30 flex flex-col items-center justify-center">
+          <p
+            set:html={detailInfo?.productTitleHtml}
+            class="professional-detail-product-title detail-product-title text-3xl max-w-full md:max-w-57.5 text-center mb-5"
+            style={`--professional-detail-accent-color: ${detailAccentColor};`}
+          />
+          <div class="professional-detail-product-description flex flex-col items-center justify-center text-center max-w-full md:max-w-112.5">
+            <p>{detailInfo?.productDescription[0]}</p>
+            <p set:html={detailInfo?.productDescription[1]} />
+          </div>
+        </div>
+        <img
+          src={detailInfo?.product.image}
+          alt={detailInfo?.product.title}
+          class="professional-detail-product-image w-full h-175 object-cover"
+        />
+      </section>
+    
+      <section class="professional-detail-specs max-w-5xl xl:max-w-400 mx-auto px-15 py-15 grid grid-col-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
+        {
+          detailInfo?.specs.map((espec) => (
+            <div class="professional-detail-spec-card flex flex-col items-center bg-[#F5F5F5] hover:bg-[#E0E0E0] transition-colors duration-300 ease-in-out rounded-lg p-6 gap-6">
+              <img src={espec.icon} alt={espec.title} class="size-14 object-contain select-none" />
+              <div>
+                <h4 class="text-2xl font-bold mb-2 text-center">{espec.title}</h4>
+                <p class="text-center">{espec.description}</p>
+              </div>
+            </div>
+          ))
+        }
+      </section>
+    
+      <Footer logo={branding.logos.footer} brandName={brand.name} />
+      ) : (
+        <section class=" flex flex-col h-[90dvh] items-center justify-center">
+          <p class="text-2xl text-gray-500">Producto no encontrado.</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-error-404"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 8v3a1 1 0 0 0 1 1h3" /><path d="M7 8v8" /><path d="M17 8v3a1 1 0 0 0 1 1h3" /><path d="M21 8v8" /><path d="M10 10v4a2 2 0 1 0 4 0v-4a2 2 0 1 0 -4 0" /></svg>
+        </section>
+      )
+  }
+</MicrositeLayout>
+
+<style>
+  html[data-professional-detail-motion='pending'] .professional-detail-hero-image {
+    transform: scale(0.9);
+    filter: blur(12px);
+  }
+
+  html[data-professional-detail-motion='pending'] .professional-detail-hero-copy {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  html[data-professional-detail-motion='pending'] .professional-detail-hero-subtitle {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .detail-product-title :global(strong) {
+    color: var(--professional-detail-accent-color);
+    font-weight: 900;
+  }
+</style>
+
+<script>
+  import '@/components/sections/microsites/plans/professional/detail-animations.ts';
+</script>

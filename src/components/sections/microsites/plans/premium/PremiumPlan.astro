@@ -1,0 +1,157 @@
+---
+import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import BannerSection from './components/BannerSection.astro';
+import HeroCarousel from './components/HeroCarousel';
+import PremiumCatalogueSection from './components/PremiumCatalogueSection.astro';
+import PremiumEventsSection from './components/PremiumEventsSection.astro';
+import PremiumFooter from './components/PremiumFooter.astro';
+import PremiumPopupModal from './components/PremiumPopupModal.astro';
+import PremiumProductsSection from './components/PremiumProductsSection.astro';
+import PremiumServicesSection from './components/PremiumServicesSection.astro';
+import { resolvePremiumTheme } from './theme';
+import type { PremiumBannerTheme, PremiumMicrositeConfig } from './types';
+
+interface Props {
+  config: PremiumMicrositeConfig;
+}
+
+const { config } = Astro.props as Props;
+
+const { brand, meta, branding, navigation, sections, footer, popupModal } = config;
+const { products, services, catalogue, events } = sections;
+
+const heroItems = sections.heroes;
+const resolvedTheme = resolvePremiumTheme(branding.theme);
+const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
+  titleColor: '#FFFFFF',
+  descriptionColor: '#FFFFFF',
+  overlayBackground: 'var(--premium-service-card-overlay)',
+};
+---
+
+<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+  <div class="premium-plan" style={resolvedTheme.cssVars}>
+    {popupModal?.enabled && <PremiumPopupModal popupModal={popupModal} />}
+
+    <Navbar
+      logo={branding.logos.header}
+      basePath={navigation.basePath}
+      items={navigation.items}
+      transparent={true}
+      initialTone={resolvedTheme.navbar.initialTheme}
+      scrollBackground={resolvedTheme.navbar.scrollBackground}
+      scrollTone={resolvedTheme.navbar.scrollTheme}
+    />
+
+    <section class="pt-18">
+      <HeroCarousel heroes={heroItems} theme={resolvedTheme.hero} rounded={false} client:load />
+    </section>
+
+    <PremiumProductsSection products={products} />
+    <PremiumServicesSection services={services} cardButtonText={products.buttonText} />
+    <BannerSection {...products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} />
+    <PremiumCatalogueSection catalogue={catalogue} />
+    <PremiumEventsSection events={events} />
+    <PremiumFooter footer={footer} footerTheme={resolvedTheme.footer} />
+
+    <style scoped>
+      .premium-plan {
+        background: var(--premium-page-background);
+        color: var(--premium-text-color);
+      }
+
+      .event-image {
+        opacity: 0;
+      }
+    </style>
+
+    <script>
+      import './animations';
+    </script>
+  </div>
+
+  <script>
+    const overlay = document.getElementById('popup-overlay');
+    const closeBtn = document.getElementById('popup-close');
+    const modal = document.getElementById('popup-modal');
+
+    if (overlay && modal) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          modal.classList.add('is-open');
+        });
+      });
+
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.classList.add('is-closing');
+
+        setTimeout(() => {
+          document.documentElement.style.overflow = '';
+          document.body.style.overflow = '';
+          overlay.remove();
+          overlay.classList.add('opacity-0');
+        }, 400);
+      };
+
+      closeBtn?.addEventListener('click', closeModal);
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+    }
+  </script>
+
+  <script>
+    const absoluteSections = [...document.querySelectorAll('[data-absolute-section]')];
+
+    if (absoluteSections.length) {
+      const updateSectionHeight = (section: Element) => {
+        const inner = section.querySelector<HTMLElement>('[data-absolute-inner]');
+        if (!inner) return;
+
+        const sectionRect = section.getBoundingClientRect();
+        const innerRect = inner.getBoundingClientRect();
+        const baseMinHeight = parseFloat(getComputedStyle(section).minHeight) || 0;
+        const bottomPadding = Number((section as HTMLElement).dataset.sectionPadding || 0);
+        const neededHeight = innerRect.bottom - sectionRect.top + bottomPadding;
+
+        (section as HTMLElement).style.minHeight = `${Math.max(baseMinHeight, neededHeight)}px`;
+      };
+
+      const updateAllSectionHeights = () => {
+        absoluteSections.forEach(updateSectionHeight);
+      };
+
+      updateAllSectionHeights();
+      window.addEventListener('resize', updateAllSectionHeights);
+
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(updateAllSectionHeights);
+      }
+
+      const observers = absoluteSections
+        .map((section) => {
+          const inner = section.querySelector<HTMLElement>('[data-absolute-inner]');
+          if (!inner) return null;
+
+          const observer = new ResizeObserver(() => updateSectionHeight(section));
+          observer.observe(inner);
+          return observer;
+        })
+        .filter((observer): observer is ResizeObserver => observer !== null);
+
+      window.addEventListener('beforeunload', () => {
+        observers.forEach((observer) => observer.disconnect());
+      });
+    }
+  </script>
+</MicrositeLayout>

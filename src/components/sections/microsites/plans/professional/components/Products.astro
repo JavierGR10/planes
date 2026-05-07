@@ -1,0 +1,136 @@
+---
+import type {
+  ProfessionalBrandTheme,
+  ProfessionalRichTextContent,
+  ProfessionalRichTextSpacing,
+  ProfessionalServiceItem,
+} from '../types/professional';
+import Title from './Title.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  items: ProfessionalServiceItem[];
+  theme?: ProfessionalBrandTheme;
+  id?: string;
+}
+
+const { title, subtitle, items, theme, id = 'products' } = Astro.props;
+
+const accentColor = theme?.primaryColor;
+const headingFontFamily = theme?.typography?.headingFontFamily;
+const bodyFontFamily = theme?.typography?.bodyFontFamily;
+const ctaFontFamily = theme?.typography?.ctaFontFamily;
+
+const sectionBackgroundColor = theme?.surfaces?.servicesSectionBackgroundColor ?? theme?.backgroundColor ?? '#F5F5F5';
+const cardBackgroundColor = theme?.surfaces?.servicesCard?.backgroundColor ?? '#FFFFFF';
+const cardBorderColor = theme?.surfaces?.servicesCard?.borderColor ?? '#D9D9D9';
+const cardTextColor = theme?.surfaces?.servicesCard?.textColor ?? '#24272A';
+const ctaBackgroundColor = theme?.buttons?.serviceCardCta?.backgroundColor ?? '#24272A';
+const ctaTextColor = theme?.buttons?.serviceCardCta?.textColor ?? '#FFFFFF';
+const ctaHoverBackgroundColor = theme?.buttons?.serviceCardCta?.hoverBackgroundColor ?? 'rgba(36, 39, 42, 0.8)';
+const emptyStateTextColor = theme?.surfaces?.emptyStateTextColor ?? '#6B7280';
+
+const paragraphGapBySpacing: Record<ProfessionalRichTextSpacing, string> = {
+  none: '0',
+  sm: '0.5rem',
+  md: '1rem',
+  lg: '1.5rem',
+};
+
+const normalizeRichText = (content: ProfessionalRichTextContent) => {
+  if (typeof content === 'string') {
+    return {
+      paragraphs: [content],
+      spacing: paragraphGapBySpacing.md,
+    };
+  }
+
+  return {
+    paragraphs: content.paragraphs,
+    spacing: paragraphGapBySpacing[content.spacing ?? 'md'],
+  };
+};
+
+const sectionStyle = `background-color: ${sectionBackgroundColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const gridStyle = `color: ${cardTextColor};`;
+const cardStyle = `background-color: ${cardBackgroundColor}; border-color: ${cardBorderColor}; color: ${cardTextColor};`;
+const titleStyle = headingFontFamily ? `font-family: ${headingFontFamily};` : undefined;
+const ctaStyle = `--service-card-cta-background: ${ctaBackgroundColor}; color: ${ctaTextColor}; --service-card-cta-hover-background: ${ctaHoverBackgroundColor}; --service-card-cta-shadow: 0 10px 24px rgba(36, 39, 42, 0.12);${ctaFontFamily ? ` font-family: ${ctaFontFamily};` : ''}`;
+const emptyStateStyle = `color: ${emptyStateTextColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const normalizedItems = items.map((item) => ({
+  ...item,
+  descriptionContent: normalizeRichText(item.description),
+}));
+---
+
+<section id={id} class="w-full scrolling-section" style={sectionStyle}>
+  <div class={`max-w-350 mx-auto px-15 py-10 flex flex-col items-start`}>
+    <Title title={title} subtitle={subtitle} fontFamily={headingFontFamily} />
+  </div>
+
+  <div>
+    {
+      items.length > 0 ? (
+        <div
+          class="max-w-350 mx-auto px-15 pb-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 products-wrapper"
+          style={gridStyle}
+        >
+          {normalizedItems.map((item) => (
+            <div class="flex flex-col border rounded-2xl overflow-hidden product" style={cardStyle}>
+              <img src={item.image} alt={item.title} class="w-full h-56 object-cover" />
+              <div class="flex-1 px-6">
+                <h3 class="text-xl font-black tracking-[2px] pt-6 pb-5 leading-none" style={titleStyle}>
+                  {item.title}
+                </h3>
+                <div
+                  class="flex flex-col text-justify whitespace-pre-line"
+                  style={`row-gap: ${item.descriptionContent.spacing};`}
+                >
+                  {item.descriptionContent.paragraphs.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+
+              <a
+                href={item.href ?? '#'}
+                class="w-fit place-self-center my-8 px-15 py-1.5 font-bold cursor-pointer rounded-full transition-all duration-500 professional-service-card-cta"
+                style={ctaStyle}
+              >
+                Ver más
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="max-w-350 mx-auto px-15 pb-10 text-center text-lg md:text-xl" style={emptyStateStyle}>
+          No hay elementos disponibles en este momento.
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .professional-service-card-cta {
+    background-color: var(--service-card-cta-background);
+  }
+
+  .professional-service-card-cta:hover {
+    background-color: var(--service-card-cta-hover-background);
+    box-shadow: var(--service-card-cta-shadow);
+  }
+
+  .professional-service-card-cta:active {
+    scale: 0.95;
+  }
+
+  .professional-service-card-cta:focus-visible {
+    background-color: var(--service-card-cta-hover-background);
+    transform: translateY(-2px);
+    box-shadow: var(--service-card-cta-shadow);
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+</style>

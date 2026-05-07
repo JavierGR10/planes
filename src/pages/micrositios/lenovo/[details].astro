@@ -1,0 +1,119 @@
+---
+import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
+import Navbar from '@/components/sections/microsites/plans/components/Navbar.astro';
+import MicrositeFooter from '@/components/sections/microsites/plans/components/MicrositeFooter.astro';
+import { getBrandDetailStaticPaths } from '@/components/sections/microsites/config/brand-configs';
+import { lenovoConfig } from '../../../components/sections/microsites/config/config-by-plan/lenovo.config';
+
+export async function getStaticPaths() {
+  return getBrandDetailStaticPaths('lenovo');
+}
+
+const { details } = Astro.params;
+const { brand, meta, branding, navigation, sections, footer } = lenovoConfig;
+const { detailSubtitleColor, secondaryColor, accentColor, footer: footerTheme } = branding.theme;
+
+// Encontrar el producto actual
+const product = sections.productDetails.find((p) => p.slug === details);
+---
+
+<MicrositeLayout
+  title={`${product?.hero.title ?? 'Producto'} - ${brand.name}`}
+  description={product?.productInfo.description ?? meta.description}
+  favicon={meta.favicon}
+>
+  <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
+
+  {
+    product ? (
+      <>
+        {/* 1. Banner Principal */}
+        <div class="px-3 md:px-5">
+          <section
+            class="relative w-full h-[50vh] md:h-[60vh] lg:h-[70vh] bg-no-repeat bg-cover bg-center rounded-3xl flex items-center justify-center"
+            style={`background-image: url(${product.hero.image});`}
+          >
+            <div class="absolute bottom-0 left-0 p-6 md:p-10 lg:p-16 z-10">
+              <h1 class="text-white text-3xl lg:text-4xl font-extrabold mb-2">{product.hero.title}</h1>
+              <p class="text-white/90 text-sm lg:text-base  font-medium">{product.hero.subtitle}</p>
+            </div>
+          </section>
+        </div>
+
+        {/* 2. Descripción del Producto */}
+        <section class="py-12 md:py-16 lg:py-20 px-6 lg:px-10">
+          <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+            <div class="flex-1">
+              <p class="text-sm md:text-base font-extrabold mb-2" style={`color: ${detailSubtitleColor};`}>
+                {product.productInfo.subtitle}
+              </p>
+              <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-5" style={`color: ${secondaryColor};`}>
+                {product.productInfo.title}
+              </h2>
+              <p class="text-base md:text-lg leading-relaxed text-justify">{product.productInfo.description}</p>
+            </div>
+            <div class="flex-1 flex justify-center">
+              <img
+                src={product.productInfo.image}
+                alt={product.productInfo.title}
+                class="w-full max-w-sm lg:max-w-md object-contain"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* 3. Segundo Banner */}
+        <section class="relative w-full h-[50vh] md:h-[60vh] lg:h-[80vh] overflow-hidden rounded-3xl px-3 md:px-5">
+          <img
+            src={product.secondBanner.image}
+            alt={`Banner ${product.hero.title}`}
+            class="w-full h-full object-cover object-center rounded-3xl"
+          />
+        </section>
+
+        {/* 4. Grid de Características */}
+        <section class="py-10  md:px-10 lg:px-16">
+          <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col gap-y-6">
+              {product.features.map((feature, index) => (
+                <div class={`bg-[#F5F5F5] flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                  {/* Imagen */}
+                  <div
+                    class={`md:basis-1/2 flex items-start justify-center  ${index % 2 === 0 ? 'lg:justify-start' : 'lg:justify-end'}`}
+                  >
+                    <img src={feature.image} alt={feature.title} class="w-full h-full" />
+                  </div>
+
+                  {/* Descripción */}
+                  <div class="md:basis-1/2 flex flex-col justify-center p-6 lg:p-10">
+                    <h3 class="text-xl lg:text-2xl font-extrabold mb-3 text-center" style={`color: ${secondaryColor};`}>
+                      {feature.title}
+                    </h3>
+                    <p class="text-sm lg:text-base font-medium leading-relaxed text-justify">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <MicrositeFooter
+          logo={branding.logos.footer}
+          brandName={brand.name}
+          contact={footer.contact}
+          footerTheme={footerTheme}
+        />
+      </>
+    ) : (
+      <section class="min-h-[60vh] flex items-center justify-center">
+        <div class="text-center">
+          <h1 class="text-3xl font-bold text-gray-800 mb-4">Producto no encontrado</h1>
+          <p class="text-gray-600 mb-6">El producto que buscas no existe.</p>
+          <a href={navigation.basePath} class="px-6 py-3 rounded-lg text-white font-bold transition-colors">
+            Volver al inicio
+          </a>
+        </div>
+      </section>
+    )
+  }
+</MicrositeLayout>

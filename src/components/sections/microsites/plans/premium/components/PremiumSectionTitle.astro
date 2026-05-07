@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  class?: string;
+}
+
+const { title, class: className = '' } = Astro.props as Props;
+---
+
+<h2
+  class:list={[
+    'premium-section-title section-title  relative text-center text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[10px] ',
+    className,
+  ]}
+>
+  {title}
+</h2>
+
+<style>
+  .premium-section-title {
+    color: var(--premium-title-color);
+  }
+</style>

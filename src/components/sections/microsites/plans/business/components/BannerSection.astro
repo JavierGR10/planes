@@ -1,0 +1,58 @@
+---
+/**
+ * BannerSection - Banner de producto destacado con imagen de fondo
+ * Sección de ancho completo con imagen de fondo y producto destacado
+ */
+
+import type { ProductBanner } from '../types';
+
+interface Props extends ProductBanner {
+  /** Nombre de la marca para el alt de la imagen */
+  brandName: string;
+  bannerTheme?: {
+    titleColor?: string;
+    descriptionColor?: string;
+    overlayBackground?: string;
+  };
+}
+
+const { banner, image, title, description, brandName, bannerTheme } = Astro.props;
+const contentStyle = `color: ${bannerTheme?.descriptionColor ?? '#FFFFFF'};`;
+const titleStyle = `color: ${bannerTheme?.titleColor ?? '#FFFFFF'};`;
+const overlayStyle = `background: ${bannerTheme?.overlayBackground ?? 'rgba(0, 0, 0, 0.1)'};`;
+---
+
+<section
+  class="banner-section flex flex-col lg:flex-row justify-between items-center relative px-5 py-10 md:px-10 md:py-16 lg:p-20 min-h-[500px] lg:min-h-[600px] overflow-hidden"
+  style={contentStyle}
+>
+  <!-- Imagen de fondo -->
+  <img
+    src={banner}
+    alt={`Banner ${brandName}`}
+    class="absolute inset-0 w-full h-full object-cover object-center z-0"
+    loading="lazy"
+  />
+
+  <!-- Overlay sutil para mejor legibilidad -->
+  <div class="absolute inset-0 z-1" style={overlayStyle}></div>
+
+  <!-- Contenido de texto -->
+  <div class="banner-content relative z-10 text-center lg:text-left mb-8 lg:mb-0" style="opacity: 0;">
+    <h3 class="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4" style={titleStyle}>
+      {title}
+    </h3>
+    <p class="font-bold text-sm md:text-base lg:text-[18px] max-w-xl text-justify mx-auto lg:mx-0">
+      {description}
+    </p>
+  </div>
+
+  <!-- Imagen del producto -->
+  <img
+    src={image}
+    alt={title}
+    class="banner-product relative z-10 w-full max-w-[280px] md:max-w-[400px] xl:max-w-[600px] object-contain"
+    style="opacity: 0;"
+    loading="lazy"
+  />
+</section>

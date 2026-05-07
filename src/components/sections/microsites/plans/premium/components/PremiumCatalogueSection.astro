@@ -1,0 +1,44 @@
+---
+import PremiumActionButton from './PremiumActionButton.astro';
+import PremiumSectionTitle from './PremiumSectionTitle.astro';
+import type { PremiumCatalogueSectionConfig } from '../types';
+
+interface Props {
+  catalogue: PremiumCatalogueSectionConfig;
+}
+
+const { catalogue } = Astro.props as Props;
+---
+
+<section data-absolute-section data-section-padding="48" class="catalogue-section min-h-[30dvh] relative mb-4 mx-10">
+  <PremiumSectionTitle title={catalogue.sectionTitle} />
+
+  <div data-absolute-inner class="absolute top-12 left-1/2 -translate-x-1/2 w-full">
+    <div
+      class="premium-catalogue-panel max-w-7xl mx-auto px-10 border rounded-3xl backdrop-blur-xs flex items-center justify-center flex-col gap-3 p-5 h-full"
+    >
+      <img src={catalogue.image} alt={catalogue.imageAlt} class="catalogue-image max-w-[90%]" loading="lazy" />
+      <p class="catalogue-text font-extrabold text-xl lg:text-2xl mb-4">{catalogue.description}</p>
+
+      <PremiumActionButton
+        href={catalogue.ctaLink}
+        label={catalogue.cta}
+        variant="glow"
+        class="px-18 lg:px-22 py-2 text-sm lg:text-[15px]"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .premium-catalogue-panel {
+    border-color: var(--premium-panel-border-color);
+    background: var(--premium-catalogue-panel-gradient);
+    color: var(--premium-text-color);
+  }
+
+  .catalogue-text,
+  .catalogue-image {
+    opacity: 0;
+  }
+</style>

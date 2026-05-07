@@ -1,0 +1,58 @@
+---
+import PremiumSectionTitle from './PremiumSectionTitle.astro';
+import type { PremiumEventsSectionConfig } from '../types';
+
+interface Props {
+  events: PremiumEventsSectionConfig;
+}
+
+const { events } = Astro.props as Props;
+---
+
+<section data-absolute-section data-section-padding="5" class="events-section min-h-[10dvh] relative px-10">
+  <PremiumSectionTitle title={events.sectionTitle} />
+
+  <div
+    data-absolute-inner
+    class="premium-events-surface absolute top-12 left-1/2 -translate-x-1/2 w-full backdrop-blur-xs"
+  >
+    <div
+      class="max-w-7xl mx-auto px-10 grid md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-3 gap-y-5  h-full py-20"
+    >
+      {
+        events.items.map((event) => (
+          <a
+            href={event.href}
+            class="event-item opacity-0 premium-event-card group text-lg lg:text-xl font-bold transition-all duration-400 rounded-lg px-5 py-6 w-[300px] sm:w-[350px] h-[117px] flex items-center justify-between gap-3"
+          >
+            <h3>{event.title}</h3>
+            <div class="premium-event-card__icon hidden group-hover:flex items-center justify-center rounded-full px-2.5 py-3">
+              <i class="fa fa-arrow-right rounded-full" />
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .premium-events-surface {
+    background: var(--premium-events-panel-gradient);
+  }
+
+  .premium-event-card {
+    background: var(--premium-event-card-background);
+    color: var(--premium-event-card-text-color);
+  }
+
+  .premium-event-card:hover {
+    background: var(--premium-event-card-hover-background);
+    color: var(--premium-event-card-hover-text-color);
+  }
+
+  .premium-event-card__icon {
+    background: var(--premium-event-card-icon-background);
+    color: var(--premium-event-card-icon-color);
+  }
+</style>

@@ -1,0 +1,33 @@
+
+> micrositios-cva@0.0.1 build
+> astro build
+
+[2m16:08:21[22m [34m[types][39m Generated [2m51ms[22m
+[2m16:08:21[22m [34m[build][39m output: [34m"static"[39m
+[2m16:08:21[22m [34m[build][39m mode: [34m"static"[39m
+[2m16:08:21[22m [34m[build][39m directory: [34mC:\Users\javierm\Desktop\Proyectos\micrositios-cva\dist\[39m
+[2m16:08:21[22m [34m[build][39m Collecting build info...
+[2m16:08:21[22m [34m[build][39m [32m✓ Completed in 87ms.[39m
+[2m16:08:21[22m [34m[build][39m Building static entrypoints...
+[2m16:08:25[22m [34m[vite][39m [32m✓ built in 3.98s[39m
+[2m16:08:29[22m [34m[vite][39m [32m✓ built in 4.20s[39m
+[2m16:08:29[22m [34m[build][39m Rearranging server assets...
+
+[42m[30m generating static routes [39m[49m
+[2m16:08:30[22m   [34m├─[39m [2m/micrositios/dell/nosotros/index.html[22m [2m(+49ms)[22m 
+[2m16:08:30[22m   [34m├─[39m [2m/micrositios/dell/productos/index.html[22m [31m(+1.40s)[39m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/dell/laptop-dell/index.html[22m [2m(+17ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/dell/index.html[22m [2m(+140ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/huawei/servicios/index.html[22m [2m(+62ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/huawei/producto-01/index.html[22m [2m(+16ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/huawei/index.html[22m [2m(+29ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/lenovo/legion/index.html[22m [2m(+15ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/lenovo/thinkpad/index.html[22m [2m(+19ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/lenovo/ideapad/index.html[22m [2m(+15ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/micrositios/lenovo/index.html[22m [2m(+55ms)[22m 
+[2m16:08:31[22m   [34m├─[39m [2m/index.html[22m [2m(+20ms)[22m 
+[2m16:08:31[22m [32m✓ Completed in 2.01s.
+[39m
+[2m16:08:31[22m [34m[build][39m [32m✓ Completed in 10.61s.[39m
+[2m16:08:31[22m [34m[build][39m 12 page(s) built in [1m11.02s[22m
+[2m16:08:31[22m [34m[build][39m [1mComplete![22m

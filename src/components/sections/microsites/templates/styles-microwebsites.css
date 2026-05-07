@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-Gotham: 'GothamPro';
+  --font-Lato: 'Lato';
+  --font-Jakarta: 'Plus Jakarta Sans';
+  --font-DMSans: 'DM Sans';
+  --color-primary: #00ffd6;
+  --color-secondary: #00aae8;
+  --color-background-default: #1f242d;
+  --color-background-dark: #152938;
+  --color-background-light: #fcfcfc;
+  --color-content-default: #e7e2e6; /* texto principal sobre fondos claros */
+  --color-content-secondary: #656566; /* subtítulos, placeholder, texto menos importante */
+  --color-white-bone: #f8f7f7;
+  --color-black-dark: #1f242d;
+  --color-huawei: #ce0e2d;
+  --color-dell: #0076ce;
+}
+
+body {
+  font-family: var(--font-Jakarta);
+  border-color: #fff;
+  color: var(--color-background-dark);
+}
+
+@view-transition {
+  navigation: auto;
+}
+::view-transition-group(*) {
+  animation-duration: 0.6s;
+}
+
+.title-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.title {
+  opacity: 0;
+  display: inline-block;
+}
+
+.reveal-mask {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  background: var(--reveal-color, currentColor);
+}

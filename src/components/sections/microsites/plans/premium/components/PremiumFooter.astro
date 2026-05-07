@@ -1,0 +1,77 @@
+---
+import type { PremiumFooterThemeTokens } from '../theme';
+import type { PremiumFooterConfig } from '../types';
+
+interface Props {
+  footer: PremiumFooterConfig;
+  footerTheme: PremiumFooterThemeTokens;
+}
+
+const { footer, footerTheme } = Astro.props as Props;
+const currentYear = new Date().getFullYear();
+const footerStyle = `background: ${footerTheme.background};`;
+const dividerStyle = `background: ${footerTheme.dividerGradient};`;
+---
+
+<footer class="premium-footer px-10 lg:px-15 py-8 relative" style={footerStyle}>
+  <img src={footer.logo} alt={footer.alt} class="max-h-8" loading="lazy" />
+
+  <div class="flex items-start mt-10 gap-15 min-h-60">
+    <div class="flex flex-col gap-5">
+      <p class="max-w-xs">{footer.description}</p>
+      <div class="flex items-center gap-3">
+        {
+          footer.socialNetworks.map((item) => (
+            <a href={item.href} target="_blank" class="premium-footer__social text-lg transition-colors duration-300">
+              <i class={item.class} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <ul class="flex flex-col gap-3">
+      {
+        footer.links.map((item) => (
+          <li>
+            <a href={item.href} class="premium-footer__link transition-colors duration-300">
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="h-px w-full" style={dividerStyle}></div>
+
+  <p class="premium-footer__muted text-sm font-medium pt-5">
+    &copy; {currentYear}. Todos los derechos reservados.
+  </p>
+</footer>
+
+<style>
+  .premium-footer {
+    color: var(--premium-footer-text-color);
+  }
+
+  .premium-footer__muted {
+    color: var(--premium-footer-muted-text-color);
+  }
+
+  .premium-footer__link {
+    color: var(--premium-footer-link-color);
+  }
+
+  .premium-footer__link:hover {
+    color: var(--premium-footer-link-hover-color);
+  }
+
+  .premium-footer__social {
+    color: var(--premium-footer-social-color);
+  }
+
+  .premium-footer__social:hover {
+    color: var(--premium-footer-social-hover-color);
+  }
+</style>

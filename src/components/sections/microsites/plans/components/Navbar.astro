@@ -1,0 +1,260 @@
+---
+import type { ImageAsset, NavItem } from '@/components/sections/microsites/config';
+
+interface Props {
+  logo: ImageAsset;
+  basePath: string;
+  items: NavItem[];
+  transparent?: boolean;
+  initialBackground?: string;
+  initialTone?: 'light' | 'dark';
+  scrollBackground?: string;
+  scrollTone?: 'light' | 'dark';
+}
+
+const {
+  logo,
+  basePath,
+  items,
+  transparent = false,
+  initialBackground = '#FFFFFF',
+  initialTone = 'light',
+  scrollBackground = '#FFFFFF',
+  scrollTone = 'light',
+} = Astro.props;
+
+// Colores de texto según el tema
+const lightTextColor = 'text-white hover:text-white/80';
+const darkTextColor = 'text-[#24272A] hover:text-[#24272A]/80';
+
+const initialTextColor = transparent ? (initialTone === 'dark' ? lightTextColor : darkTextColor) : darkTextColor;
+
+const scrolledTextColor = scrollTone === 'dark' ? lightTextColor : darkTextColor;
+const initialStyle = transparent ? 'background: transparent;' : `background: ${initialBackground};`;
+const isExternalHref = (href?: string) => Boolean(href && /^(https?:)?\/\//.test(href));
+const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg transition-colors duration-300`;
+---
+
+<nav
+  id="main-navbar"
+  class={`w-full ${transparent ? 'absolute' : 'sticky'} top-0 left-0 z-50 transition-all duration-300`}
+  data-transparent={transparent}
+  data-scroll-background={scrollBackground}
+  data-scroll-theme={scrollTone}
+  data-initial-background={initialBackground}
+  data-initial-text={initialTextColor}
+  data-scrolled-text={scrolledTextColor}
+  style={initialStyle}
+>
+  <div class="w-full flex items-center justify-between py-5 px-10 lg:px-15">
+    <div class="flex items-center gap-3 cursor-pointer" onclick={`window.location.href = '${basePath}'`}>
+      {
+        logo.src && (
+          <>
+            <img src={logo.src} alt={logo.alt} class="max-h-8" />
+            <div
+              class="navbar-divider hidden min-[400px]:block h-10 w-px transition-colors duration-300"
+              style={transparent && initialTone === 'dark' ? 'background-color: white' : 'background-color: #24272A'}
+            />
+          </>
+        )
+      }
+      <img
+        src={transparent && initialTone === 'dark' ? '/cva_logo_letras_blancas.webp' : '/cva_logo.webp'}
+        alt="cva_logo"
+        class="navbar-cva-logo hidden min-[400px]:block h-8 transition-opacity duration-300"
+      />
+    </div>
+
+    <ul class="flex flex-row gap-2 md:space-x-8 font-medium">
+      {
+        items.map((item, idx) => {
+          if (item.type === 'dropdown') {
+            return (
+              <li class="relative">
+                <button
+                  id={`dropdownButton-${idx}`}
+                  data-dropdown-toggle={`dropdownMenu-${idx}`}
+                  class={`navbar-text inline-flex items-center justify-center gap-1 font-medium ${initialTextColor} rounded-lg focus:border-none focus:outline-none cursor-pointer transition-colors duration-300`}
+                  type="button"
+                >
+                  {item.label}
+                  <svg
+                    class="navbar-icon transition-colors duration-300"
+                    fill={transparent && initialTone === 'dark' ? '#FFFFFF' : '#24272A'}
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="10px"
+                    height="10px"
+                    viewBox="0 0 96.154 96.154"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <path
+                        d="M0.561,20.971l45.951,57.605c0.76,0.951,2.367,0.951,3.127,0l45.956-57.609c0.547-0.689,0.709-1.716,0.414-2.61
+		c-0.061-0.187-0.129-0.33-0.186-0.437c-0.351-0.65-1.025-1.056-1.765-1.056H2.093c-0.736,0-1.414,0.405-1.762,1.056
+		c-0.059,0.109-0.127,0.253-0.184,0.426C-0.15,19.251,0.011,20.28,0.561,20.971z"
+                      />
+                    </g>
+                  </svg>
+                </button>
+                <div
+                  id={`dropdownMenu-${idx}`}
+                  class="hidden absolute z-10 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+                >
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                    {item.items?.map((subitem) => (
+                      <li>
+                        <a href={subitem.href} class="block px-4 py-2 hover:bg-gray-100 ">
+                          {subitem.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            );
+          } else if (item.type === 'link' || item.type === 'scroll') {
+            const externalHref = isExternalHref(item.href);
+            const isScrollItem = item.type === 'scroll';
+
+            return (
+              <li class="relative">
+                <a
+                  href={item.href}
+                  target={externalHref ? '_blank' : undefined}
+                  rel={externalHref ? 'noopener noreferrer' : undefined}
+                  data-nav-scroll={isScrollItem ? 'true' : undefined}
+                  class={navLinkClass}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          }
+          return null;
+        })
+      }
+    </ul>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const navbar = document.getElementById('main-navbar');
+    if (!navbar) return;
+
+    const scrollBackground = navbar.dataset.scrollBackground || '#FFFFFF';
+    const initialBackground = navbar.dataset.initialBackground || '#FFFFFF';
+    const isTransparent = navbar.dataset.transparent === 'true';
+    const scrollThreshold = 50;
+
+    const textElements = navbar.querySelectorAll('.navbar-text');
+    const divider = navbar.querySelector('.navbar-divider') as HTMLElement;
+    const icons = navbar.querySelectorAll('.navbar-icon') as NodeListOf<SVGElement>;
+    const cvaLogo = navbar.querySelector('.navbar-cva-logo') as HTMLImageElement;
+
+    // Clases de texto
+    const lightTextClasses = ['text-white', 'hover:text-white/80'];
+    const darkTextClasses = ['text-[#24272A]', 'hover:text-[#24272A]/80'];
+
+    let isScrolled = false;
+
+    const updateNavbar = () => {
+      const shouldBeScrolled = window.scrollY > scrollThreshold;
+
+      if (shouldBeScrolled !== isScrolled) {
+        isScrolled = shouldBeScrolled;
+
+        if (isScrolled) {
+          navbar.classList.remove(isTransparent ? 'absolute' : 'sticky');
+          navbar.classList.add('shadow-md', 'fixed');
+          navbar.style.background = scrollBackground;
+
+          const isScrolledDark = (navbar.dataset.scrollTheme || 'light') === 'dark';
+
+          textElements.forEach((el) => {
+            if (isScrolledDark) {
+              darkTextClasses.forEach((c) => el.classList.remove(c));
+              lightTextClasses.forEach((c) => el.classList.add(c));
+            } else {
+              lightTextClasses.forEach((c) => el.classList.remove(c));
+              darkTextClasses.forEach((c) => el.classList.add(c));
+            }
+          });
+
+          if (divider) divider.style.backgroundColor = isScrolledDark ? 'white' : '#24272A';
+          icons.forEach((icon) => icon.setAttribute('fill', isScrolledDark ? '#FFFFFF' : '#24272A'));
+          if (cvaLogo) cvaLogo.src = isScrolledDark ? '/cva_logo_letras_blancas.webp' : '/cva_logo.webp';
+        } else {
+          navbar.classList.remove('shadow-md', 'fixed');
+          navbar.classList.add(isTransparent ? 'absolute' : 'sticky');
+          navbar.style.background = isTransparent ? 'transparent' : initialBackground;
+          const initialText = navbar.dataset.initialText || '';
+          const isLightTheme = initialText.includes('text-white');
+
+          textElements.forEach((el) => {
+            if (isLightTheme) {
+              darkTextClasses.forEach((c) => el.classList.remove(c));
+              lightTextClasses.forEach((c) => el.classList.add(c));
+            } else {
+              lightTextClasses.forEach((c) => el.classList.remove(c));
+              darkTextClasses.forEach((c) => el.classList.add(c));
+            }
+          });
+
+          // Restaurar divider
+          if (divider) divider.style.backgroundColor = isLightTheme ? 'white' : '#24272A';
+
+          // Restaurar iconos
+          icons.forEach((icon) => icon.setAttribute('fill', isLightTheme ? '#FFFFFF' : '#24272A'));
+
+          // Restaurar logo CVA según el tema
+          if (cvaLogo) cvaLogo.src = isLightTheme ? '/cva_logo_letras_blancas.webp' : '/cva_logo.webp';
+        }
+      }
+    };
+
+    // Ejecutar una vez al cargar
+    updateNavbar();
+
+    // Añadir listener de scroll con throttle para mejor rendimiento
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateNavbar();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    const scrollLinks = navbar.querySelectorAll<HTMLAnchorElement>('[data-nav-scroll="true"]');
+
+    scrollLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const href = link.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+
+        const target = document.querySelector<HTMLElement>(href);
+        if (!target) return;
+
+        event.preventDefault();
+
+        const lenis = (window as Window & {
+          lenis?: { scrollTo?: (target: Element | string, options?: { offset?: number }) => void };
+        }).lenis;
+
+        if (lenis?.scrollTo) {
+          lenis.scrollTo(target, { offset: -24 });
+          return;
+        }
+
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  });
+</script>
