@@ -17,6 +17,10 @@ export interface MicrositeNavigationConfig {
   items: NavItem[];
 }
 
+export interface MicrositeContactConfig {
+  whatsapp?: string;
+}
+
 export interface MicrositePlanTheme {
   primaryColor: string;
   secondaryColor: string;

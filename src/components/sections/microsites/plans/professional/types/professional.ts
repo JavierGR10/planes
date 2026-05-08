@@ -2,6 +2,7 @@ import type { ImageAsset } from '@/components/sections/microsites/config';
 import type {
   MicrositeBrand,
   MicrositeBrandingConfig as SharedMicrositeBrandingConfig,
+  MicrositeContactConfig,
   MicrositeMetaConfig as SharedMicrositeMetaConfig,
   MicrositeNavigationConfig as SharedMicrositeNavigationConfig,
 } from '../../shared.types';
@@ -129,9 +130,19 @@ export interface ProfessionalButtonTheme {
   hoverBackgroundColor?: string;
 }
 
+export interface ProfessionalCatalogSwitchTheme {
+  activeBackgroundColor?: string;
+  activeTextColor?: string;
+  inactiveBackgroundColor?: string;
+  inactiveBorderColor?: string;
+  inactiveTextColor?: string;
+  focusOutlineColor?: string;
+}
+
 export interface ProfessionalButtonsTheme {
   serviceCardCta?: ProfessionalButtonTheme;
   heroCarouselControl?: ProfessionalButtonTheme;
+  catalogSwitch?: ProfessionalCatalogSwitchTheme;
 }
 
 export interface ProfessionalBrandTheme {
@@ -155,6 +166,7 @@ export interface ProfessionalMicrositeConfig {
   meta: ProfessionalMetaConfig;
   branding: ProfessionalBrandingConfig;
   navigation: ProfessionalNavigationConfig;
+  contact?: MicrositeContactConfig;
   sections: ProfessionalSectionsConfig;
   productDetails?: ProfessionalProductDetailConfig[];
 }

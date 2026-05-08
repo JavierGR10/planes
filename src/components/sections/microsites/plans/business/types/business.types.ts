@@ -2,6 +2,7 @@ import type { EventItem, ImageAsset, PlanType } from '@/components/sections/micr
 import type {
   MicrositeBrand,
   MicrositeBrandingConfig as SharedMicrositeBrandingConfig,
+  MicrositeContactConfig as SharedMicrositeContactConfig,
   MicrositeDetailHero as SharedMicrositeDetailHero,
   MicrositeFooterContact as SharedMicrositeFooterContact,
   MicrositeMetaConfig as SharedMicrositeMetaConfig,
@@ -205,6 +206,7 @@ export interface BusinessMicrositeConfig {
   meta: BusinessMetaConfig;
   branding: BusinessBrandingConfig;
   navigation: BusinessNavigationConfig;
+  contact?: SharedMicrositeContactConfig;
   sections: BusinessSectionsConfig;
   footer: FooterConfig;
 }

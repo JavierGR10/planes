@@ -1,6 +1,7 @@
 import type {
   MicrositeBrand,
   MicrositeBrandingConfig as SharedMicrositeBrandingConfig,
+  MicrositeContactConfig,
   MicrositeDetailBanner,
   MicrositeDetailHero,
   MicrositeDetailTextBlock,
@@ -322,6 +323,7 @@ export interface PremiumMicrositeConfig {
   meta: MicrositeMetaConfigPremium;
   branding: PremiumBrandingConfig;
   navigation: MicrositeNavigationConfig;
+  contact?: MicrositeContactConfig;
   sections: PremiumSectionsConfig;
   aboutPage?: PremiumAboutPageConfig;
   footer: PremiumFooterConfig;
