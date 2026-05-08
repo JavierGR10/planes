@@ -55,42 +55,46 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
   data-index={index}
   style={`opacity: 0; background-color: ${surfaceColor}; color: ${textColor};`}
 >
-  <div class="flex flex-col gap-3">
-    <h2 class="font-extrabold text-2xl lg:text-3xl">{titleProduct}</h2>
-    <p class="font-medium text-sm lg:text-base whitespace-pre-line" set:html={subtitleProduct} />
+  <div class="product-card-copy flex flex-col">
+    <h2 class="product-card-title font-extrabold text-2xl lg:text-3xl">{titleProduct}</h2>
+    <p class="product-card-subtitle font-medium text-sm lg:text-base whitespace-pre-line" set:html={subtitleProduct} />
   </div>
 
-  <div class="flex-1 flex items-start justify-center">
-    <img
-      src={image}
-      alt={titleProduct}
-      class="h-70 object-contain transition-transform duration-500 group-hover:scale-105"
-      loading="lazy"
-    />
+  <div class="product-card-media flex-1 flex items-start justify-center">
+    <img src={image} alt={titleProduct} class="product-card-image h-70 object-contain" loading="lazy" />
   </div>
 
-  <div class:list={['flex flex-col justify-end items-end gap-3', isFirst && 'mt-20']}>
-    <p class="font-bold text-base lg:text-xl max-w-xs text-right whitespace-pre-line">
+  <div class:list={['product-card-meta flex flex-col justify-end items-end gap-3', isFirst && 'mt-20']}>
+    <p class="product-card-description-title font-bold text-base lg:text-xl max-w-xs text-right whitespace-pre-line">
       {descriptionTitle}
     </p>
-    <p class="text-justify text-xs max-w-sm">
+    <p class="product-card-description text-justify text-xs max-w-sm">
       {description}
     </p>
     <a
       href={href}
-      class="product-cta w-fit mt-8 px-15 py-2 font-bold font-Jakarta text-sm lg:text-base cursor-pointer rounded-[10px] place-self-end hover:scale-105 hover:shadow-lg will-change-transform"
+      class="product-cta product-card-cta mt-8 px-15 py-2 font-bold font-Jakarta text-sm lg:text-base cursor-pointer rounded-[10px] self-end hover:shadow-lg will-change-transform"
       style={`--business-product-cta-background: ${ctaBackground}; --business-product-cta-text-color: ${ctaTextColor}; --business-product-cta-hover-background: ${ctaHoverBackground}; --business-product-cta-hover-text-color: ${ctaHoverTextColor}; --business-product-cta-border-color: ${ctaBorderColor}; --business-product-cta-hover-border-color: ${ctaHoverBorderColor};`}
     >
-      {buttonText}
+      <span class="product-cta-label">{buttonText}</span>
     </a>
   </div>
 </div>
 
 <style>
   .product-cta {
+    align-items: center;
     background: var(--business-product-cta-background);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0);
     color: var(--business-product-cta-text-color);
     border: 1px solid var(--business-product-cta-border-color);
+    display: inline-flex;
+    justify-content: center;
+    isolation: isolate;
+    min-width: 10rem;
+    overflow: hidden;
+    position: relative;
+    transform-origin: right center;
     transition:
       background-color 0.3s ease,
       color 0.3s ease,
@@ -99,9 +103,58 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
       box-shadow 0.3s ease;
   }
 
+  .product-cta::before {
+    background: linear-gradient(
+      105deg,
+      var(--business-product-cta-hover-background) 0%,
+      color-mix(in srgb, var(--business-product-cta-hover-background) 88%, white 12%) 58%,
+      color-mix(in srgb, var(--business-product-cta-hover-background) 72%, white 28%) 100%
+    );
+    content: '';
+    inset: 0;
+    position: absolute;
+    transform: translateX(-102%);
+    transform-origin: left center;
+    transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: -1;
+  }
+
+  .product-cta::after {
+    content: '';
+    inset: -0.4rem -0.65rem;
+    position: absolute;
+  }
+
+  .product-cta-label,
+  .product-cta-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  .product-cta-label {
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   .product-cta:hover {
-    background: var(--business-product-cta-hover-background);
     color: var(--business-product-cta-hover-text-color);
     border-color: var(--business-product-cta-hover-border-color);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.22);
+  }
+
+  .product-cta:hover::before,
+  .product-cta:focus-visible::before {
+    transform: translateX(0);
+  }
+
+  .product-cta:hover .product-cta-label,
+  .product-cta:focus-visible .product-cta-label {
+    transform: translateX(0.08rem);
+  }
+
+  .product-cta:focus-visible {
+    border-color: var(--business-product-cta-hover-border-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--business-product-cta-hover-background) 35%, transparent 65%);
+    color: var(--business-product-cta-hover-text-color);
+    outline: none;
   }
 </style>
