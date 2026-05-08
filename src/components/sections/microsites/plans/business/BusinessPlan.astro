@@ -71,6 +71,28 @@ const bannerTheme: BusinessBannerTheme = branding.theme.banner ?? {
 };
 
 const heroItems = sections.heroes;
+const productItems = sections.products.items;
+const featuredProductIndexes = new Set([0, 5, 9]);
+const baseProductItems = productItems.slice(0, 3);
+const extraProductItems = productItems.slice(3);
+const allProductsLabel = sections.products.allProductsLabel ?? 'Ver todos los productos';
+const collapseProductsLabel = sections.products.collapseProductsLabel ?? 'Ver menos productos';
+const productsToggleStyle = `--business-products-toggle-background: ${heroCtaTheme.background ?? buttonColor}; --business-products-toggle-text: ${heroCtaTheme.textColor ?? '#FFFFFF'}; --business-products-toggle-border: ${heroCtaTheme.borderColor ?? accentColor}; --business-products-toggle-hover-background: ${heroCtaTheme.hoverBackground ?? buttonHoverColor}; --business-products-toggle-hover-text: ${heroCtaTheme.hoverTextColor ?? '#FFFFFF'}; --business-products-toggle-hover-border: ${heroCtaTheme.hoverBorderColor ?? accentColor};`;
+
+const getProductSlotClass = (itemIndex: number) => {
+  switch (itemIndex) {
+    case 0:
+    case 5:
+    case 9:
+      return 'md:col-span-2 xl:col-span-6';
+    case 6:
+    case 7:
+    case 8:
+      return 'md:col-span-1 xl:col-span-2';
+    default:
+      return 'md:col-span-1 xl:col-span-3';
+  }
+};
 ---
 
 <MicrositeLayout
@@ -90,30 +112,88 @@ const heroItems = sections.heroes;
     />
   </div>
 
-  <section>
-    <SectionTitle color={primaryColor}>
+  <section id="products">
+    <SectionTitle color={primaryColor} class="business-products-title">
       {sections.products.sectionTitle}
     </SectionTitle>
 
-    <div class="products-grid max-w-7xl mx-auto px-10 grid md:grid-cols-2 gap-5 mb-5">
+    <div
+      class="products-grid max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 mb-5"
+      data-products-grid
+    >
       {
-        sections.products.items.map((item: ProductItem, index: number) => (
-          <ProductCard
-            {...item}
-            accentColor={accentColor}
-            buttonText={sections.products.buttonText}
-            index={index}
-            productCardTheme={productCardTheme}
-            productCardCtaTheme={productCardCtaTheme}
-          />
+        baseProductItems.map((item: ProductItem, index: number) => (
+          <div class:list={[getProductSlotClass(index), 'h-full']}>
+            <ProductCard
+              {...item}
+              accentColor={accentColor}
+              buttonText={sections.products.buttonText}
+              index={index}
+              featured={featuredProductIndexes.has(index)}
+              productCardTheme={productCardTheme}
+              productCardCtaTheme={productCardCtaTheme}
+            />
+          </div>
         ))
       }
+
+      {
+        extraProductItems.length > 0 && (
+          <div
+            class="products-extra-shell md:col-span-2 xl:col-span-6 overflow-hidden"
+            data-products-extra-shell
+            hidden
+          >
+            <div
+              class="products-extra-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 pt-5"
+              data-products-extra-grid
+            >
+              {extraProductItems.map((item: ProductItem, index: number) => {
+                const itemIndex = index + 3;
+
+                return (
+                  <div class:list={[getProductSlotClass(itemIndex), 'h-full']}>
+                    <ProductCard
+                      {...item}
+                      accentColor={accentColor}
+                      buttonText={sections.products.buttonText}
+                      index={itemIndex}
+                      featured={featuredProductIndexes.has(itemIndex)}
+                      isExtra={true}
+                      productCardTheme={productCardTheme}
+                      productCardCtaTheme={productCardCtaTheme}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )
+      }
     </div>
+
+    {
+      extraProductItems.length > 0 && (
+        <div class="max-w-7xl mx-auto px-10 pb-8 flex justify-center">
+          <button
+            type="button"
+            class="business-products-toggle"
+            data-products-toggle
+            data-expand-label={allProductsLabel}
+            data-collapse-label={collapseProductsLabel}
+            aria-expanded="false"
+            style={productsToggleStyle}
+          >
+            {allProductsLabel}
+          </button>
+        </div>
+      )
+    }
   </section>
 
   {
     sections.video?.enabled && (
-      <section class="grid place-items-center mb-5 scrolling-section">
+      <section class="grid place-items-center mb-5 ">
         <iframe
           class="w-full h-[70dvh]"
           src={sections.video.url}
@@ -129,10 +209,10 @@ const heroItems = sections.heroes;
 
   <BannerSection {...sections.products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} />
 
-  <section class="catalogue-section scrolling-section">
+  <section class="catalogue-section">
     <div class="flex flex-col lg:flex-row justify-between">
       <div class="catalogue-text flex flex-col">
-        <SectionTitle color={primaryColor}>
+        <SectionTitle color={primaryColor} class="business-section-title">
           {sections.catalogue.sectionTitle}
         </SectionTitle>
         <div set:html={sections.catalogue.description} class="font-medium text-base lg:text-[18px] max-w-lg pl-15" />
@@ -146,8 +226,8 @@ const heroItems = sections.heroes;
     </div>
   </section>
 
-  <section class="events-section scrolling-section">
-    <SectionTitle color={primaryColor}>
+  <section class="events-section">
+    <SectionTitle color={primaryColor} class="events-title">
       {sections.events.sectionTitle}
     </SectionTitle>
     <div class="max-w-7xl mx-auto px-10">
@@ -191,23 +271,39 @@ const heroItems = sections.heroes;
   />
 </MicrositeLayout>
 
-<style scoped>
-  .catalogue-text,
-  .catalogue-image {
-    opacity: 0;
-  }
-
-  .events-title,
-  .event-image,
-  .events-description {
-    opacity: 0;
-  }
-
-  .scrolling-section:has(iframe) {
-    opacity: 0;
-  }
-</style>
-
 <script>
   import './animations';
 </script>
+
+<style scoped>
+  .business-products-toggle {
+    background: var(--business-products-toggle-background);
+    border-radius: 10px;
+    color: var(--business-products-toggle-text);
+    cursor: pointer;
+    font-family: var(--font-plus-jakarta, 'Plus Jakarta Sans', sans-serif);
+    font-size: 1rem;
+    font-weight: 800;
+    min-width: min(100%, 21rem);
+    padding: 0.75rem 1.5rem;
+    transition:
+      background-color 0.32s ease,
+      border-color 0.32s ease,
+      color 0.32s ease,
+      box-shadow 0.32s ease,
+      transform 0.32s ease;
+  }
+
+  .business-products-toggle:hover,
+  .business-products-toggle:focus-visible {
+    background: var(--business-products-toggle-hover-background);
+    border-color: var(--business-products-toggle-hover-border);
+    box-shadow: 0 16px 28px rgba(15, 23, 42, 0.18);
+    color: var(--business-products-toggle-hover-text);
+    transform: translateY(-2px);
+  }
+
+  .business-products-toggle:focus-visible {
+    outline: none;
+  }
+</style>
