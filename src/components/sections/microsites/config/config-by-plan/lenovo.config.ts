@@ -1,9 +1,9 @@
 import type { BusinessMicrositeConfig } from '@/components/sections/microsites/plans/business/types/business.types';
 
 import LogoHeader from '@/assets/microsites/lenovo/logos/logo-header.png';
-import HeroSlideThinkpad from '@/assets/microsites/lenovo/index/hero-slide-thinkpad.png';
-import HeroSlideIdeapad from '@/assets/microsites/lenovo/index/hero-slide-ideapad.png';
-import HeroSlideLegion from '@/assets/microsites/lenovo/index/hero-slide-legion.png';
+import HeroSlideThinkpad from '@/assets/microsites/lenovo/index/hero-slide-thinkpad.webp';
+import HeroSlideIdeapad from '@/assets/microsites/lenovo/index/hero-slide-ideapad.webp';
+import HeroSlideLegion from '@/assets/microsites/lenovo/index/hero-slide-legion.webp';
 import BannerFeatured from '@/assets/microsites/lenovo/index/banner-featured.png';
 import BannerFeatured2 from '@/assets/microsites/lenovo/index/banner-featured-2.png';
 import BannerFeatured3 from '@/assets/microsites/lenovo/index/banner-featured-3.png';
@@ -19,6 +19,11 @@ import LegionFeatureDlss from '@/assets/microsites/lenovo/details/legion/feature
 import LegionFeatureRayTracing from '@/assets/microsites/lenovo/details/legion/feature-ray-tracing.png';
 import LegionFeatureReflex from '@/assets/microsites/lenovo/details/legion/feature-nvidia-reflex.png';
 import LegionFeatureMaxQ from '@/assets/microsites/lenovo/details/legion/feature-max-q.png';
+
+// Productos
+import Product4 from '@/assets/microsites/lenovo/index/producto_04.webp';
+import Product5 from '@/assets/microsites/lenovo/index/producto_05.webp';
+import Product6 from '@/assets/microsites/lenovo/index/producto_06.webp';
 
 export const lenovoConfig = {
   brand: {
@@ -74,10 +79,10 @@ export const lenovoConfig = {
         productCardCta: {
           background: '#FFFFFF',
           textColor: '#313741',
-          hoverBackground: '#E5E7EB',
-          hoverTextColor: '#1F242D',
-          borderColor: 'transparent',
-          hoverBorderColor: 'transparent',
+          hoverBackground: '#E1140A',
+          hoverTextColor: '#FFFFFF',
+          borderColor: 'none',
+          hoverBorderColor: 'none',
         },
       },
       surfaces: {
@@ -178,11 +183,13 @@ export const lenovoConfig = {
     products: {
       sectionTitle: 'Productos',
       buttonText: 'Ver más',
+      allProductsLabel: 'Ver todos los productos',
+      collapseProductsLabel: 'Ver menos productos',
       items: [
         {
           image: HeroSlideLegion.src,
           titleProduct: 'Legion Pro 5',
-          subtitleProduct: '5 Gen 10 (16” AMD)\n\nGeForce RTX',
+          subtitleProduct: '5 Gen 10 (16” AMD)\nGeForce RTX',
           descriptionTitle: 'Libera el rendimiento',
           description:
             'Portátil gamer de alto desempeño con gráficos dedicados, refrigeración optimizada y potencia sostenida para sesiones exigentes de juego y creación.',
@@ -205,6 +212,69 @@ export const lenovoConfig = {
           description:
             'El portátil Lenovo  IdeaPadSlim5 Gen 10 AMD de 14” ofrece capacidades de computación avanzadas gracias a su procesador AMD Ryzen, con un rendimiento impresionante para gestionar tareas complejas con facilidad. Ideal para estudiar o jugar, ya que garantiza un rendimiento sólido al tiempo que optimiza el consumo de energía',
           href: '/micrositios/lenovo/ideapad',
+        },
+        {
+          image: Product4.src,
+          titleProduct: 'Producto 04',
+          subtitleProduct: '5 Gen 10 (16” AMD)\nGeForce RTX',
+          descriptionTitle: 'Libera el rendimiento',
+          description:
+            'Portátil gamer de alto desempeño con gráficos dedicados, refrigeración optimizada y potencia sostenida para sesiones exigentes de juego y creación.',
+          href: '/micrositios/lenovo/legion',
+        },
+        {
+          image: Product5.src,
+          titleProduct: 'Producto 05',
+          subtitleProduct: 'E14 Gen 6\n14” AMD',
+          descriptionTitle: 'Desempeño mejorado para una\nmayor productividad',
+          description:
+            'Si estás trabajando en varias hojas de cálculo, investigando y escribiendo un ensayo, o bien, realizando codificación extrema, podrás ir de tarea en tarea con el rendimiento y la velocidad de los procesadores AMD Ryzen 7000HS, además de una gran memoria expandible. ',
+          href: '/micrositios/lenovo/thinkpad',
+        },
+        {
+          image: Product6.src,
+          titleProduct: 'Producto 06',
+          subtitleProduct: 'Slim 5 Gen 10\n14” AMD',
+          descriptionTitle: 'Disfruta de la informática sin límites',
+          description:
+            'El portátil Lenovo  IdeaPadSlim5 Gen 10 AMD de 14” ofrece capacidades de computación avanzadas gracias a su procesador AMD Ryzen, con un rendimiento impresionante para gestionar tareas complejas con facilidad. Ideal para estudiar o jugar, ya que garantiza un rendimiento sólido al tiempo que optimiza el consumo de energía',
+          href: '/micrositios/lenovo/ideapad',
+        },
+        {
+          image: Product4.src,
+          titleProduct: 'Producto 07',
+          subtitleProduct: '5 Gen 10 (16” AMD)\nGeForce RTX',
+          descriptionTitle: 'Libera el rendimiento',
+          description:
+            'Portátil gamer de alto desempeño con gráficos dedicados, refrigeración optimizada y potencia sostenida para sesiones exigentes de juego y creación.',
+          href: '/micrositios/lenovo/legion',
+        },
+        {
+          image: Product5.src,
+          titleProduct: 'Producto 08',
+          subtitleProduct: 'E14 Gen 6\n14” AMD',
+          descriptionTitle: 'Desempeño mejorado para una\nmayor productividad',
+          description:
+            'Si estás trabajando en varias hojas de cálculo, investigando y escribiendo un ensayo, o bien, realizando codificación extrema, podrás ir de tarea en tarea con el rendimiento y la velocidad de los procesadores AMD Ryzen 7000HS, además de una gran memoria expandible. ',
+          href: '/micrositios/lenovo/thinkpad',
+        },
+        {
+          image: Product6.src,
+          titleProduct: 'Producto 09',
+          subtitleProduct: 'Slim 5 Gen 10\n14” AMD',
+          descriptionTitle: 'Disfruta de la informática sin límites',
+          description:
+            'El portátil Lenovo  IdeaPadSlim5 Gen 10 AMD de 14” ofrece capacidades de computación avanzadas gracias a su procesador AMD Ryzen, con un rendimiento impresionante para gestionar tareas complejas con facilidad. Ideal para estudiar o jugar, ya que garantiza un rendimiento sólido al tiempo que optimiza el consumo de energía',
+          href: '/micrositios/lenovo/ideapad',
+        },
+        {
+          image: HeroSlideLegion.src,
+          titleProduct: 'Producto 10',
+          subtitleProduct: '5 Gen 10 (16” AMD)\nGeForce RTX',
+          descriptionTitle: 'Libera el rendimiento',
+          description:
+            'Portátil gamer de alto desempeño con gráficos dedicados, refrigeración optimizada y potencia sostenida para sesiones exigentes de juego y creación.',
+          href: '/micrositios/lenovo/legion',
         },
       ],
       bannerProduct: {
