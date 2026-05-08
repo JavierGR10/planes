@@ -1,0 +1,428 @@
+---
+import type { ProfessionalBrandTheme, ProfessionalServiceItem } from '../types/professional';
+import CatalogGrid from './CatalogGrid.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  items: ProfessionalServiceItem[];
+  secondaryTitle?: string;
+  secondarySubtitle?: string;
+  secondaryItems?: ProfessionalServiceItem[];
+  primaryButtonLabel?: string;
+  secondaryButtonLabel?: string;
+  theme?: ProfessionalBrandTheme;
+  id?: string;
+}
+
+const {
+  title,
+  subtitle,
+  items,
+  secondaryTitle,
+  secondarySubtitle,
+  secondaryItems,
+  primaryButtonLabel = 'Productos',
+  secondaryButtonLabel = 'Servicios',
+  theme,
+  id = 'products',
+} = Astro.props;
+
+const headingFontFamily = theme?.typography?.headingFontFamily;
+const bodyFontFamily = theme?.typography?.bodyFontFamily;
+
+const sectionBackgroundColor = theme?.surfaces?.servicesSectionBackgroundColor ?? theme?.backgroundColor ?? '#F5F5F5';
+const emptyStateTextColor = theme?.surfaces?.emptyStateTextColor ?? '#6B7280';
+const catalogSwitchTheme = theme?.buttons?.catalogSwitch;
+
+const sectionStyle = `background-color: ${sectionBackgroundColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const emptyStateStyle = `color: ${emptyStateTextColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const hasSecondaryPanel = Boolean(secondaryTitle && secondarySubtitle && secondaryItems?.length);
+const titleStyle = headingFontFamily ? `font-family: ${headingFontFamily};` : undefined;
+const catalogSwitchStyle = [
+  `--catalog-switch-active-background: ${catalogSwitchTheme?.activeBackgroundColor ?? '#CE0E2D'}`,
+  `--catalog-switch-active-text: ${catalogSwitchTheme?.activeTextColor ?? '#FFFFFF'}`,
+  `--catalog-switch-inactive-background: ${catalogSwitchTheme?.inactiveBackgroundColor ?? 'transparent'}`,
+  `--catalog-switch-inactive-border: ${catalogSwitchTheme?.inactiveBorderColor ?? '#24272A'}`,
+  `--catalog-switch-inactive-text: ${catalogSwitchTheme?.inactiveTextColor ?? '#24272A'}`,
+  `--catalog-switch-focus-outline: ${catalogSwitchTheme?.focusOutlineColor ?? catalogSwitchTheme?.inactiveBorderColor ?? '#24272A'}`,
+].join('; ');
+---
+
+<section id={id} class="w-full scrolling-section" style={sectionStyle}>
+  <div class="max-w-350 mx-auto px-15 py-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+    <div
+      class="professional-catalog-header flex-1"
+      data-primary-title={title}
+      data-primary-subtitle={subtitle}
+      data-secondary-title={secondaryTitle}
+      data-secondary-subtitle={secondarySubtitle}
+    >
+      <div class="split-title-block">
+        <h2
+          class="split-title professional-catalog-current-title text-2xl md:text-3xl xl:text-4xl font-black tracking-[3px]"
+          style={titleStyle}
+        >
+          {title}
+        </h2>
+      </div>
+      <div class="split-title-block">
+        <p
+          class="split-title professional-catalog-current-subtitle mt-2 text-lg lg:text-xl font-black tracking-[1px]"
+          style={titleStyle}
+        >
+          {subtitle}
+        </p>
+      </div>
+    </div>
+
+    {
+      hasSecondaryPanel && (
+        <div
+          class="professional-catalog-switch inline-flex w-fit rounded-full p-1 gap-4"
+          role="tablist"
+          aria-label="Selector de catálogo"
+          style={catalogSwitchStyle}
+        >
+          <button
+            type="button"
+            class="professional-catalog-switch-button is-active"
+            data-catalog-toggle="primary"
+            data-active="true"
+            role="tab"
+            aria-selected="true"
+          >
+            {primaryButtonLabel}
+          </button>
+          <button
+            type="button"
+            class="professional-catalog-switch-button"
+            data-catalog-toggle="secondary"
+            data-active="false"
+            role="tab"
+            aria-selected="false"
+          >
+            {secondaryButtonLabel}
+          </button>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="professional-catalog-panels">
+    {
+      items.length > 0 ? (
+        <div class="professional-catalog-panel" data-catalog-panel="primary" data-active="true">
+          <CatalogGrid items={items} theme={theme} />
+        </div>
+      ) : (
+        <p class="max-w-350 mx-auto px-15 pb-10 text-center text-lg md:text-xl" style={emptyStateStyle}>
+          No hay elementos disponibles en este momento.
+        </p>
+      )
+    }
+
+    {
+      hasSecondaryPanel && secondaryItems && (
+        <div class="professional-catalog-panel" data-catalog-panel="secondary" data-active="false" hidden>
+          <CatalogGrid items={secondaryItems} theme={theme} />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .professional-catalog-switch-button {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    color: var(--catalog-switch-inactive-text);
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0.4rem 2rem;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .professional-catalog-switch-button[data-active='true'] {
+    background-color: var(--catalog-switch-active-background);
+    color: var(--catalog-switch-active-text);
+  }
+
+  .professional-catalog-switch-button[data-active='false'] {
+    background-color: var(--catalog-switch-inactive-background);
+    border-color: var(--catalog-switch-inactive-border);
+    color: var(--catalog-switch-inactive-text);
+  }
+
+  .professional-catalog-switch-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .professional-catalog-switch-button:focus-visible {
+    outline: 2px solid var(--catalog-switch-focus-outline);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  import { setupPlanGsap } from '../../gsap';
+
+  const { gsap } = setupPlanGsap();
+
+  document.querySelectorAll<HTMLElement>('.professional-catalog-panels').forEach((panelContainer) => {
+    if (panelContainer.dataset.catalogReady === 'true') {
+      return;
+    }
+
+    panelContainer.dataset.catalogReady = 'true';
+
+    const section = panelContainer.closest<HTMLElement>('section');
+    const buttons = section?.querySelectorAll<HTMLButtonElement>('[data-catalog-toggle]') ?? [];
+    const header = section?.querySelector<HTMLElement>('.professional-catalog-header');
+    const title = header?.querySelector<HTMLElement>('.professional-catalog-current-title');
+    const subtitle = header?.querySelector<HTMLElement>('.professional-catalog-current-subtitle');
+    const sectionId = section?.id ?? '';
+
+    const getRequestedView = () => {
+      const params = new URLSearchParams(window.location.search);
+      const catalog = params.get('catalogo');
+
+      if (catalog === 'servicios' || catalog === 'secondary') {
+        return 'secondary' as const;
+      }
+
+      return 'primary' as const;
+    };
+
+    const syncUrlState = (view: 'primary' | 'secondary') => {
+      if (!sectionId) return;
+
+      const nextUrl = new URL(window.location.href);
+
+      if (view === 'secondary') {
+        nextUrl.searchParams.set('catalogo', 'servicios');
+      } else {
+        nextUrl.searchParams.delete('catalogo');
+      }
+
+      nextUrl.hash = sectionId;
+      window.history.replaceState({}, '', `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+    };
+
+    const revealCards = (panel: HTMLElement) => {
+      const cards = panel.querySelectorAll<HTMLElement>('.product');
+      if (!cards.length) return;
+
+      gsap.killTweensOf(cards);
+      gsap.fromTo(
+        cards,
+        { autoAlpha: 0, y: 24, scale: 0.985 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          ease: 'expo.out',
+          stagger: 0.1,
+          clearProps: 'transform,opacity,visibility',
+        }
+      );
+    };
+
+    const setButtonState = (activeView: string) => {
+      buttons.forEach((button) => {
+        const isActive = button.dataset.catalogToggle === activeView;
+        button.dataset.active = isActive ? 'true' : 'false';
+        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+    };
+
+    const setHeaderState = (view: 'primary' | 'secondary', animate = true) => {
+      if (!header || !title || !subtitle) return;
+
+      const nextTitle = header.dataset[view === 'primary' ? 'primaryTitle' : 'secondaryTitle'] ?? '';
+      const nextSubtitle = header.dataset[view === 'primary' ? 'primarySubtitle' : 'secondarySubtitle'] ?? '';
+
+      const currentTitle = title.textContent ?? '';
+      const currentSubtitle = subtitle.textContent ?? '';
+
+      if (currentTitle === nextTitle && currentSubtitle === nextSubtitle) {
+        return;
+      }
+
+      if (!animate) {
+        title.textContent = nextTitle;
+        subtitle.textContent = nextSubtitle;
+        gsap.set([title, subtitle], { autoAlpha: 1, y: 0 });
+        return;
+      }
+
+      gsap
+        .timeline()
+        .to([title, subtitle], {
+          autoAlpha: 0,
+          y: 8,
+          duration: 0.16,
+          ease: 'power2.out',
+        })
+        .call(() => {
+          title.textContent = nextTitle;
+          subtitle.textContent = nextSubtitle;
+        })
+        .to([title, subtitle], {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.28,
+          ease: 'power2.out',
+        });
+    };
+
+    const applyPanelState = (nextView: 'primary' | 'secondary') => {
+      const activePanel = panelContainer.querySelector<HTMLElement>('[data-active="true"]');
+      const nextPanel = panelContainer.querySelector<HTMLElement>(`[data-catalog-panel="${nextView}"]`);
+
+      if (!nextPanel) {
+        return;
+      }
+
+      if (activePanel && activePanel !== nextPanel) {
+        activePanel.hidden = true;
+        activePanel.dataset.active = 'false';
+      }
+
+      nextPanel.hidden = false;
+      nextPanel.dataset.active = 'true';
+      gsap.set(nextPanel, { autoAlpha: 1, y: 0 });
+      setButtonState(nextView);
+      setHeaderState(nextView, false);
+    };
+
+    const switchPanel = (nextView: 'primary' | 'secondary', syncUrl = true) => {
+      const activePanel = panelContainer.querySelector<HTMLElement>('[data-active="true"]');
+      const nextPanel = panelContainer.querySelector<HTMLElement>(`[data-catalog-panel="${nextView}"]`);
+
+      if (!activePanel || !nextPanel || activePanel === nextPanel) {
+        if (syncUrl) {
+          syncUrlState(nextView);
+        }
+        return;
+      }
+
+      setButtonState(nextView);
+      setHeaderState(nextView);
+
+      if (syncUrl) {
+        syncUrlState(nextView);
+      }
+
+      gsap.to(activePanel, {
+        autoAlpha: 0,
+        y: 15,
+        duration: 0.2,
+        ease: 'power2.out',
+        onComplete: () => {
+          activePanel.hidden = true;
+          activePanel.dataset.active = 'false';
+          nextPanel.hidden = false;
+          nextPanel.dataset.active = 'true';
+          gsap.set(nextPanel, { autoAlpha: 1, y: 0 });
+          revealCards(nextPanel);
+        },
+      });
+    };
+
+    const requestedView = getRequestedView();
+
+    if (requestedView === 'secondary') {
+      applyPanelState('secondary');
+    }
+
+    const activePanel = panelContainer.querySelector<HTMLElement>('[data-active="true"]');
+
+    if (activePanel) {
+      gsap.from(activePanel.querySelectorAll('.product'), {
+        autoAlpha: 0,
+        y: 24,
+        scale: 0.985,
+        duration: 1.05,
+        ease: 'expo.out',
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: panelContainer,
+          start: 'top 72%',
+          once: true,
+        },
+      });
+    }
+
+    gsap.utils.toArray<HTMLElement>(panelContainer.querySelectorAll('.product')).forEach((card) => {
+      if (card.dataset.gsapHoverReady === 'true') {
+        return;
+      }
+
+      card.dataset.gsapHoverReady = 'true';
+      gsap.set(card, { boxShadow: '0 2px 16px 0 rgba(36,39,42,0.10)' });
+
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, {
+          y: -10,
+          scale: 1.012,
+          boxShadow: '0 18px 38px 0 rgba(36,39,42,0.14)',
+          duration: 0.55,
+          ease: 'power3.out',
+          overwrite: 'auto',
+          force3D: true,
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          y: 0,
+          scale: 1,
+          boxShadow: '0 2px 16px 0 rgba(36,39,42,0.10)',
+          duration: 0.42,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          force3D: true,
+        });
+      });
+    });
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const nextView = button.dataset.catalogToggle;
+        if (nextView === 'primary' || nextView === 'secondary') {
+          switchPanel(nextView);
+        }
+      });
+    });
+
+    window.addEventListener('microsite:catalog-target', (event) => {
+      const detail = (event as CustomEvent<{ sectionId?: string; view?: string }>).detail;
+
+      if (!detail) {
+        return;
+      }
+
+      if (detail.sectionId && detail.sectionId !== sectionId) {
+        return;
+      }
+
+      const nextView = detail.view === 'services' || detail.view === 'secondary' ? 'secondary' : 'primary';
+      switchPanel(nextView, false);
+    });
+
+    window.addEventListener('popstate', () => {
+      const nextView = getRequestedView();
+      const currentView = panelContainer.querySelector<HTMLElement>('[data-active="true"]')?.dataset.catalogPanel;
+
+      if (nextView !== currentView && (nextView === 'primary' || nextView === 'secondary')) {
+        switchPanel(nextView, false);
+      }
+    });
+  });
+</script>
