@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 
 const PAGES = [
   {
-    title: 'Huaweí',
+    title: 'Huawei',
     plan: 'Professional',
     href: '/micrositios/huawei',
   },
@@ -11,6 +11,7 @@ const PAGES = [
     title: 'Dell',
     plan: 'Premium',
     href: '/micrositios/dell',
+    featured: true,
   },
   {
     title: 'Lenovo',
@@ -21,7 +22,7 @@ const PAGES = [
 ---
 
 <Layout>
-  <main class="min-h-screen bg-[radial-gradient(circle_at_top,#d9f2ff_0%,#edf7fb_42%,#f7fbfd_100%)] px-6 py-10">
+  <main class="min-h-screen bg-[radial-gradient(circle_at_top,#d4fbff_0%,#edf7fb_42%,#f7fbfd_100%)] px-6 py-10">
     <div class="mx-auto flex min-h-[calc(100vh-5rem)] max-w-6xl items-center justify-center">
       <div class="grid w-full max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
         {
@@ -31,11 +32,16 @@ const PAGES = [
               target="_blank"
               class="group relative overflow-hidden rounded-3xl border border-cyan-100/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96)_0%,rgba(227,244,252,0.95)_100%)] p-8 text-center shadow-[0_18px_45px_rgba(74,126,153,0.16)] transition duration-300 ease-out  hover:border-cyan-300 hover:shadow-[0_26px_65px_rgba(55,111,138,0.24)]"
             >
+              {page.featured && (
+                <div class="absolute -right-12 top-6 w-40 rotate-45 bg-linear-to-r from-[#00abe7] to-[#0AFFD8] py-1.5 text-center shadow-md z-10 ">
+                  <span class="text-xs font-bold text-black uppercase tracking-wider">Popular</span>
+                </div>
+              )}
               <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(104,196,224,0.24),transparent_58%)] opacity-0 transition duration-300 group-hover:opacity-100" />
               <div class="relative flex min-h-55 flex-col items-center justify-center gap-4">
                 <div class="flex flex-col items-center gap-1">
-                  <span class="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-700/70">Micrositio</span>
-                  <span class="text-xs font-semibold uppercase text-cyan-500/70">{page.plan}</span>
+                  <span class="text-sm font-bold uppercase tracking-[2px] text-[#00abe7]">Micrositio</span>
+                  <span class="text-xs font-semibold uppercase text-[#00abe7]/70">{page.plan}</span>
                 </div>
                 <h2 class="text-3xl font-black tracking-tight text-slate-800">{page.title}</h2>
                 <span class="inline-flex items-center rounded-full border border-cyan-200 bg-white/70 px-4 py-2 text-sm font-medium text-cyan-900 transition duration-300 group-hover:border-cyan-300 group-hover:bg-cyan-50">
