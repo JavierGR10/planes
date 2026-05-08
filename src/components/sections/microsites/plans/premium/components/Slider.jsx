@@ -40,7 +40,7 @@ function Slider({ banners, theme }) {
     <>
       <Swiper
         grabCursor
-        // autoplay
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true}
         modules={[Pagination, Autoplay]}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
@@ -57,7 +57,7 @@ function Slider({ banners, theme }) {
           <SwiperSlide className="pb-10 pl-1 pt-1 flex items-center justify-center" key={index}>
             {({ isActive }) => (
               <article
-                className={`cursor-pointer banner-item rounded-[10px] p-4 h-25 lg:h-[119px] w-[100px] lg:w-[132px] flex items-center justify-center transition-colors duration-500  ease-in-out
+                className={`cursor-pointer banner-item rounded-[10px] p-4 h-25 lg:h-[119px] w-25 lg:w-[132px] flex items-center justify-center transition-colors duration-500  ease-in-out
                   ${isActive ? 'border scale-105' : ''}`}
                 style={isActive ? activeBorderStyle : undefined}
               >
