@@ -20,28 +20,48 @@
 
 .hero-carousel .swiper-button-next,
 .hero-carousel .swiper-button-prev {
+  align-items: center;
+  backdrop-filter: blur(14px);
+  background: color-mix(in srgb, #0f172a 42%, transparent 58%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  background: rgba(0, 0, 0, 0.3);
-  width: 40px;
+  display: inline-flex;
   height: 40px;
+  justify-content: center;
   border-radius: 50%;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  width: 40px;
 }
 
 .hero-carousel .swiper-button-next:hover,
 .hero-carousel .swiper-button-prev:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: color-mix(in srgb, #0f172a 64%, transparent 36%);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.hero-carousel .swiper-button-next:active,
+.hero-carousel .swiper-button-prev:active {
+  scale: 0.9;
 }
 
 .hero-carousel .swiper-button-next::after,
 .hero-carousel .swiper-button-prev::after {
-  font-size: 18px;
-  font-weight: bold;
+  content: none;
 }
 
-/* @media (max-width: 768px) {
-  .hero-carousel .swiper-button-next,
-  .hero-carousel .swiper-button-prev {
-    display: none;
-  }
+.hero-carousel .swiper-button-next svg,
+.hero-carousel .swiper-button-prev svg,
+.hero-carousel .swiper-navigation-icon {
+  display: block;
+  flex-shrink: 0;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  transition: transform 0.3s ease;
+  width: 15px;
+}
+
+/* .hero-carousel .swiper-button-prev svg,
+.hero-carousel .swiper-button-prev .swiper-navigation-icon {
+  transform: rotate(180deg) translateX(1px);
 } */
