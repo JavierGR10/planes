@@ -23,7 +23,7 @@ const overlayStyle = `background: ${bannerTheme?.overlayBackground ?? 'rgba(0, 0
 ---
 
 <section
-  class="banner-section flex flex-col lg:flex-row justify-between items-center relative px-5 py-10 md:px-10 md:py-16 lg:p-20 min-h-[500px] lg:min-h-[600px] overflow-hidden"
+  class="banner-section flex flex-col lg:flex-row justify-between items-center relative px-5 py-10 md:px-10 md:py-16 lg:p-20 min-h-125 lg:min-h-150 overflow-hidden"
   style={contentStyle}
 >
   <!-- Imagen de fondo -->
@@ -38,11 +38,11 @@ const overlayStyle = `background: ${bannerTheme?.overlayBackground ?? 'rgba(0, 0
   <div class="absolute inset-0 z-1" style={overlayStyle}></div>
 
   <!-- Contenido de texto -->
-  <div class="banner-content relative z-10 text-center lg:text-left mb-8 lg:mb-0" style="opacity: 0;">
-    <h3 class="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4" style={titleStyle}>
+  <div class="banner-content relative z-10 text-center lg:text-left mb-8 lg:mb-0">
+    <h3 class="banner-title text-xl md:text-2xl lg:text-3xl font-extrabold mb-4" style={titleStyle}>
       {title}
     </h3>
-    <p class="font-bold text-sm md:text-base lg:text-[18px] max-w-xl text-justify mx-auto lg:mx-0">
+    <p class="banner-description font-bold text-sm md:text-base lg:text-[18px] max-w-xl text-justify mx-auto lg:mx-0">
       {description}
     </p>
   </div>
@@ -51,8 +51,7 @@ const overlayStyle = `background: ${bannerTheme?.overlayBackground ?? 'rgba(0, 0
   <img
     src={image}
     alt={title}
-    class="banner-product relative z-10 w-full max-w-[280px] md:max-w-[400px] xl:max-w-[600px] object-contain"
-    style="opacity: 0;"
+    class="banner-product relative z-10 w-full max-w-70 md:max-w-100 xl:max-w-150 object-contain"
     loading="lazy"
   />
 </section>
