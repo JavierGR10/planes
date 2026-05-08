@@ -7,7 +7,7 @@ import { getBrandConfig, isBrandPageEnabled } from '@/components/sections/micros
 
 const dellConfig = getBrandConfig('dell');
 const isAboutEnabled = isBrandPageEnabled('dell', 'about');
-const { brand, meta, branding, navigation, footer, aboutPage } = dellConfig;
+const { brand, meta, branding, navigation, footer, aboutPage, contact } = dellConfig;
 const resolvedTheme = resolvePremiumTheme(branding.theme);
 ---
 
@@ -15,6 +15,7 @@ const resolvedTheme = resolvePremiumTheme(branding.theme);
   title={aboutPage?.metaTitle ?? `Nosotros ${brand.name} - Grupo CVA`}
   description={aboutPage?.description ?? meta.description}
   favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
 >
   <div style={resolvedTheme.cssVars}>
     <div class="bg-[#1F242D] text-white min-h-screen">

@@ -18,7 +18,7 @@ interface Props {
 
 const { config } = Astro.props as Props;
 
-const { brand, meta, branding, navigation, sections, footer, popupModal } = config;
+const { brand, meta, branding, navigation, sections, footer, popupModal, contact } = config;
 const { products, services, catalogue, events } = sections;
 
 const heroItems = sections.heroes;
@@ -30,7 +30,12 @@ const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
 };
 ---
 
-<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+<MicrositeLayout
+  title={meta.title}
+  description={meta.description}
+  favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
+>
   <div class="premium-plan" style={resolvedTheme.cssVars}>
     {popupModal?.enabled && <PremiumPopupModal popupModal={popupModal} />}
 

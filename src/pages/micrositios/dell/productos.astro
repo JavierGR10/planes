@@ -8,12 +8,17 @@ import PremiumFooter from '@/components/sections/microsites/plans/premium/compon
 
 const dellConfig = getBrandConfig('dell');
 const isProductsEnabled = isBrandPageEnabled('dell', 'products');
-const { meta, branding, navigation, sections, footer } = dellConfig;
+const { meta, branding, navigation, sections, footer, contact } = dellConfig;
 const { products } = sections;
 const resolvedTheme = resolvePremiumTheme(branding.theme);
 ---
 
-<MicrositeLayout title={meta.productsTitle} description={meta.description} favicon={meta.favicon}>
+<MicrositeLayout
+  title={meta.productsTitle}
+  description={meta.description}
+  favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
+>
   <div style={resolvedTheme.cssVars}>
     <div class="bg-[#1F242D] text-white">
       <Navbar

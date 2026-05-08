@@ -24,7 +24,7 @@ interface Props {
 
 const { config } = Astro.props;
 
-const { brand, meta, branding, navigation, sections, footer } = config;
+const { brand, meta, branding, navigation, sections, footer, contact } = config;
 
 const {
   primaryColor,
@@ -73,7 +73,12 @@ const bannerTheme: BusinessBannerTheme = branding.theme.banner ?? {
 const heroItems = sections.heroes;
 ---
 
-<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+<MicrositeLayout
+  title={meta.title}
+  description={meta.description}
+  favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
+>
   <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
 
   <div class="px-3 md:px-5">

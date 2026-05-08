@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { details } = Astro.params;
-const { brand, meta, branding, navigation, sections, footer } = dellConfig;
+const { brand, meta, branding, navigation, sections, footer, contact } = dellConfig;
 const { primaryColor } = branding.theme;
 const resolvedTheme = resolvePremiumTheme(branding.theme);
 
@@ -30,6 +30,7 @@ const currentYear = new Date().getFullYear();
   title={`${product?.hero.title ?? 'Producto'} - ${brand.name}`}
   description={detailDescription}
   favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
 >
   <div style={resolvedTheme.cssVars}>
     <Navbar

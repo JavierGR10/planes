@@ -12,10 +12,11 @@ export async function getStaticPaths() {
 const { details } = Astro.params;
 const detailInfo = (huaweiConfig.productDetails ?? []).find((item) => item.slug === details);
 const { brand, meta, branding, navigation } = huaweiConfig;
+const contact = 'contact' in huaweiConfig ? huaweiConfig.contact : undefined;
 const detailAccentColor = branding.theme.detailAccentColor ?? '#929DAC';
 ---
 
-<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon} whatsappUrl={contact?.whatsapp}>
   <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
 
   <script is:inline>

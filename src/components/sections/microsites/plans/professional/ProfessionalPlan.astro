@@ -1,8 +1,8 @@
 ---
 import Carousel from './components/Carousel.astro';
+import CatalogSection from './components/CatalogSection.astro';
 import Events from './components/Events.astro';
 import Footer from './components/Footer.astro';
-import Products from './components/Products.astro';
 import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
 
 import type { ProfessionalMicrositeConfig } from './types/professional';
@@ -15,18 +15,26 @@ interface Props {
 const { config } = Astro.props;
 
 // Desestructuración del objeto de configuración
-const { brand, meta, branding, navigation, sections } = config;
+const { brand, meta, branding, navigation, sections, contact } = config;
 ---
 
-<MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon}>
+<MicrositeLayout
+  title={meta.title}
+  description={meta.description}
+  favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
+>
   <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
 
   <Carousel banners={sections.hero.banners} theme={branding.theme} />
 
-  <Products
+  <CatalogSection
     title={sections.products.title}
     subtitle={sections.products.subtitle}
     items={sections.products.items}
+    secondaryTitle={sections.services?.title}
+    secondarySubtitle={sections.services?.subtitle}
+    secondaryItems={sections.services?.items}
     theme={branding.theme}
   />
 
@@ -36,10 +44,9 @@ const { brand, meta, branding, navigation, sections } = config;
     items={sections.events.items}
     theme={branding.theme}
   />
-
   <Footer logo={branding.logos.footer} brandName={brand.name} theme={branding.theme} />
-</MicrositeLayout>
 
-<script>
-  import './animations.ts';
-</script>
+  <script>
+    import './animations.ts';
+  </script>
+</MicrositeLayout>

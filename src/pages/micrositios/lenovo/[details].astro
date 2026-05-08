@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 }
 
 const { details } = Astro.params;
-const { brand, meta, branding, navigation, sections, footer } = lenovoConfig;
+const { brand, meta, branding, navigation, sections, footer, contact } = lenovoConfig;
 const { detailSubtitleColor, secondaryColor, accentColor, footer: footerTheme } = branding.theme;
 
 // Encontrar el producto actual
@@ -21,6 +21,7 @@ const product = sections.productDetails.find((p) => p.slug === details);
   title={`${product?.hero.title ?? 'Producto'} - ${brand.name}`}
   description={product?.productInfo.description ?? meta.description}
   favicon={meta.favicon}
+  whatsappUrl={contact?.whatsapp}
 >
   <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
 
