@@ -237,16 +237,40 @@ const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg tra
     scrollLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
         const href = link.getAttribute('href');
-        if (!href || !href.startsWith('#')) return;
+        if (!href) return;
 
-        const target = document.querySelector<HTMLElement>(href);
+        const currentUrl = new URL(window.location.href);
+        const targetUrl = new URL(href, window.location.href);
+        const targetHash = targetUrl.hash;
+
+        if (!targetHash) return;
+        if (targetUrl.origin !== currentUrl.origin) return;
+        if (targetUrl.pathname !== currentUrl.pathname) return;
+
+        const target = document.querySelector<HTMLElement>(targetHash);
         if (!target) return;
 
         event.preventDefault();
 
-        const lenis = (window as Window & {
-          lenis?: { scrollTo?: (target: Element | string, options?: { offset?: number }) => void };
-        }).lenis;
+        const catalogView = targetUrl.searchParams.get('catalogo');
+        const nextUrl = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+
+        window.history.replaceState({}, '', nextUrl);
+
+        window.dispatchEvent(
+          new CustomEvent('microsite:catalog-target', {
+            detail: {
+              sectionId: targetHash.slice(1),
+              view: catalogView,
+            },
+          })
+        );
+
+        const lenis = (
+          window as Window & {
+            lenis?: { scrollTo?: (target: Element | string, options?: { offset?: number }) => void };
+          }
+        ).lenis;
 
         if (lenis?.scrollTo) {
           lenis.scrollTo(target, { offset: -24 });
