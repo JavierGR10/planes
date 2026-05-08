@@ -118,6 +118,11 @@ export const lenovoConfig = {
     ],
   },
 
+  contact: {
+    whatsapp:
+      'https://api.whatsapp.com/send/?phone=523315994174&text=%C2%A1Hola%21+Me+interesa+conocer+m%C3%A1s+sobre+las+soluciones+de+CVA.+%C2%BFPodr%C3%ADan+brindarme+informaci%C3%B3n%2C+por+favor%3F&type=phone_number&app_absent=0',
+  },
+
   sections: {
     heroes: [
       {
