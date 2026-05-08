@@ -215,43 +215,32 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
       items: [
         {
           image: Service1.src,
-          title: 'SERVICIO 01',
-          description: {
-            paragraphs: [
-              'Acompañamiento comercial y consultivo para identificar la solución Huawei más adecuada según el entorno, objetivos y capacidad operativa del cliente.',
-            ],
-            spacing: 'sm',
-          },
+          title: 'IDEAHUB',
+          description:
+            'Huawei IdeaHub es una herramienta integral de productividad diseñada para impulsar la oficina inteligente. Integra funciones de escritura inteligente, videoconferencias en alta definición (HD) y uso compartido inalámbrico, facilitando la colaboración eficiente entre equipos. Reconocido con el Premio Red Dot 2020, IdeaHub se adapta fácilmente a cualquier entorno de trabajo, transformando salas de conferencias, oficinas ejecutivas y espacios abiertos en entornos inteligentes, colaborativos y altamente productivos.',
         },
         {
           image: Service2.src,
-          title: 'SERVICIO 02',
+          title: 'STORAGE',
           description: {
             paragraphs: [
-              'Soporte para levantamiento de requerimientos, integración inicial y orientación técnica en el despliegue de soluciones enfocadas en colaboración y conectividad.',
+              'El portafolio integral de almacenamiento de Huawei ofrece las herramientas adecuadas para cada necesidad.',
+              'Desde bases de datos y virtualización hasta big data, entornos móviles y soluciones en la nube, Huawei proporciona tecnologías de almacenamiento diseñadas para cubrir todos los escenarios y demandas del negocio moderno.',
             ],
             spacing: 'sm',
           },
         },
         {
           image: Service3.src,
-          title: 'SERVICIO 03',
-          description: {
-            paragraphs: [
-              'Asesoría en continuidad operativa, escalabilidad y adopción, para que cada implementación mantenga valor práctico y una curva de uso clara para el cliente final.',
-            ],
-            spacing: 'sm',
-          },
+          title: 'WI-FI 6',
+          description:
+            'La tecnología Wi-Fi 6 de Huawei se ha posicionado como líder a nivel global (excepto en Estados Unidos), de acuerdo con el informe de participación de mercado de puntos de acceso Wi-Fi 6 para interiores, correspondiente al periodo del tercer trimestre de 2018 al tercer trimestre de 2019, elaborado por Dell’Oro Group, firma independiente líder en análisis e investigación de mercado.',
         },
         {
           image: Service4.src,
-          title: 'SERVICIO 04',
-          description: {
-            paragraphs: [
-              'Seguimiento postventa y acompañamiento comercial para reforzar renovaciones, crecimiento por etapas y nuevas oportunidades sobre la base instalada.',
-            ],
-            spacing: 'sm',
-          },
+          title: 'UPS SMARTLL',
+          description:
+            'Seguimiento postventa y acompañamiento comercial para reforzar renovaciones, crecimiento por etapas y nuevas oportunidades sobre la base instalada.',
         },
       ],
     },
