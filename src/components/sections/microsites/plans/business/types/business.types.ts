@@ -64,6 +64,8 @@ export interface BusinessBannerTheme {
 export interface ProductsSectionConfig {
   sectionTitle: string;
   buttonText: string;
+  allProductsLabel?: string;
+  collapseProductsLabel?: string;
   items: ProductItem[];
   bannerProduct: ProductBanner;
 }
@@ -220,6 +222,8 @@ export interface ProductCardProps extends ProductItem {
   accentColor: string;
   buttonText: string;
   index: number;
+  featured?: boolean;
+  isExtra?: boolean;
   productCardTheme?: BusinessProductCardTheme;
   productCardCtaTheme?: BusinessProductCardCtaTheme;
 }
