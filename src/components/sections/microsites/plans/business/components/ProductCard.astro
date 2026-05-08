@@ -14,6 +14,8 @@ interface Props extends ProductItem {
   buttonText: string;
   /** Índice del producto (para estilos condicionales) */
   index: number;
+  featured?: boolean;
+  isExtra?: boolean;
   productCardTheme?: BusinessProductCardTheme;
   productCardCtaTheme?: BusinessProductCardCtaTheme;
 }
@@ -28,14 +30,14 @@ const {
   accentColor,
   buttonText,
   index,
+  featured = false,
+  isExtra = false,
   productCardTheme,
   productCardCtaTheme,
-} = Astro.props;
+} = Astro.props as Props;
 
-// El primer producto tiene un margen superior adicional en su CTA
-const isFirst = index === 0;
-const layoutClass = isFirst ? 'lg:col-span-2 justify-between flex-col lg:flex-row' : 'col-span-1 flex-col';
-const surfaceColor = isFirst ? productCardTheme?.featuredBackground : productCardTheme?.defaultBackground;
+const layoutClass = featured ? 'justify-between flex-col lg:flex-row' : 'flex-col';
+const surfaceColor = featured ? productCardTheme?.featuredBackground : productCardTheme?.defaultBackground;
 const textColor = productCardTheme?.textColor;
 const ctaBackground = productCardCtaTheme?.background;
 const ctaTextColor = productCardCtaTheme?.textColor ?? accentColor;
@@ -47,15 +49,17 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
 
 <div
   class:list={[
-    'product-card flex p-10 gap-5 rounded-[10px]',
+    'product-card flex h-full p-10 gap-5 rounded-[10px]',
     'transition-all duration-500 ease-out',
     'hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/20',
     layoutClass,
   ]}
   data-index={index}
+  data-product-extra={isExtra ? 'true' : 'false'}
+  data-product-featured={featured ? 'true' : 'false'}
   style={`opacity: 0; background-color: ${surfaceColor}; color: ${textColor};`}
 >
-  <div class="product-card-copy flex flex-col">
+  <div class="product-card-copy flex flex-col gap-2">
     <h2 class="product-card-title font-extrabold text-2xl lg:text-3xl">{titleProduct}</h2>
     <p class="product-card-subtitle font-medium text-sm lg:text-base whitespace-pre-line" set:html={subtitleProduct} />
   </div>
@@ -64,7 +68,7 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
     <img src={image} alt={titleProduct} class="product-card-image h-70 object-contain" loading="lazy" />
   </div>
 
-  <div class:list={['product-card-meta flex flex-col justify-end items-end gap-3', isFirst && 'mt-20']}>
+  <div class:list={['product-card-meta mt-auto flex flex-col justify-end items-end gap-3', featured && 'lg:mt-20']}>
     <p class="product-card-description-title font-bold text-base lg:text-xl max-w-xs text-right whitespace-pre-line">
       {descriptionTitle}
     </p>
