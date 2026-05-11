@@ -44,7 +44,7 @@ function HeroCarousel({ heroes, theme, rounded = true }) {
       centeredSlides={true}
       loop={true}
       className="hero-carousel w-full"
-      style={carouselStyle}
+      // style={carouselStyle}
     >
       {heroes.map((hero, index) => (
         <SwiperSlide key={index}>
@@ -103,7 +103,7 @@ function HeroBanner({ hero, theme, rounded }) {
   if (bannerType === 'with-slider') {
     return (
       <section
-        className={`relative w-full ${roundedClass} py-6 md:py-0 md:h-[400px] lg:h-[500px] flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
+        className={`relative w-full ${roundedClass} py-6 md:py-0 md:h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
         style={heroBackgroundStyle}
       >
         <div className="flex flex-col justify-between w-full md:w-1/2 lg:w-[40%] px-5 md:px-15">
@@ -149,7 +149,7 @@ function HeroBanner({ hero, theme, rounded }) {
   if (bannerType === 'simple') {
     return (
       <section
-        className={`relative w-full ${roundedClass} py-6 md:py-10 h-[400px] lg:h-[500px] flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
+        className={`relative w-full ${roundedClass} py-6 md:py-10 h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
         style={heroBackgroundStyle}
       >
         <div className="flex flex-col w-full md:w-1/2">
@@ -197,7 +197,7 @@ function HeroBanner({ hero, theme, rounded }) {
 
         {hero.image && (
           <div className="w-full md:w-1/2 flex items-center justify-center">
-            <img src={hero.image} alt={hero.title} className="max-h-[300px] lg:max-h-[400px] object-contain" />
+            <img src={hero.image} alt={hero.title} className="max-h-75 lg:max-h-100 object-contain" />
           </div>
         )}
       </section>
@@ -206,7 +206,7 @@ function HeroBanner({ hero, theme, rounded }) {
 
   if (bannerType === 'image-background') {
     return (
-      <section className={`relative w-full ${roundedClass} h-[400px] lg:h-[500px] flex items-center overflow-hidden`}>
+      <section className={`relative w-full ${roundedClass} h-100 lg:h-125 flex items-center overflow-hidden`}>
         <img src={hero.backgroundImage} alt={hero.title} className="absolute inset-0 w-full h-full object-contain" />
         <div className="relative z-10 flex flex-col justify-between w-full md:w-1/2 px-5 md:px-15 py-10">
           <HtmlContent
