@@ -22,14 +22,19 @@ import Service2 from '@/assets/microsites/huawei/servicio_02.webp';
 import Service3 from '@/assets/microsites/huawei/servicio_03.webp';
 import Service4 from '@/assets/microsites/huawei/servicio_04.webp';
 
-import IdeaHubBanner from '@/assets/microsites/huawei/banner_ideahub.png';
-import IdeaHubProduct from '@/assets/microsites/huawei/detalles_ideahub.png';
-import IdeaHubIcon1 from '@/assets/microsites/huawei/ideahub_icono_1.png';
-import IdeaHubIcon2 from '@/assets/microsites/huawei/ideahub_icono_2.png';
-import IdeaHubIcon3 from '@/assets/microsites/huawei/ideahub_icono_3.png';
-import IdeaHubIcon4 from '@/assets/microsites/huawei/ideahub_icono_4.png';
-import IdeaHubIcon5 from '@/assets/microsites/huawei/ideahub_icono_5.png';
-import IdeaHubIcon6 from '@/assets/microsites/huawei/ideahub_icono_6.png';
+//Ideahub
+import IdeaHubBanner from '@/assets/microsites/huawei/details/ideahub/banner.webp';
+import IdeaHubProduct from '@/assets/microsites/huawei/details/ideahub/producto_ideahub.webp';
+import IdeaHubIcon1 from '@/assets/microsites/huawei/details/ideahub/icono_1.webp';
+import IdeaHubIcon2 from '@/assets/microsites/huawei/details/ideahub/icono_2.webp';
+import IdeaHubIcon3 from '@/assets/microsites/huawei/details/ideahub/icono_3.webp';
+
+//Ups
+import UpsBanner from '@/assets/microsites/huawei/details/ups/banner.webp';
+import UpsService from '@/assets/microsites/huawei/details/ups/servicio.webp';
+import UpsIcon1 from '@/assets/microsites/huawei/details/ups/icono_1.webp';
+import UpsIcon2 from '@/assets/microsites/huawei/details/ups/icono_2.webp';
+import UpsIcon3 from '@/assets/microsites/huawei/details/ups/icono_3.webp';
 
 // CONFIGURACIÓN DEL MICROSITIO HUAWEI
 
@@ -133,8 +138,8 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
       //     { label: 'GPON', href: '#events' },
       //   ],
       // },
-      { label: 'Productos', href: '/micrositios/huawei#productos', type: 'scroll' },
-      { label: 'Servicios', href: '/micrositios/huawei?catalogo=servicios#productos', type: 'scroll' },
+      { label: 'Productos', href: '/micrositios/huawei#products', type: 'scroll' },
+      { label: 'Servicios', href: '/micrositios/huawei?catalogo=servicios#products', type: 'scroll' },
     ],
   },
 
@@ -308,12 +313,12 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
           description:
             'El diseño de sistema en chip (SoC) doble combina el cómputo de gráficos independiente, el cómputo alimentado con inteligencia artificial y el motor de códec de audio y video. ¿El resultado final? Videoconferencias de calidad asistidas por operaciones de reunión simplificadas.',
         },
-        {
-          icon: IdeaHubIcon4.src,
-          title: 'Máxima nitidez',
-          description:
-            'Una matriz de 12 micrófonos usa tecnología de conformación de haces para captar voces humanas en un radio de 8 m. Una frecuencia más amplia para transferencias garantiza un audio clarísimo y de alta fidelidad hasta en los sitios más remotos.',
-        },
+        // {
+        //   icon: IdeaHubIcon4.src,
+        //   title: 'Máxima nitidez',
+        //   description:
+        //     'Una matriz de 12 micrófonos usa tecnología de conformación de haces para captar voces humanas en un radio de 8 m. Una frecuencia más amplia para transferencias garantiza un audio clarísimo y de alta fidelidad hasta en los sitios más remotos.',
+        // },
         // {
         //   icon: IdeaHubIcon5.src,
         //   title: 'El centro de atención',
@@ -326,6 +331,46 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
         //   description:
         //     'Con un solo toque, envíe contenido a la pizarra, las nuevas ideas vuelan desde el hub a sitios remotos. La colaboración en tiempo real se convierte en parte del mundo real.',
         // },
+      ],
+      product: {
+        image: IdeaHubProduct.src,
+        title: 'IDEAHUB',
+        description:
+          'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
+      },
+    },
+    {
+      slug: 'producto-01',
+      banner: IdeaHubBanner.src,
+      bannerAlt: 'Banner de IdeaHub Huawei',
+      title: 'UPS',
+      subtitle: 'EL NUEVO ESTÁNDAR DE LA OFICINA INTELIGENTE',
+      intro:
+        'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
+      productTitleHtml: '<strong>La elegancia</strong> de la <strong>simplicidad</strong>',
+      productDescription: [
+        'Un diseño elegante, contemporáneo y centrado en el usuario. Con un aire fino y minimalista.',
+        '<strong>IdeaHub</strong> se integra sin esfuerzo en cualquier espacio.',
+      ],
+      specs: [
+        {
+          icon: IdeaHubIcon1.src,
+          title: 'No más cables',
+          description:
+            'Las tecnologías combinadas 4K y H.265 ofrecen una experiencia nítida, clara y fluida. Solo tienes que tocar para compartir lo que hay en tu portátil o teléfono. La función de cambio de página en tiempo real y la anotación en pantalla hacen que la colaboración sea verdaderamente flexible y sencilla.',
+        },
+        {
+          icon: IdeaHubIcon2.src,
+          title: 'Tan sencillo como lápiz y papel',
+          description:
+            'Con una latencia de escritura ultra baja de 35 ms, disfrute de una experiencia sin interrupciones con una altísima capacidad de respuesta. Su reconocimiento de escritura inteligente e innovador identifica automáticamente palabras, figuras y diagrama de flujo.',
+        },
+        {
+          icon: IdeaHubIcon3.src,
+          title: 'Reunión en un toque',
+          description:
+            'El diseño de sistema en chip (SoC) doble combina el cómputo de gráficos independiente, el cómputo alimentado con inteligencia artificial y el motor de códec de audio y video. ¿El resultado final? Videoconferencias de calidad asistidas por operaciones de reunión simplificadas.',
+        },
       ],
       product: {
         image: IdeaHubProduct.src,
