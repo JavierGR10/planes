@@ -63,7 +63,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
   if (bannerType === 'with-slider') {
     return (
       <section
-        className={`relative w-full ${roundedClass} py-6 md:py-0 md:h-[400px] lg:h-[500px] flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
+        className={`relative w-full ${roundedClass} py-6 md:py-0 md:h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
         style={heroBackgroundStyle}
       >
         <div className="flex flex-col w-full md:w-1/2 lg:w-[40%] px-5 md:px-15">
@@ -97,7 +97,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
   if (bannerType === 'simple') {
     return (
       <section
-        className={`relative w-full ${roundedClass} py-6 md:py-10 h-[400px] lg:h-[500px] flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
+        className={`relative w-full ${roundedClass} py-6 md:py-10 h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
         style={heroBackgroundStyle}
       >
         <div className="flex flex-col w-full md:w-1/2">
@@ -127,7 +127,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
 
         {hero.image && (
           <div className="w-full md:w-1/2 flex items-center justify-center">
-            <img src={hero.image} alt={hero.title} className="max-h-[300px] lg:max-h-[400px] object-contain" />
+            <img src={hero.image} alt={hero.title} className="max-h-75 lg:max-h-100 object-contain" />
           </div>
         )}
       </section>
@@ -136,7 +136,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
 
   if (bannerType === 'image-background') {
     return (
-      <section className={`relative w-full ${roundedClass} h-[400px] lg:h-[500px] flex items-center overflow-hidden`}>
+      <section className={`relative w-full ${roundedClass} h-100 lg:h-125 flex items-center overflow-hidden`}>
         <img
           src={hero.backgroundImage}
           alt={hero.title ?? 'Hero banner'}
