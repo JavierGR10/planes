@@ -26,7 +26,7 @@ if (prefersReducedMotion()) {
 
   animateSplitText('.events-title', {
     trigger: '.events-section',
-    split: 'lines,words',
+    split: 'words,lines',
     mask: 'lines',
     yPercent: 122,
     rotateX: -24,
@@ -34,6 +34,16 @@ if (prefersReducedMotion()) {
     duration: 0.8,
     ease: 'power3.out',
     start: 'top 78%',
+  });
+
+  animateSplitText('.banner-description', {
+    trigger: '.banner-section',
+    split: 'words,lines',
+    linesClass: 'hidden',
+    mask: 'lines',
+    yPercent: 110,
+    ease: 'expo.out',
+    stagger: 0.015,
   });
 
   const defaultScrollTrigger = {
@@ -114,50 +124,36 @@ if (prefersReducedMotion()) {
   bannerTimeline
     .from('.banner-title', {
       autoAlpha: 0,
-      y: 34,
-      rotateX: -18,
-      transformOrigin: 'left bottom',
-      duration: 0.68,
-      ease: 'power3.out',
+      filter: 'blur(10px)',
+      y: 26,
+      scale: 0.985,
+      duration: 0.72,
+      ease: 'power2.out',
       clearProps: 'transform,opacity,visibility',
     })
     .from(
       '.banner-content',
       {
         autoAlpha: 0,
-        x: -72,
-        y: 18,
-        rotateY: -8,
-        duration: 0.88,
-        ease: 'expo.out',
+        y: 24,
+        duration: 0.7,
+        ease: 'power2.out',
         clearProps: 'transform,opacity,visibility',
       },
       '<'
     )
     .from(
-      '.banner-description',
-      {
-        autoAlpha: 0,
-        y: 18,
-        duration: 0.52,
-        ease: 'power2.out',
-        clearProps: 'transform,opacity,visibility',
-      },
-      '<0.08'
-    )
-    .from(
       '.banner-product',
       {
         autoAlpha: 0,
-        x: 88,
-        y: 20,
-        scale: 0.9,
-        rotate: -4,
-        duration: 1,
-        ease: 'expo.out',
-        clearProps: 'transform,opacity,visibility',
+        clipPath: 'inset(0 0 100% 0 round 24px)',
+        y: 44,
+        scale: 0.94,
+        duration: 1.5,
+        ease: 'power3.inOut',
+        clearProps: 'transform,opacity,visibility,clipPath',
       },
-      '<0.02'
+      '<0.12'
     );
 
   const videoSection = document.querySelector('section iframe')?.parentElement;
