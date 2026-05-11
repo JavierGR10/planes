@@ -2,6 +2,7 @@
 import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
 import Navbar from '@/components/sections/microsites/plans/components/Navbar.astro';
 import Footer from '@/components/sections/microsites/plans/professional/components/Footer.astro';
+import type { ProfessionalProductDetailProduct } from '@/components/sections/microsites/plans/professional/types/professional';
 import { getBrandDetailStaticPaths } from '@/components/sections/microsites/config/brand-configs';
 import { huaweiConfig } from '../../../components/sections/microsites/config/config-by-plan/huawei.config';
 
@@ -14,6 +15,9 @@ const detailInfo = (huaweiConfig.productDetails ?? []).find((item) => item.slug 
 const { brand, meta, branding, navigation } = huaweiConfig;
 const contact = 'contact' in huaweiConfig ? huaweiConfig.contact : undefined;
 const detailAccentColor = branding.theme.detailAccentColor ?? '#929DAC';
+const detailProduct = (detailInfo?.product ?? null) as (ProfessionalProductDetailProduct & {
+  belowImageDescription?: string;
+}) | null;
 ---
 
 <MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon} whatsappUrl={contact?.whatsapp}>
@@ -57,11 +61,16 @@ const detailAccentColor = branding.theme.detailAccentColor ?? '#929DAC';
             <p set:html={detailInfo?.productDescription[1]} />
           </div>
         </div>
-        <img
-          src={detailInfo?.product.image}
-          alt={detailInfo?.product.title}
-          class="professional-detail-product-image w-full h-175 object-cover"
-        />
+        <div class="professional-detail-product-media flex flex-col items-end gap-4 w-full">
+          <img src={detailProduct?.image} alt={detailProduct?.title} class="professional-detail-product-image w-full h-175 object-cover" />
+          {
+            detailProduct?.belowImageDescription && (
+              <p class="max-w-full md:max-w-112.5 text-right text-sm md:text-base leading-relaxed text-[#24272A]">
+                {detailProduct.belowImageDescription}
+              </p>
+            )
+          }
+        </div>
       </section>
     
       <section class="professional-detail-specs max-w-5xl xl:max-w-400 mx-auto px-15 py-15 grid grid-col-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
