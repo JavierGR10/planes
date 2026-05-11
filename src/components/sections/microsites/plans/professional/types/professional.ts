@@ -44,6 +44,7 @@ export interface ProfessionalProductDetailProduct {
   image: string;
   title: string;
   description: string;
+  belowImageDescription?: string;
 }
 
 export interface ProfessionalProductDetailConfig {

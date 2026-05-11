@@ -11,7 +11,7 @@ if (prefersReducedMotion()) {
       '.professional-detail-hero-copy',
       '.professional-detail-intro',
       '.professional-detail-product-copy',
-      '.professional-detail-product-image',
+      '.professional-detail-product-media',
       '.professional-detail-spec-card',
     ],
     { clearProps: 'all' }
@@ -19,7 +19,7 @@ if (prefersReducedMotion()) {
 } else {
   animateSplitText('.professional-detail-hero-title', {
     trigger: '.professional-detail-hero',
-    split: 'lines,words',
+    split: 'words,lines',
     mask: 'lines',
     yPercent: 105,
     stagger: 0.035,
@@ -30,7 +30,7 @@ if (prefersReducedMotion()) {
 
   animateSplitText('.professional-detail-product-title', {
     trigger: '.professional-detail-product-section',
-    split: 'lines,words',
+    split: 'words,lines',
     mask: 'lines',
     yPercent: 110,
     stagger: 0.03,
@@ -129,7 +129,7 @@ if (prefersReducedMotion()) {
       '<0.12'
     )
     .from(
-      '.professional-detail-product-image',
+      '.professional-detail-product-media',
       {
         autoAlpha: 0,
         x: 24,
