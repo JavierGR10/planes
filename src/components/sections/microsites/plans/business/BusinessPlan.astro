@@ -17,6 +17,7 @@ import type {
   BusinessHeroCtaTheme,
   BusinessHeroTextTheme,
 } from './types';
+import EventsGallery from './components/EventsGallery.astro';
 
 interface Props {
   config: BusinessMicrositeConfig;
@@ -78,6 +79,8 @@ const extraProductItems = productItems.slice(3);
 const allProductsLabel = sections.products.allProductsLabel ?? 'Ver todos los productos';
 const collapseProductsLabel = sections.products.collapseProductsLabel ?? 'Ver menos productos';
 const productsToggleStyle = `--business-products-toggle-background: ${heroCtaTheme.background ?? buttonColor}; --business-products-toggle-text: ${heroCtaTheme.textColor ?? '#FFFFFF'}; --business-products-toggle-border: ${heroCtaTheme.borderColor ?? accentColor}; --business-products-toggle-hover-background: ${heroCtaTheme.hoverBackground ?? buttonHoverColor}; --business-products-toggle-hover-text: ${heroCtaTheme.hoverTextColor ?? '#FFFFFF'}; --business-products-toggle-hover-border: ${heroCtaTheme.hoverBorderColor ?? accentColor};`;
+const videoSource = sections.video?.url;
+const isDirectVideoSource = typeof videoSource === 'string' && /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(videoSource);
 
 const getProductSlotClass = (itemIndex: number) => {
   switch (itemIndex) {
@@ -193,16 +196,29 @@ const getProductSlotClass = (itemIndex: number) => {
 
   {
     sections.video?.enabled && (
-      <section class="grid place-items-center mb-5 ">
-        <iframe
-          class="w-full h-[70dvh]"
-          src={sections.video.url}
-          title={sections.video.title}
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        />
+      <section class="grid place-items-center mb-5 " data-video-section>
+        {isDirectVideoSource ? (
+          <video
+            class="w-full h-screen object-cover [&::-webkit-media-controls-fullscreen-button]:hidden"
+            src={sections.video.url}
+            poster={sections.video.poster}
+            autoplay={sections.video.autoplay}
+            muted={sections.video.muted ?? sections.video.autoplay}
+            loop={sections.video.loop}
+            controls={sections.video.controls ?? true}
+            preload="metadata"
+          />
+        ) : (
+          <iframe
+            class="w-full h-[70dvh]"
+            src={sections.video.url}
+            title={sections.video.title}
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          />
+        )}
       </section>
     )
   }
@@ -226,42 +242,7 @@ const getProductSlotClass = (itemIndex: number) => {
     </div>
   </section>
 
-  <section class="events-section">
-    <SectionTitle color={primaryColor} class="events-title">
-      {sections.events.sectionTitle}
-    </SectionTitle>
-    <div class="max-w-7xl mx-auto px-10">
-      <p class="events-title font-extrabold max-w-2xl text-2xl lg:text-2xl text-justify tracking-tight mb-5">
-        {sections.events.title}
-      </p>
-      <div class="events-grid grid lg:grid-cols-2 gap-10">
-        <img
-          src={sections.events.items[0].image}
-          alt={sections.events.items[0].title}
-          class="event-image w-full md:w-75 rounded-lg overflow-hidden"
-          loading="lazy"
-        />
-        <div class="grid lg:grid-cols-2 gap-10">
-          {
-            sections.events.items
-              .slice(1)
-              .map((event: BusinessEventItem, idx: number) => (
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  class="event-image w-full md:w-100 lg:w-125 max-lg:h-100 object-cover rounded-lg lg:aspect-video overflow-hidden"
-                  data-index={idx + 1}
-                  loading="lazy"
-                />
-              ))
-          }
-          <p class="events-description col-span-2 font-medium text-base lg:text-xl text-justify">
-            {sections.events.description}
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <EventsGallery events={sections.events} primaryColor={primaryColor} />
 
   <MicrositeFooter
     logo={branding.logos.footer}
