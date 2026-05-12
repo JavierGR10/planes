@@ -1,5 +1,6 @@
 ---
 import type { ProfessionalBanner, ProfessionalBrandTheme } from '../types/professional';
+import { resolveResponsiveImageSources } from '../../utils/responsive-images';
 
 interface Props {
   banners?: ProfessionalBanner[];
@@ -13,19 +14,37 @@ const controlBackgroundColor = theme?.buttons?.heroCarouselControl?.backgroundCo
 const controlHoverBackgroundColor = theme?.buttons?.heroCarouselControl?.hoverBackgroundColor ?? '#64748B';
 const controlTextColor = theme?.buttons?.heroCarouselControl?.textColor ?? '#FFFFFF';
 const controlStyle = `background-color: ${controlBackgroundColor}; color: ${controlTextColor}; --professional-carousel-control-hover-background: ${controlHoverBackgroundColor};`;
+const resolvedBanners = banners.map((banner) => ({
+  ...banner,
+  imageSources: resolveResponsiveImageSources(banner.image, banner.alt, banner.responsiveImage),
+}));
 ---
 
 <div id="hero" class="relative w-full scrolling-section carousel" data-carousel="static">
   <div class="relative min-h-150 overflow-hidden">
     {
-      Array.isArray(banners) &&
-        banners.map((banner) => (
+      Array.isArray(resolvedBanners) &&
+        resolvedBanners.map((banner) => (
           <div
             class="hidden duration-700 ease-in-out"
             data-carousel-item
             style={`background-color: ${slideBackgroundColor};`}
           >
-            <img src={banner.image} alt={banner.alt} class="absolute block object-contain w-full h-full" />
+            {banner.imageSources && (
+              <picture class="absolute block w-full h-full">
+                {banner.imageSources.desktopSrc && (
+                  <source media="(min-width: 1200px)" srcset={banner.imageSources.desktopSrc} />
+                )}
+                {banner.imageSources.tabletSrc && (
+                  <source media="(min-width: 775px)" srcset={banner.imageSources.tabletSrc} />
+                )}
+                <img
+                  src={banner.imageSources.mobileSrc}
+                  alt={banner.imageSources.alt}
+                  class="absolute block object-contain w-full h-full"
+                />
+              </picture>
+            )}
           </div>
         ))
     }

@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import ResponsivePicture from '../../components/ResponsivePicture';
 
 // Variantes de animación para la imagen principal
 const imageVariants = {
@@ -61,10 +62,11 @@ function Slider({ banners, theme }) {
                   ${isActive ? 'border scale-105' : ''}`}
                 style={isActive ? activeBorderStyle : undefined}
               >
-                <img
+                <ResponsivePicture
+                  responsiveImage={banner.responsiveImage}
                   src={banner.image}
                   alt={banner.name}
-                  className="max-w-[70px] lg:max-w-[89px] max-h-[60px] lg:max-h-[89px] select-none"
+                  imgClassName="max-w-[70px] lg:max-w-[89px] max-h-[60px] lg:max-h-[89px] select-none"
                 />
               </article>
             )}
@@ -137,15 +139,18 @@ function Slider({ banners, theme }) {
       </div>
       <div className="hidden md:block absolute top-30 md:top-40 xl:top-40 right-[8%] lg:right-[15%] z-10">
         <AnimatePresence mode="wait">
-          <motion.img
+          <ResponsivePicture
             key={activeIndex}
+            responsiveImage={banners[activeIndex]?.responsiveImage}
             src={banners[activeIndex]?.image}
-            variants={imageVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
             alt={`Imagen del banner ${banners[activeIndex]?.name}`}
-            className="max-h-[331px] select-none"
+            imgClassName="max-h-[331px] select-none"
+            motionProps={{
+              variants: imageVariants,
+              initial: 'initial',
+              animate: 'animate',
+              exit: 'exit',
+            }}
           />
         </AnimatePresence>
       </div>

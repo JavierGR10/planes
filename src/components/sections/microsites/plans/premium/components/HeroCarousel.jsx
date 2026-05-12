@@ -1,5 +1,6 @@
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import ResponsivePicture from '../../components/ResponsivePicture';
 import Slider from './Slider';
 
 import 'swiper/css';
@@ -197,7 +198,12 @@ function HeroBanner({ hero, theme, rounded }) {
 
         {hero.image && (
           <div className="w-full md:w-1/2 flex items-center justify-center">
-            <img src={hero.image} alt={hero.title} className="max-h-75 lg:max-h-100 object-contain" />
+            <ResponsivePicture
+              responsiveImage={hero.responsiveImage}
+              src={hero.image}
+              alt={hero.title}
+              imgClassName="max-h-75 lg:max-h-100 object-contain"
+            />
           </div>
         )}
       </section>
@@ -207,7 +213,13 @@ function HeroBanner({ hero, theme, rounded }) {
   if (bannerType === 'image-background') {
     return (
       <section className={`relative w-full ${roundedClass} h-100 lg:h-125 flex items-center overflow-hidden`}>
-        <img src={hero.backgroundImage} alt={hero.title} className="absolute inset-0 w-full h-full object-contain" />
+        <ResponsivePicture
+          responsiveImage={hero.responsiveBackgroundImage}
+          src={hero.backgroundImage}
+          alt={hero.title ?? 'Hero banner'}
+          className="absolute inset-0 w-full h-full"
+          imgClassName="absolute inset-0 w-full h-full object-contain"
+        />
         <div className="relative z-10 flex flex-col justify-between w-full md:w-1/2 px-5 md:px-15 py-10">
           <HtmlContent
             as="h2"
