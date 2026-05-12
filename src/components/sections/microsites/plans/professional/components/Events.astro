@@ -1,4 +1,5 @@
 ---
+import '../../components/event-modal.css';
 import type { ProfessionalBrandTheme, ProfessionalEventItem } from '../types/professional';
 import Title from './Title.astro';
 
@@ -30,12 +31,10 @@ const modalCloseHoverBackgroundColor =
   theme?.surfaces?.eventModal?.closeButtonHoverBackgroundColor ?? 'rgba(0, 0, 0, 0.8)';
 const modalCloseTextColor = theme?.surfaces?.eventModal?.closeButtonTextColor ?? '#FFFFFF';
 
-const sectionStyle = `background-color: ${sectionBackgroundColor}; --professional-event-overlay-color: ${eventCardOverlayColor}; --professional-event-overlay-hover-color: ${eventCardOverlayHoverColor}; --professional-event-title-color: ${eventCardTitleTextColor}; --professional-event-modal-backdrop-color: ${modalBackdropColor}; --professional-event-modal-close-hover-background: ${modalCloseHoverBackgroundColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
+const sectionStyle = `background-color: ${sectionBackgroundColor}; --professional-event-overlay-color: ${eventCardOverlayColor}; --professional-event-overlay-hover-color: ${eventCardOverlayHoverColor}; --professional-event-title-color: ${eventCardTitleTextColor}; --event-modal-backdrop: ${modalBackdropColor}; --event-modal-image-background: ${modalImageBackgroundColor}; --event-modal-title-background: ${modalTitleBackgroundColor}; --event-modal-title-color: ${modalTitleTextColor}; --event-modal-close-background: ${modalCloseBackgroundColor}; --event-modal-close-hover-background: ${modalCloseHoverBackgroundColor}; --event-modal-close-color: ${modalCloseTextColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
 const eventCardStyle = `background-color: ${eventCardBaseColor};`;
 const emptyStateStyle = `color: ${emptyStateTextColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
-const modalImageStyle = `background-color: ${modalImageBackgroundColor};`;
-const modalTitleStyle = `background-color: ${modalTitleBackgroundColor}; color: ${modalTitleTextColor};${headingFontFamily ? ` font-family: ${headingFontFamily};` : ''}`;
-const modalCloseStyle = `background-color: ${modalCloseBackgroundColor}; color: ${modalCloseTextColor};`;
+const modalTitleStyle = headingFontFamily ? `font-family: ${headingFontFamily};` : undefined;
 
 // columnas dinámicas (máx 4)
 const columns = Math.min(items.length, 4);
@@ -73,13 +72,16 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
             return (
               <button
                 class={`
-            group relative aspect-square cursor-pointer overflow-hidden professional-event-card
+                  professional-event-card
+            group relative aspect-square cursor-pointer overflow-hidden 
             ${roundedClass} 
           `}
                 style={eventCardStyle}
                 popovertarget="event-modal"
                 data-image={event.image}
+                data-flyer={event.flyer}
                 data-title={event.title}
+                data-href={event.href}
               >
                 <img
                   src={event.image}
@@ -121,23 +123,23 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
     </div>
   </section>
 
-  <div id="event-modal" popover class="popover-modal">
+  <div id="event-modal" popover class="popover-modal event-modal-base">
     <figure class="relative grid place-items-center">
-      <img
-        id="event-modal-image"
-        src=""
-        alt=""
-        class="max-h-[90vh] max-w-[90vw]
-          rounded-2xl object-contain"
-        style={modalImageStyle}
-      />
+      <a target="_blank" rel="noopener noreferrer" class="event-modal-link">
+        <img
+          id="event-modal-image"
+          src=""
+          alt=""
+          class="max-h-[90vh] max-w-[90vw] rounded-2xl object-contain event-modal-image"
+        />
+      </a>
 
       <figcaption
         id="event-modal-title"
         class="absolute bottom-4 left-1/2 -translate-x-1/2
           rounded-full px-4 py-1
           text-sm font-bold
-          backdrop-blur"
+          backdrop-blur event-modal-title"
         style={modalTitleStyle}
       >
       </figcaption>
@@ -148,11 +150,10 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
         aria-label="Cerrar"
         class="absolute right-3 top-3
           grid h-8 w-8 place-items-center
-          rounded-full text-sm professional-event-modal-close
+          rounded-full text-sm professional-event-modal-close event-modal-close
           backdrop-blur
           ease-in-out duration-300
           cursor-pointer"
-        style={modalCloseStyle}
       >
         ✕
       </button>
@@ -173,75 +174,16 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
     color: var(--professional-event-title-color);
   }
 
-  .professional-event-modal-close:hover {
-    background-color: var(--professional-event-modal-close-hover-background);
-  }
-
-  .popover-modal {
-    display: grid;
-    place-items: center;
-    background: transparent;
-    height: 100%;
-    place-self: center;
-    pointer-events: none;
-  }
-
-  .popover-modal::backdrop {
-    background: var(--professional-event-modal-backdrop-color);
-    backdrop-filter: blur(10px);
-  }
-
-  .popover-modal {
-    opacity: 0;
-    transform: scale(0.96);
-    transition:
-      opacity 0.3s ease,
-      transform 0.2s ease-in-out;
-  }
-
-  .popover-modal:popover-open {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
-  }
-  html[data-modal-open] {
-    overflow: hidden;
-  }
-
-  body[data-scroll-lock] {
-    position: fixed;
-    width: 100%;
-  }
 </style>
 
-<script is:inline>
-  const modal = document.getElementById('event-modal');
-  const modalImage = document.getElementById('event-modal-image');
-  const modalTitle = document.getElementById('event-modal-title');
+<script>
+  import { setupEventModal } from '../../components/event-modal';
 
-  document.querySelectorAll('[data-image]').forEach((card) => {
-    card.addEventListener('click', () => {
-      modalImage.src = card.dataset.image;
-      modalImage.alt = card.dataset.title;
-      modalTitle.textContent = card.dataset.title;
-    });
-  });
-
-  let scrollY = 0;
-
-  modal.addEventListener('toggle', (e) => {
-    if (e.newState === 'open') {
-      scrollY = window.scrollY;
-
-      document.body.style.top = `-${scrollY}px`;
-      document.body.setAttribute('data-scroll-lock', '');
-      document.documentElement.setAttribute('data-modal-open', '');
-    } else {
-      document.body.removeAttribute('data-scroll-lock');
-      document.body.style.top = '';
-      document.documentElement.removeAttribute('data-modal-open');
-
-      window.scrollTo(0, scrollY);
-    }
+  setupEventModal({
+    modalId: 'event-modal',
+    imageId: 'event-modal-image',
+    titleId: 'event-modal-title',
+    cardSelector: '[data-image]',
+    linkSelector: '.event-modal-link',
   });
 </script>
