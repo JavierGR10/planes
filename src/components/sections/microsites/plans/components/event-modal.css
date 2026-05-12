@@ -1,0 +1,51 @@
+.event-modal-base {
+  background: transparent;
+  display: grid;
+  height: 100%;
+  opacity: 0;
+  place-items: center;
+  place-self: center;
+  pointer-events: none;
+  transform: scale(0.96);
+  transition:
+    opacity 0.3s ease,
+    transform 0.2s ease-in-out;
+}
+
+.event-modal-base::backdrop {
+  background: var(--event-modal-backdrop, rgba(15, 23, 42, 0.78));
+  backdrop-filter: blur(10px);
+}
+
+.event-modal-base:popover-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.event-modal-image {
+  background: var(--event-modal-image-background, #0f172a);
+}
+
+.event-modal-title {
+  background: var(--event-modal-title-background, rgba(15, 23, 42, 0.72));
+  color: var(--event-modal-title-color, #ffffff);
+}
+
+.event-modal-close {
+  background: var(--event-modal-close-background, rgba(15, 23, 42, 0.68));
+  color: var(--event-modal-close-color, #ffffff);
+}
+
+.event-modal-close:hover {
+  background: var(--event-modal-close-hover-background, rgba(15, 23, 42, 0.88));
+}
+
+html[data-modal-open] {
+  overflow: hidden;
+}
+
+body[data-scroll-lock] {
+  position: fixed;
+  width: 100%;
+}
