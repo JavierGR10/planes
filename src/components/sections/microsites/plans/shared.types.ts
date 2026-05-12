@@ -61,6 +61,17 @@ export interface MicrositeDetailMedia {
   alt?: string;
 }
 
+export interface MicrositeResponsiveImageSource {
+  image: string;
+  alt?: string;
+}
+
+export interface MicrositeResponsiveImage {
+  mobile: MicrositeResponsiveImageSource;
+  tablet?: MicrositeResponsiveImageSource;
+  desktop?: MicrositeResponsiveImageSource;
+}
+
 export interface MicrositeDetailTextBlock {
   title: string;
   subtitle?: string;
