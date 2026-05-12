@@ -9,6 +9,7 @@ import BannerFeatured2 from '@/assets/microsites/lenovo/index/banner-featured-2.
 import BannerFeatured3 from '@/assets/microsites/lenovo/index/banner-featured-3.png';
 import BannerFeaturedProduct from '@/assets/microsites/lenovo/index/banner-featured-product.png';
 import CataloguePreview from '@/assets/microsites/lenovo/index/catalogue-preview.png';
+import LenovoVideo from '@/assets/microsites/lenovo/index/video.mp4';
 import Event1 from '@/assets/microsites/lenovo/index/event-1.png';
 import Event2 from '@/assets/microsites/lenovo/index/event-2.png';
 import Event3 from '@/assets/microsites/lenovo/index/event-3.png';
@@ -176,8 +177,13 @@ export const lenovoConfig = {
 
     video: {
       enabled: true,
-      url: 'https://www.youtube.com/embed/Vi2r20f6tAY?si=4UQfSS7ePHFCQrqh',
+      url: LenovoVideo,
       title: 'Video Lenovo',
+      // poster: BannerFeatured2.src,
+      controls: true,
+      autoplay: true,
+      muted: true,
+      loop: true,
     },
 
     products: {
@@ -303,18 +309,26 @@ export const lenovoConfig = {
         'Conoce las líneas Lenovo destacadas para gaming, productividad y movilidad en experiencias enfocadas a cada tipo de usuario y negocio.',
       items: [
         {
-          image: Event1.src,
-          title: 'Experiencia Lenovo Legion',
+          image: 'https://cdn.videocardz.com/1/2025/12/2LENOVO-CES-CEOS-1200x623.jpg',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2025/07/07_flyer-general.jpg',
+          title: 'Experiencia Lenovo 1',
           href: '/micrositios/lenovo/legion',
         },
         {
-          image: Event2.src,
-          title: 'Productividad con ThinkPad',
+          image: 'https://www.grupocva.com/mkt/imagenes/2026/04/Flyer_Business_Breakfast_CVA.jpg',
+          title: 'Experiencia Lenovo 2',
           href: '/micrositios/lenovo/thinkpad',
         },
         {
-          image: Event3.src,
-          title: 'Movilidad con IdeaPad',
+          image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwODv-qx99eo33QsBk6ogsGKUpZDiU4IL8Bw&s',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2025/07/07_flyer-general.jpg',
+          title: 'Experiencia Lenovo 3',
+          href: '/micrositios/lenovo/ideapad',
+        },
+        {
+          image: 'https://www.technewsworld.com/wp-content/uploads/sites/3/2026/01/Lenovo-Tech-World-2026.jpg',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2026/04/SKILL-UP-SESSIONS_Abril--.jpg',
+          title: 'Experiencia Lenovo 4',
           href: '/micrositios/lenovo/ideapad',
         },
       ],

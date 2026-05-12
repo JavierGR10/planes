@@ -176,6 +176,17 @@ export const dellConfig = {
       {
         type: 'image-background',
         backgroundImage: Banner1.src,
+        responsiveBackgroundImage: {
+          mobile: {
+            image: Banner1.src,
+          },
+          tablet: {
+            image: Banner1.src,
+          },
+          desktop: {
+            image: Banner1.src,
+          },
+        },
         title: 'Notebook Dell Dc15250 15.6 Ci7 16 Gb Ram 1tb Ssd W11 Silver',
         subtitle: 'Plateado',
         // description: 'Texto adicional opcional',
@@ -336,7 +347,7 @@ export const dellConfig = {
         {
           // image: Event1.src,
           title: 'Demostración Dell G15 5525',
-          href: '/micrositios/dell/laptop-dell',
+          href: 'https://www.grupocva.com/mkt/imagenes/2026/01/Elfuturodelatecnolog%C3%ADa.jpg',
         },
         {
           // image: Event2.src,
@@ -346,7 +357,7 @@ export const dellConfig = {
         {
           // image: Event3.src,
           title: 'Explora el portafolio Dell',
-          href: '/micrositios/dell/productos',
+          href: 'https://www.grupocva.com/mkt/imagenes/2025/05/05_dell_cancun_catamaran.php',
         },
       ],
     },

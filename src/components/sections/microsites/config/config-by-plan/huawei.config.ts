@@ -28,14 +28,14 @@ import IdeaHubProduct from '@/assets/microsites/huawei/details/ideahub/producto_
 import IdeaHubIcon1 from '@/assets/microsites/huawei/details/ideahub/icono_1.webp';
 import IdeaHubIcon2 from '@/assets/microsites/huawei/details/ideahub/icono_2.webp';
 import IdeaHubIcon3 from '@/assets/microsites/huawei/details/ideahub/icono_3.webp';
+import IdeaHubIcon4 from '@/assets/microsites/huawei/details/ideahub/icono_4.webp';
 
-//Ups
-import UpsBanner from '@/assets/microsites/huawei/details/ups/banner.webp';
-import UpsService from '@/assets/microsites/huawei/details/ups/servicio.webp';
-import UpsIcon1 from '@/assets/microsites/huawei/details/ups/icono_1.webp';
-import UpsIcon2 from '@/assets/microsites/huawei/details/ups/icono_2.webp';
-import UpsIcon3 from '@/assets/microsites/huawei/details/ups/icono_3.webp';
-
+//Mate X7
+import Mate_x7Banner from '@/assets/microsites/huawei/details/mate_x7/banner.webp';
+import Mate_x7Info from '@/assets/microsites/huawei/details/mate_x7/info.webp';
+import Mate_x7Icon1 from '@/assets/microsites/huawei/details/mate_x7/icono_1.webp';
+import Mate_x7Icon2 from '@/assets/microsites/huawei/details/mate_x7/icono_2.webp';
+import Mate_x7Icon3 from '@/assets/microsites/huawei/details/mate_x7/icono_3.webp';
 // CONFIGURACIÓN DEL MICROSITIO HUAWEI
 
 export const huaweiConfig: ProfessionalMicrositeConfig = {
@@ -90,15 +90,15 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
         eventCardTitleTextColor: '#FFFFFF',
         emptyStateTextColor: '#6B7280',
         footerBackgroundColor: '#1F242D',
-        eventModal: {
-          backdropColor: 'rgba(0, 0, 0, 0.8)',
-          imageBackgroundColor: '#000000',
-          titleBackgroundColor: 'rgba(0, 0, 0, 0.7)',
-          titleTextColor: '#FFFFFF',
-          closeButtonBackgroundColor: 'rgba(0, 0, 0, 0.6)',
-          closeButtonHoverBackgroundColor: 'rgba(0, 0, 0, 0.8)',
-          closeButtonTextColor: '#FFFFFF',
-        },
+        // eventModal: {
+        //   backdropColor: 'rgba(0, 0, 0, 0.8)',
+        //   imageBackgroundColor: '#000000',
+        //   titleBackgroundColor: 'rgba(0, 0, 0, 0.7)',
+        //   titleTextColor: '#FFFFFF',
+        //   closeButtonBackgroundColor: 'rgba(0, 0, 0, 0.6)',
+        //   closeButtonHoverBackgroundColor: 'rgba(0, 0, 0, 0.8)',
+        //   closeButtonTextColor: '#FFFFFF',
+        // },
       },
       buttons: {
         heroCarouselControl: {
@@ -152,7 +152,23 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
     // HERO / CAROUSEL
     hero: {
       banners: [
-        { image: Banner1.src, alt: 'Banner Huawei 1' },
+        // { image: Banner1.src, alt: 'Banner Huawei 1' },
+        {
+          image: Banner1.src,
+          alt: 'Banner principal Huawei',
+          responsiveImage: {
+            mobile: {
+              image: Banner1.src,
+            },
+            tablet: {
+              image: Banner1.src,
+            },
+            desktop: {
+              image: Banner1.src,
+              alt: 'Banne principal Huawei desktop',
+            },
+          },
+        },
         { image: Banner2.src, alt: 'Banner Huawei 2' },
         { image: Banner3.src, alt: 'Banner Huawei 3' },
       ],
@@ -173,7 +189,7 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
             ],
             spacing: 'sm',
           },
-          href: '/micrositios/huawei/producto-01',
+          href: '/micrositios/huawei/mate-x7',
         },
         {
           image: Product2.src,
@@ -223,6 +239,7 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
           title: 'IDEAHUB',
           description:
             'Huawei IdeaHub es una herramienta integral de productividad diseñada para impulsar la oficina inteligente. Integra funciones de escritura inteligente, videoconferencias en alta definición (HD) y uso compartido inalámbrico, facilitando la colaboración eficiente entre equipos. Reconocido con el Premio Red Dot 2020, IdeaHub se adapta fácilmente a cualquier entorno de trabajo, transformando salas de conferencias, oficinas ejecutivas y espacios abiertos en entornos inteligentes, colaborativos y altamente productivos.',
+          href: '/micrositios/huawei/ideahub',
         },
         {
           image: Service2.src,
@@ -256,25 +273,26 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
       subtitle: 'AGENDA Y ACTIVIDADES PRÓXIMAS',
       items: [
         {
-          image: 'https://img.pikbest.com/origin/06/01/31/16HpIkbEsTxkJ.jpg!w700wp',
-          title: 'Evento Huawei 1',
-          href: 'https://e.huawei.com/en/products/business-needs/smart-collaboration/ideahub',
-        },
-        {
-          image: 'https://piktochart.com/wp-content/uploads/2018/05/Brushstroke-Event-Flyer-7345706.png',
-          title: 'Evento Huawei 2',
-          href: 'https://e.huawei.com/en/products/business-needs/smart-collaboration/ideahub',
-        },
-        {
           image:
-            'https://market-resized.envatousercontent.com/previews/files/425518613/Image+Preview.jpg?w=590&h=590&cf_fit=crop&crop=top&format=auto&q=85&s=ba5a667e0a7e8bccefff5c8f9c63478f21c3057a325a65886c95e34f96a07ce3',
-          title: 'Evento Huawei 3',
-          href: 'https://e.huawei.com/en/products/business-needs/smart-collaboration/ideahub',
+            'https://imgproxy.domestika.org/unsafe/w:820/plain/src://content-items/000/625/442/IMG_6996-original.JPG?1404809844',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2026/02/02_huawei_webinar17.jpg',
+          title: 'Evento Huawei 1',
+          href: 'https://www.huawei.com/es/',
         },
         {
-          image: 'https://s3.amazonaws.com/thumbnails.venngage.com/template/cce90b70-55d5-492c-9e8d-0264f5b62734.png',
+          image: 'https://www.grupocva.com/mkt/imagenes/2026/02/02_huawei_webinar18.jpg',
+          title: 'Evento Huawei 2',
+          href: 'https://www.huawei.com/es/',
+        },
+        {
+          image: 'https://www.grupocva.com/mkt/imagenes/2026/02/02_huawei_webinar24.jpg',
+          title: 'Evento Huawei 3',
+          href: 'https://www.huawei.com/es/',
+        },
+        {
+          image: 'https://www.grupocva.com/mkt/imagenes/2026/03/03_huawei_capacitacion13.jpg',
           title: 'Evento Huawei 4',
-          href: 'https://e.huawei.com/en/products/business-needs/smart-collaboration/ideahub',
+          href: 'https://www.huawei.com/es/',
         },
       ],
     },
@@ -282,43 +300,35 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
 
   productDetails: [
     {
-      slug: 'producto-01',
-      banner: IdeaHubBanner.src,
-      bannerAlt: 'Banner de IdeaHub Huawei',
-      title: 'PRODUCTO 01',
-      subtitle: 'EL NUEVO ESTÁNDAR DE LA OFICINA INTELIGENTE',
+      slug: 'mate-x7',
+      banner: Mate_x7Banner.src,
+      bannerAlt: 'Banner de Mate X7 Huawei',
+      title: 'HUAWEI Mate X7',
+      subtitle: 'HUAWEI Mate X7, 16+512G, Negro, Ultra delgado y durable',
       intro:
-        'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
-      productTitleHtml: '<strong>La elegancia</strong> de la <strong>simplicidad</strong>',
+        'El HUAWEI Mate X7 es un smartphone plegable de gama alta lanzado en 2026, destacando por su diseño ultra delgado (9.5 mm plegado), durabilidad con certificación IP59/IP58, y un potente sistema de cámaras.\nCuenta con pantallas OLED LTPO de 120 Hz (6.49" externa/8" interna), procesador Kirin 9030 Pro, 16GB RAM, batería de 5600 mAh con carga rápida de 66W y funciona con HarmonyOS 6.',
+      productTitleHtml:
+        '<strong>El Huawei Mate X7</strong> está diseñado con una innovadora estructura compuesta de tres capas ultra resistente.',
       productDescription: [
-        'Un diseño elegante, contemporáneo y centrado en el usuario. Con un aire fino y minimalista.',
-        '<strong>IdeaHub</strong> se integra sin esfuerzo en cualquier espacio.',
+        'La pantalla principal es delgada, resistente y verdaderamente fiable, con un 100 % más de resistencia a la flexión y un 20 % más de resistencia a los impactos*. La bisagra de precisión avanzada, reforzada con acero de ultra alta resistencia, garantiza una fiabilidad duradera. Además, el mayor espacio de la pantalla permite una mayor protección de la pantalla principal flexible. El marco central de aluminio de grado aeronáutico está diseñado para resistir caídas e impactos.',
       ],
       specs: [
         {
-          icon: IdeaHubIcon1.src,
-          title: 'No más cables',
-          description:
-            'Las tecnologías combinadas 4K y H.265 ofrecen una experiencia nítida, clara y fluida. Solo tienes que tocar para compartir lo que hay en tu portátil o teléfono. La función de cambio de página en tiempo real y la anotación en pantalla hacen que la colaboración sea verdaderamente flexible y sencilla.',
+          icon: Mate_x7Icon1.src,
+          title: 'Arquitectura plegable ultra confiable',
+          description: '<ul class="list-disc text-left pl-4 pt-4"><li>Duradera por dentro y por fuera</li></ul>',
         },
         {
-          icon: IdeaHubIcon2.src,
-          title: 'Tan sencillo como lápiz y papel',
-          description:
-            'Con una latencia de escritura ultra baja de 35 ms, disfrute de una experiencia sin interrupciones con una altísima capacidad de respuesta. Su reconocimiento de escritura inteligente e innovador identifica automáticamente palabras, figuras y diagrama de flujo.',
+          icon: Mate_x7Icon2.src,
+          title: 'Batería de larga duración y SuperCharge',
+          description: '<ul class="list-disc text-left pl-4 pt-4"><li>Energía que dura</li></ul>',
         },
         {
-          icon: IdeaHubIcon3.src,
-          title: 'Reunión en un toque',
-          description:
-            'El diseño de sistema en chip (SoC) doble combina el cómputo de gráficos independiente, el cómputo alimentado con inteligencia artificial y el motor de códec de audio y video. ¿El resultado final? Videoconferencias de calidad asistidas por operaciones de reunión simplificadas.',
+          icon: Mate_x7Icon3.src,
+          title: 'Experiencia Inmersiva',
+          description: '<ul class="list-disc text-left pl-4 pt-4"><li>Inmersión a gran escala</li></ul>',
         },
-        // {
-        //   icon: IdeaHubIcon4.src,
-        //   title: 'Máxima nitidez',
-        //   description:
-        //     'Una matriz de 12 micrófonos usa tecnología de conformación de haces para captar voces humanas en un radio de 8 m. Una frecuencia más amplia para transferencias garantiza un audio clarísimo y de alta fidelidad hasta en los sitios más remotos.',
-        // },
+
         // {
         //   icon: IdeaHubIcon5.src,
         //   title: 'El centro de atención',
@@ -333,17 +343,18 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
         // },
       ],
       product: {
-        image: IdeaHubProduct.src,
-        title: 'IDEAHUB',
+        image: Mate_x7Info.src,
+        title: 'HUAWEI Mate X7',
         description:
           'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
+        belowImageDescription: 'Razones para elegir el nuevo HUAWEI Mate X7',
       },
     },
     {
-      slug: 'producto-01',
+      slug: 'ideahub',
       banner: IdeaHubBanner.src,
       bannerAlt: 'Banner de IdeaHub Huawei',
-      title: 'UPS',
+      title: 'IDEAHUB',
       subtitle: 'EL NUEVO ESTÁNDAR DE LA OFICINA INTELIGENTE',
       intro:
         'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
@@ -357,26 +368,32 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
           icon: IdeaHubIcon1.src,
           title: 'No más cables',
           description:
-            'Las tecnologías combinadas 4K y H.265 ofrecen una experiencia nítida, clara y fluida. Solo tienes que tocar para compartir lo que hay en tu portátil o teléfono. La función de cambio de página en tiempo real y la anotación en pantalla hacen que la colaboración sea verdaderamente flexible y sencilla.',
+            '<p class="text-center">Las tecnologías combinadas 4K y H.265 ofrecen una experiencia nítida, clara y fluida. Solo tienes que tocar para compartir lo que hay en tu portátil o teléfono. La función de cambio de página en tiempo real y la anotación en pantalla hacen que la colaboración sea verdaderamente flexible y sencilla.</p>',
         },
         {
           icon: IdeaHubIcon2.src,
           title: 'Tan sencillo como lápiz y papel',
           description:
-            'Con una latencia de escritura ultra baja de 35 ms, disfrute de una experiencia sin interrupciones con una altísima capacidad de respuesta. Su reconocimiento de escritura inteligente e innovador identifica automáticamente palabras, figuras y diagrama de flujo.',
+            '<p class="text-center">Con una latencia de escritura ultra baja de 35 ms, disfrute de una experiencia sin interrupciones con una altísima capacidad de respuesta. Su reconocimiento de escritura inteligente e innovador identifica automáticamente palabras, figuras y diagrama de flujo.</p>',
         },
         {
           icon: IdeaHubIcon3.src,
           title: 'Reunión en un toque',
           description:
-            'El diseño de sistema en chip (SoC) doble combina el cómputo de gráficos independiente, el cómputo alimentado con inteligencia artificial y el motor de códec de audio y video. ¿El resultado final? Videoconferencias de calidad asistidas por operaciones de reunión simplificadas.',
+            '<p class="text-center">El diseño de sistema en chip (SoC) doble combina el cómputo de gráficos independiente, el cómputo alimentado con inteligencia artificial y el motor de códec de audio y video. ¿El resultado final? Videoconferencias de calidad asistidas por operaciones de reunión simplificadas.</p>',
+        },
+        {
+          icon: IdeaHubIcon4.src,
+          title: 'Máxima nitidez',
+          description:
+            '<p class="text-center">Una matriz de 12 micrófonos usa tecnología de conformación de haces para captar voces humanas en un radio de 8 m. Una frecuencia más amplia para transferencias garantiza un audio clarísimo y de alta fidelidad hasta en los sitios más remotos.</p>',
         },
       ],
       product: {
         image: IdeaHubProduct.src,
         title: 'IDEAHUB',
-        description:
-          'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
+        // description:
+        //   'IdeaHub de Huawei es una herramienta de productividad para la oficina inteligente que integra escritura inteligente, videoconferencias de alta definición (HD) y uso compartido inalámbrico. Ganador del Premio Red Dot 2020, está diseñado para adaptarse a cualquier entorno y convertir sin esfuerzo salas de conferencias, oficinas ejecutivas y áreas abiertas en espacios inteligentes.',
       },
     },
   ],
