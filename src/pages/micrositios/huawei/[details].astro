@@ -18,10 +18,19 @@ const detailAccentColor = branding.theme.detailAccentColor ?? '#929DAC';
 const detailProduct = (detailInfo?.product ?? null) as (ProfessionalProductDetailProduct & {
   belowImageDescription?: string;
 }) | null;
+
+const numberCols = detailInfo?.specs.length
+const specsGridClass = numberCols
+  ? `grid-cols-1 sm:grid-cols-${Math.min(numberCols, 2)} xl:grid-cols-${Math.min(numberCols, 4)}`
+  : 'grid-cols-1';
+
 ---
 
 <MicrositeLayout title={meta.title} description={meta.description} favicon={meta.favicon} whatsappUrl={contact?.whatsapp}>
-  <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
+  <Navbar logo={branding.logos.header} basePath={navigation.basePath} 
+  items={navigation.items} 
+  transparent={true}
+  />
 
   <script is:inline>
     document.documentElement.setAttribute('data-professional-detail-motion', 'pending');
@@ -45,15 +54,15 @@ const detailProduct = (detailInfo?.product ?? null) as (ProfessionalProductDetai
         </div>
       </section>
     
-      <section class="professional-detail-intro max-w-7xl mx-auto px-15 py-10 font-DMSans text-lg md:text-xl">
+      <section class="professional-detail-intro max-w-7xl mx-auto px-15 py-10 font-DMSans text-center text-lg md:text-xl">
         <p>{detailInfo?.intro}</p>
       </section>
     
       <section class="professional-detail-product-section grid grid-cols-1 md:grid-cols-2 min-h-[50dvh] place-items-center gap-8">
-        <div class="professional-detail-product-copy text-2xl p-10 lg:p-30 flex flex-col items-center justify-center">
+        <div class="professional-detail-product-copy text-2xl p-10 lg:p-25 flex flex-col items-center justify-center">
           <p
             set:html={detailInfo?.productTitleHtml}
-            class="professional-detail-product-title detail-product-title text-3xl max-w-full md:max-w-57.5 text-center mb-5"
+            class="professional-detail-product-title detail-product-title text-2xl md:text-3xl max-w-full md:max-w-100 text-center mb-5"
             style={`--professional-detail-accent-color: ${detailAccentColor};`}
           />
           <div class="professional-detail-product-description flex flex-col items-center justify-center text-center max-w-full md:max-w-112.5">
@@ -61,27 +70,30 @@ const detailProduct = (detailInfo?.product ?? null) as (ProfessionalProductDetai
             <p set:html={detailInfo?.productDescription[1]} />
           </div>
         </div>
-        <div class="professional-detail-product-media flex flex-col items-end gap-4 w-full">
-          <img src={detailProduct?.image} alt={detailProduct?.title} class="professional-detail-product-image w-full h-175 object-cover" />
-          {
+        <div class="professional-detail-product-media gap-4 w-full min-h-[30dvh] ">
+          <img src={detailProduct?.image} alt={detailProduct?.title} class="professional-detail-product-image w-full object-cover h-full" />
+        </div>
+        {
             detailProduct?.belowImageDescription && (
-              <p class="max-w-full md:max-w-112.5 text-right text-sm md:text-base leading-relaxed text-[#24272A]">
+            <div class="professional-detail-product-copy col-span-full text-2xl md:text-3xl">
+              <p class="font-medium leading-tight mt-5" >
                 {detailProduct.belowImageDescription}
               </p>
+        </div>  
             )
           }
-        </div>
       </section>
     
-      <section class="professional-detail-specs max-w-5xl xl:max-w-400 mx-auto px-15 py-15 grid grid-col-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
+      <section class={`professional-detail-specs max-w-5xl xl:max-w-400 mx-auto px-15 py-15 grid ${specsGridClass} gap-10`}>
         {
           detailInfo?.specs.map((espec) => (
             <div class="professional-detail-spec-card flex flex-col items-center bg-[#F5F5F5] hover:bg-[#E0E0E0] transition-colors duration-300 ease-in-out rounded-lg p-6 gap-6">
               <img src={espec.icon} alt={espec.title} class="size-14 object-contain select-none" />
               <div>
                 <h4 class="text-2xl font-bold mb-2 text-center">{espec.title}</h4>
-                <p class="text-center">{espec.description}</p>
+                <div set:html={espec.description}></div>
               </div>
+             
             </div>
           ))
         }
