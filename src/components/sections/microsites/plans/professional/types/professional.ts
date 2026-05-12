@@ -5,11 +5,13 @@ import type {
   MicrositeContactConfig,
   MicrositeMetaConfig as SharedMicrositeMetaConfig,
   MicrositeNavigationConfig as SharedMicrositeNavigationConfig,
+  MicrositeResponsiveImage,
 } from '../../shared.types';
 
 export interface ProfessionalBanner {
   image: string;
   alt: string;
+  responsiveImage?: MicrositeResponsiveImage;
 }
 
 export interface ProfessionalServiceItem {
@@ -30,6 +32,7 @@ export type ProfessionalRichTextContent = string | ProfessionalRichText;
 
 export interface ProfessionalEventItem {
   image: string;
+  flyer?: string;
   title: string;
   href: string;
 }
@@ -43,7 +46,7 @@ export interface ProfessionalProductDetailSpecItem {
 export interface ProfessionalProductDetailProduct {
   image: string;
   title: string;
-  description: string;
+  description?: string;
   belowImageDescription?: string;
 }
 

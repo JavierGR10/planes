@@ -8,6 +8,7 @@ import type {
   MicrositeMetaConfig as SharedMicrositeMetaConfig,
   MicrositeNavigationConfig as SharedMicrositeNavigationConfig,
   MicrositePlanTheme,
+  MicrositeResponsiveImage,
 } from '../../shared.types';
 
 export interface HeroWithSlider {
@@ -24,11 +25,13 @@ export interface HeroSliderBanner {
   name: string;
   subtitle: string;
   image: string;
+  responsiveImage?: MicrositeResponsiveImage;
 }
 
 export interface HeroImageBackground {
   type: 'image-background';
   backgroundImage: string;
+  responsiveBackgroundImage?: MicrositeResponsiveImage;
   title?: string;
   subtitle?: string;
   description?: string;
@@ -74,6 +77,11 @@ export interface VideoSectionConfig {
   enabled: boolean;
   url: string;
   title: string;
+  poster?: string;
+  autoplay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  controls?: boolean;
 }
 
 export interface CatalogueSectionConfig {

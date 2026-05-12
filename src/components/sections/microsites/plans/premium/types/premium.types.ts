@@ -10,6 +10,7 @@ import type {
   MicrositeMetaConfig,
   MicrositeNavigationConfig,
   MicrositePlanTheme,
+  MicrositeResponsiveImage,
 } from '../../shared.types';
 
 export type PremiumNavbarTone = 'light' | 'dark';
@@ -103,6 +104,7 @@ export interface PremiumHeroSliderBanner {
   name: string;
   subtitle: string;
   image: string;
+  responsiveImage?: MicrositeResponsiveImage;
 }
 
 export interface PremiumHeroWithSlider {
@@ -127,6 +129,7 @@ export interface PremiumHeroSimple {
   description?: string;
   descriptionHtml?: string;
   image?: string;
+  responsiveImage?: MicrositeResponsiveImage;
   buttonText?: string;
   buttonHref?: string;
 }
@@ -134,6 +137,7 @@ export interface PremiumHeroSimple {
 export interface PremiumHeroImageBackground {
   type: 'image-background';
   backgroundImage: string;
+  responsiveBackgroundImage?: MicrositeResponsiveImage;
   title?: string;
   titleHtml?: string;
   subtitle?: string;
