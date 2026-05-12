@@ -44,6 +44,7 @@ export interface ServiceItem {
 
 export interface EventItem {
   image: string;
+  flyer?: string;
   title: string;
   href: string;
 }
