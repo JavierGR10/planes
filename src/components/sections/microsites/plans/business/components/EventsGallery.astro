@@ -1,0 +1,113 @@
+---
+import '../../components/event-modal.css';
+import SectionTitle from '../../components/SectionTitle.astro';
+import type { BusinessEventsSectionConfig } from '../types';
+
+interface Props {
+  events: BusinessEventsSectionConfig;
+  primaryColor: string;
+}
+
+const { events, primaryColor } = Astro.props as Props;
+
+const modalId = 'business-event-modal';
+const modalImageId = 'business-event-modal-image';
+const modalTitleId = 'business-event-modal-title';
+---
+
+<section class="events-section">
+  <SectionTitle color={primaryColor} class="events-title">
+    {events.sectionTitle}
+  </SectionTitle>
+
+  <div class="max-w-7xl mx-auto px-10">
+    <p class="events-title font-extrabold max-w-2xl text-2xl lg:text-2xl text-justify tracking-tight mb-5">
+      {events.title}
+    </p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3 my-10">
+      {
+        events.items.map((event, idx) => (
+          <button
+            type="button"
+            class="business-event-card group relative overflow-hidden rounded-lg cursor-pointer aspect-video"
+            popovertarget={modalId}
+            data-business-event-card
+            data-image={event.image}
+            data-flyer={event.flyer}
+            data-title={event.title}
+            data-href={event.href}
+          >
+            <img
+              src={event.image}
+              alt={event.title}
+              class="event-image w-full h-full rounded-lg overflow-hidden object-cover transition-transform duration-500 group-hover:scale-105 will-change-transform"
+              data-index={idx + 1}
+              loading="lazy"
+            />
+
+            <div class="business-event-card__overlay absolute inset-0 flex items-end transition-opacity duration-300">
+              <p class="w-full p-4 text-left text-sm md:text-base font-bold text-white translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                {event.title}
+              </p>
+            </div>
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="events-description col-span-2 font-medium text-base lg:text-xl text-right">
+      {events.description}
+    </p>
+  </div>
+
+  <div id={modalId} popover class="business-event-modal event-modal-base">
+    <figure class="relative grid place-items-center">
+      <a target="_blank" rel="noopener noreferrer" class="business-event-modal__link">
+        <img
+          id={modalImageId}
+          src=""
+          alt=""
+          class="max-h-[90vh] max-w-[90vw] rounded-2xl object-contain business-event-modal__image event-modal-image"
+        />
+      </a>
+
+      <figcaption
+        id={modalTitleId}
+        class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-sm font-bold backdrop-blur business-event-modal__title event-modal-title"
+      >
+      </figcaption>
+
+      <button
+        popovertarget={modalId}
+        popovertargetaction="hide"
+        aria-label="Cerrar"
+        class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full text-sm business-event-modal__close event-modal-close backdrop-blur ease-in-out duration-300 cursor-pointer"
+      >
+        ✕
+      </button>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .business-event-card__overlay {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0) 30%, rgba(15, 23, 42, 0.72) 100%);
+  }
+
+  .business-event-card:hover .business-event-card__overlay {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import { setupEventModal } from '../../components/event-modal';
+
+  setupEventModal({
+    modalId: 'business-event-modal',
+    imageId: 'business-event-modal-image',
+    titleId: 'business-event-modal-title',
+    cardSelector: '[data-business-event-card]',
+    linkSelector: '.business-event-modal__link',
+  });
+</script>
