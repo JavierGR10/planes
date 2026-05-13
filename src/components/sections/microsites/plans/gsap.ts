@@ -39,6 +39,17 @@ type SplitRevealOptions = {
   once?: boolean;
 };
 
+type PrepareSplitTextOptions = Pick<
+  SplitRevealOptions,
+  'split' | 'mask' | 'yPercent' | 'xPercent' | 'rotateX' | 'rotateY' | 'skewY' | 'transformOrigin'
+>;
+
+type PreparedSplitText = {
+  element: HTMLElement;
+  splitText: SplitText;
+  parts: Element[];
+};
+
 type SplitTextHoverAnimationOptions = {
   enterDuration?: number;
   exitDuration?: number;
@@ -61,6 +72,50 @@ const resolveSplitTargets = (split: SplitText, type: SplitRevealOptions['split']
   return split.lines;
 };
 
+export const prepareSplitText = (
+  element: HTMLElement,
+  {
+    split = 'lines',
+    mask = 'lines',
+    yPercent = 110,
+    xPercent = 0,
+    rotateX = 0,
+    rotateY = 0,
+    skewY = 0,
+    transformOrigin,
+  }: PrepareSplitTextOptions = {}
+): PreparedSplitText | null => {
+  const { gsap, SplitText } = setupPlanGsap();
+
+  if (element.dataset.gsapSplitReady === 'true') {
+    return null;
+  }
+
+  element.dataset.gsapSplitReady = 'true';
+  element.style.perspective = '1000px';
+
+  const splitMask = mask === 'hidden' ? undefined : mask;
+  const splitText = new SplitText(element, splitMask ? { type: split, mask: splitMask } : { type: split });
+  const parts = resolveSplitTargets(splitText, split);
+
+  gsap.set(parts, {
+    autoAlpha: 0,
+    yPercent,
+    xPercent,
+    rotateX,
+    rotateY,
+    skewY,
+    transformOrigin,
+    willChange: 'transform, opacity',
+  });
+
+  return {
+    element,
+    splitText,
+    parts,
+  };
+};
+
 export const animateSplitText = (
   target: string | Element | Element[],
   {
@@ -74,32 +129,32 @@ export const animateSplitText = (
     stagger = 0.08,
     duration = 1,
     ease = 'titleEase',
+    rotateX = 0,
+    rotateY = 0,
+    skewY = 0,
+    transformOrigin,
     once = true,
   }: SplitRevealOptions = {}
 ) => {
-  const { gsap, SplitText } = setupPlanGsap();
+  const { gsap } = setupPlanGsap();
 
   gsap.utils.toArray<HTMLElement>(target).forEach((element) => {
-    if (element.dataset.gsapSplitReady === 'true') {
+    const preparedSplit = prepareSplitText(element, {
+      split,
+      mask,
+      yPercent,
+      xPercent,
+      rotateX,
+      rotateY,
+      skewY,
+      transformOrigin,
+    });
+
+    if (!preparedSplit) {
       return;
     }
 
-    element.dataset.gsapSplitReady = 'true';
-    element.style.perspective = '1000px';
-
-    const splitMask = mask === 'hidden' ? undefined : mask;
-
-    const splitText = new SplitText(element, splitMask ? { type: split, mask: splitMask } : { type: split });
-    const parts = resolveSplitTargets(splitText, split);
-
-    gsap.set(parts, {
-      autoAlpha: 0,
-      yPercent,
-      xPercent,
-      willChange: 'transform, opacity',
-    });
-
-    gsap.to(parts, {
+    gsap.to(preparedSplit.parts, {
       autoAlpha: 1,
       yPercent: 0,
       xPercent: 0,
