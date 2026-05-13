@@ -1,4 +1,4 @@
-import type { ImageAsset } from '@/components/sections/microsites/config';
+import type { EventItem, ImageAsset } from '@/components/sections/microsites/config';
 import type {
   MicrositeBrand,
   MicrositeBrandingConfig as SharedMicrositeBrandingConfig,
@@ -30,12 +30,7 @@ export interface ProfessionalRichText {
 
 export type ProfessionalRichTextContent = string | ProfessionalRichText;
 
-export interface ProfessionalEventItem {
-  image: string;
-  flyer?: string;
-  title: string;
-  href: string;
-}
+export interface ProfessionalEventItem extends EventItem {}
 
 export interface ProfessionalProductDetailSpecItem {
   icon: string;
