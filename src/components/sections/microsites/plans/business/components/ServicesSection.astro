@@ -1,0 +1,208 @@
+---
+import SectionTitle from '../../components/SectionTitle.astro';
+import type {
+  BusinessServiceItem,
+  BusinessServicesSectionConfig,
+  BusinessServicesTheme,
+} from '../types/business.types';
+
+interface Props {
+  services: BusinessServicesSectionConfig;
+  primaryColor: string;
+  accentColor: string;
+  theme?: BusinessServicesTheme;
+}
+
+const { services, primaryColor, accentColor, theme } = Astro.props as Props;
+const visibleServices = services.items.slice(0, 3);
+const extraServices = services.items.slice(3);
+
+const sectionStyle = `--business-services-panel-background: ${theme?.panelBackground ?? '#FFFFFF'}; --business-services-panel-border: ${theme?.panelBorderColor ?? 'rgba(15, 23, 42, 0.08)'}; --business-services-description-color: ${theme?.descriptionColor ?? '#475569'}; --business-services-card-background: ${theme?.cardBackground ?? '#ffffff'}; --business-services-card-border: ${theme?.cardBorderColor ?? 'rgba(148, 163, 184, 0.22)'}; --business-services-card-radius: ${theme?.cardBorderRadius ?? '10px'}; --business-services-card-title: ${theme?.cardTitleColor ?? '#0F172A'}; --business-services-card-description: ${theme?.cardDescriptionColor ?? '#475569'}; --business-services-cta-background: ${theme?.ctaBackground ?? accentColor}; --business-services-cta-text: ${theme?.ctaTextColor ?? '#FFFFFF'}; --business-services-cta-hover-background: ${theme?.ctaHoverBackground ?? primaryColor}; --business-services-cta-hover-text: ${theme?.ctaHoverTextColor ?? '#FFFFFF'}; --business-services-cta-border: ${theme?.ctaBorderColor ?? accentColor}; --business-services-cta-hover-border: ${theme?.ctaHoverBorderColor ?? primaryColor};`;
+---
+
+<section id="servicios" class="business-services-section" style={sectionStyle}>
+  <!-- <SectionTitle color={primaryColor} class="business-services-title">{services.sectionTitle}</SectionTitle> -->
+
+  <div class="business-services-panel mx-auto max-w-7xl rounded-[28px] px-6 pb-8 md:px-8 lg:px-10 lg:pb-10">
+    {
+      services.description && (
+        <p class="business-services-description mx-auto mb-8 max-w-3xl text-center text-base leading-relaxed lg:text-lg">
+          {services.description}
+        </p>
+      )
+    }
+
+    <div class="business-services-grid grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3" data-services-grid>
+      {
+        visibleServices.map((item: BusinessServiceItem) => (
+          <article class="business-service-card flex h-full flex-col overflow-hidden group" data-service-extra="false">
+            {item.image && (
+              <div class="business-service-card-media overflow-hidden relative">
+                <img
+                  src={item.image}
+                  alt={item.imageAlt ?? item.title}
+                  class="w-full object-cover transition duration-500 group-hover:scale-105 h-48 lg:h-52"
+                  loading="lazy"
+                />
+                <h3 class="business-service-card-title text-xl font-extrabold lg:text-2xl absolute bottom-4 left-4 z-1 font-Jakarta text-shadow-md">
+                  {item.title}
+                </h3>
+              </div>
+            )}
+            <div class="p-5">
+              <div class="flex flex-1 flex-col gap-3 min-h-45">
+                <p class="business-service-card-description  leading-relaxed text-sm lg:text-base font-medium">
+                  {item.description}
+                </p>
+              </div>
+
+              {item.href && (
+                <a
+                  href={item.href}
+                  class="business-service-card-cta mt-6 inline-flex w-fit items-center justify-center rounded-xl px-6 py-2.5 text-sm font-bold transition lg:text-base"
+                >
+                  {item.ctaLabel ?? services.cardButtonText ?? 'Conocer servicio'}
+                </a>
+              )}
+            </div>
+          </article>
+        ))
+      }
+
+      {
+        extraServices.length > 0 && (
+          <div
+            class="business-services-extra-shell md:col-span-2 xl:col-span-3 overflow-hidden"
+            data-services-extra-shell
+            hidden
+          >
+            <div
+              class="business-services-extra-grid grid grid-cols-1 gap-5 pt-5 md:grid-cols-2 xl:grid-cols-3"
+              data-services-extra-grid
+            >
+              {extraServices.map((item: BusinessServiceItem) => (
+                <article
+                  class="business-service-card flex h-full flex-col overflow-hidden group"
+                  data-service-extra="true"
+                >
+                  {item.image && (
+                    <div class="business-service-card-media overflow-hidden relative">
+                      <img
+                        src={item.image}
+                        alt={item.imageAlt ?? item.title}
+                        class="w-full object-cover transition duration-500 group-hover:scale-105 h-48 lg:h-52"
+                        loading="lazy"
+                      />
+                      <h3 class="business-service-card-title text-xl font-extrabold lg:text-2xl absolute bottom-4 left-4 z-1 font-Jakarta text-shadow-md">
+                        {item.title}
+                      </h3>
+                    </div>
+                  )}
+                  <div class="p-5">
+                    <div class="flex flex-1 flex-col gap-3 min-h-45">
+                      <p class="business-service-card-description leading-relaxed text-sm lg:text-base font-medium">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    {item.href && (
+                      <a
+                        href={item.href}
+                        class="business-service-card-cta mt-6 inline-flex w-fit items-center justify-center rounded-xl px-6 py-2.5 text-sm font-bold transition lg:text-base"
+                      >
+                        {item.ctaLabel ?? services.cardButtonText ?? 'Conocer servicio'}
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+
+    {
+      extraServices.length > 0 && (
+        <div class="mt-8 flex justify-center">
+          <button
+            type="button"
+            class="business-services-toggle"
+            data-services-toggle
+            data-expand-label={services.allServicesLabel ?? 'Ver todos los servicios'}
+            data-collapse-label={services.collapseServicesLabel ?? 'Ver menos servicios'}
+            aria-expanded="false"
+          >
+            {services.allServicesLabel ?? 'Ver todos los servicios'}
+          </button>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .business-services-panel {
+    background: var(--business-services-panel-background);
+    border: 1px solid var(--business-services-panel-border);
+  }
+
+  .business-services-description {
+    color: var(--business-services-description-color);
+  }
+
+  .business-service-card {
+    background: var(--business-services-card-background);
+    border: 1px solid var(--business-services-card-border);
+    border-radius: var(--business-services-card-radius);
+  }
+
+  .business-service-card-title {
+    color: var(--business-services-card-title);
+  }
+
+  .business-service-card-description {
+    color: var(--business-services-card-description);
+  }
+
+  .business-service-card-cta {
+    background: var(--business-services-cta-background);
+    border: 1px solid var(--business-services-cta-border);
+    color: var(--business-services-cta-text);
+  }
+
+  .business-service-card-cta:hover,
+  .business-service-card-cta:focus-visible {
+    background: var(--business-services-cta-hover-background);
+    border-color: var(--business-services-cta-hover-border);
+    color: var(--business-services-cta-hover-text);
+    outline: none;
+  }
+
+  .business-services-toggle {
+    background: var(--business-services-cta-background);
+    border-radius: 10px;
+    color: var(--business-services-cta-text);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 800;
+    min-width: min(100%, 21rem);
+    padding: 0.75rem 1.5rem;
+    transition:
+      background-color 0.32s ease,
+      border-color 0.32s ease,
+      color 0.32s ease,
+      box-shadow 0.32s ease,
+      transform 0.32s ease;
+  }
+
+  .business-services-toggle:hover,
+  .business-services-toggle:focus-visible {
+    background: var(--business-services-cta-hover-background);
+    border-color: var(--business-services-cta-hover-border);
+    box-shadow: 0 16px 28px rgba(15, 23, 42, 0.18);
+    color: var(--business-services-cta-hover-text);
+    outline: none;
+    transform: translateY(-2px);
+  }
+</style>
