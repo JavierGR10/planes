@@ -196,26 +196,14 @@ export const dellConfig = {
       {
         type: 'image-background',
         backgroundImage: Banner2.src,
-        // title: 'Tercer Banner',
-        // subtitle: 'Evento especial',
-        // buttonText: 'Registrarse',
-        // buttonHref: '/evento',
       },
       {
         type: 'image-background',
         backgroundImage: Banner3.src,
-        // title: 'Tercer Banner',
-        // subtitle: 'Evento especial',
-        // buttonText: 'Registrarse',
-        // buttonHref: '/evento',
       },
       {
         type: 'image-background',
         backgroundImage: Banner4.src,
-        // title: 'Tercer Banner',
-        // subtitle: 'Evento especial',
-        // buttonText: 'Registrarse',
-        // buttonHref: '/evento',
       },
     ],
 
@@ -345,17 +333,14 @@ export const dellConfig = {
       sectionTitle: 'Eventos',
       items: [
         {
-          // image: Event1.src,
           title: 'Demostración Dell G15 5525',
           href: 'https://www.grupocva.com/mkt/imagenes/2026/01/Elfuturodelatecnolog%C3%ADa.jpg',
         },
         {
-          // image: Event2.src,
           title: 'Soluciones Dell para empresas',
           href: '/micrositios/dell/nosotros',
         },
         {
-          // image: Event3.src,
           title: 'Explora el portafolio Dell',
           href: 'https://www.grupocva.com/mkt/imagenes/2025/05/05_dell_cancun_catamaran.php',
         },
