@@ -6,7 +6,7 @@ import HeroCarousel from './components/HeroCarousel';
 import PremiumCatalogueSection from './components/PremiumCatalogueSection.astro';
 import PremiumEventsSection from './components/PremiumEventsSection.astro';
 import PremiumFooter from './components/PremiumFooter.astro';
-import PremiumPopupModal from './components/PremiumPopupModal.astro';
+import PopupModal from '../components/PopupModal.astro';
 import PremiumProductsSection from './components/PremiumProductsSection.astro';
 import PremiumServicesSection from './components/PremiumServicesSection.astro';
 import { resolvePremiumTheme } from './theme';
@@ -37,7 +37,7 @@ const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
   whatsappUrl={contact?.whatsapp}
 >
   <div class="premium-plan" style={resolvedTheme.cssVars}>
-    {popupModal?.enabled && <PremiumPopupModal popupModal={popupModal} />}
+    {popupModal?.enabled && <PopupModal popupModal={popupModal} theme={branding.theme.popup} />}
 
     <Navbar
       logo={branding.logos.header}
@@ -75,45 +75,6 @@ const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
       import './animations';
     </script>
   </div>
-
-  <script>
-    const overlay = document.getElementById('popup-overlay');
-    const closeBtn = document.getElementById('popup-close');
-    const modal = document.getElementById('popup-modal');
-
-    if (overlay && modal) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          modal.classList.add('is-open');
-        });
-      });
-
-      const closeModal = () => {
-        modal.classList.remove('is-open');
-        modal.classList.add('is-closing');
-
-        setTimeout(() => {
-          document.documentElement.style.overflow = '';
-          document.body.style.overflow = '';
-          overlay.remove();
-          overlay.classList.add('opacity-0');
-        }, 400);
-      };
-
-      closeBtn?.addEventListener('click', closeModal);
-
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeModal();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-      });
-    }
-  </script>
 
   <script>
     const absoluteSections = [...document.querySelectorAll('[data-absolute-section]')];
