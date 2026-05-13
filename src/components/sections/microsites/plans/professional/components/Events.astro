@@ -1,5 +1,6 @@
 ---
 import '../../components/event-modal.css';
+import { filterActiveEvents, getEventDateParts, getEventMeta } from '../../components/events-utils';
 import type { ProfessionalBrandTheme, ProfessionalEventItem } from '../types/professional';
 import Title from './Title.astro';
 
@@ -35,9 +36,10 @@ const sectionStyle = `background-color: ${sectionBackgroundColor}; --professiona
 const eventCardStyle = `background-color: ${eventCardBaseColor};`;
 const emptyStateStyle = `color: ${emptyStateTextColor};${bodyFontFamily ? ` font-family: ${bodyFontFamily};` : ''}`;
 const modalTitleStyle = headingFontFamily ? `font-family: ${headingFontFamily};` : undefined;
+const visibleItems = filterActiveEvents(items);
 
 // columnas dinámicas (máx 4)
-const columns = Math.min(items.length, 4);
+const columns = Math.min(Math.max(visibleItems.length, 1), 4);
 
 // Tailwind NO acepta clases dinámicas
 const gridColsClass: Record<number, string> = {
@@ -61,10 +63,12 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
   <section id="events" class={`mx-auto px-15 max-w-350 ${singleColHeight}`}>
     <div class={`grid overflow-hidden ${gridColsClass[columns]}`}>
       {
-        items.length > 0 ? (
-          items.map((event, idx) => {
+        visibleItems.length > 0 ? (
+          visibleItems.map((event, idx) => {
             const isFirst = idx === 0;
-            const isLast = idx === items.length - 1 || idx === columns - 1;
+            const isLast = idx === visibleItems.length - 1 || idx === columns - 1;
+            const { day, month } = getEventDateParts(event.eventDate);
+            const meta = getEventMeta(event);
 
             let roundedClass = '';
             if (isFirst) roundedClass += ' rounded-l-3xl';
@@ -78,11 +82,20 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
           `}
                 style={eventCardStyle}
                 popovertarget="event-modal"
+                data-professional-event-card
+                data-event-date={event.eventDate}
                 data-image={event.image}
                 data-flyer={event.flyer}
                 data-title={event.title}
                 data-href={event.href}
               >
+                <div class="professional-event-card-date-badge absolute left-4 top-4 z-10 rounded-2xl px-3 py-2 text-center">
+                  <span class="professional-event-card-date-day block text-lg font-black leading-none">{day}</span>
+                  <span class="professional-event-card-date-month block text-[11px] font-bold tracking-[0.16em]">
+                    {month}
+                  </span>
+                </div>
+
                 <img
                   src={event.image}
                   alt={`Imagen del evento: ${event.title}`}
@@ -100,7 +113,7 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
               transition-colors duration-300
             "
                 >
-                  <p
+                  <div
                     class="
                 w-full p-4 text-center text-sm md:text-base
                 font-bold professional-event-card-title
@@ -108,19 +121,40 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
                 group-hover:translate-y-0
               "
                   >
-                    {event.title}
-                  </p>
+                    <p>{event.title}</p>
+                    {meta.length > 0 && (
+                      <p class="professional-event-card-meta mt-2 text-xs font-medium tracking-[0.08em] uppercase">
+                        {meta.join(' · ')}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </button>
             );
           })
         ) : (
-          <p class="col-span-full text-center text-lg md:text-xl" style={emptyStateStyle}>
+          <p
+            class="col-span-full text-center text-lg md:text-xl"
+            data-professional-events-empty
+            style={emptyStateStyle}
+          >
             No hay eventos disponibles en este momento.
           </p>
         )
       }
     </div>
+
+    {
+      visibleItems.length > 0 && (
+        <p
+          class="col-span-full hidden text-center text-lg md:text-xl"
+          data-professional-events-empty
+          style={emptyStateStyle}
+        >
+          No hay eventos disponibles en este momento.
+        </p>
+      )
+    }
   </section>
 
   <div id="event-modal" popover class="popover-modal event-modal-base">
@@ -174,10 +208,20 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
     color: var(--professional-event-title-color);
   }
 
+  .professional-event-card-date-badge {
+    background: rgba(15, 23, 42, 0.7);
+    color: #fff;
+    min-width: 3.5rem;
+  }
+
+  .professional-event-card-meta {
+    color: rgba(255, 255, 255, 0.86);
+  }
 </style>
 
 <script>
   import { setupEventModal } from '../../components/event-modal';
+  import { setupEventVisibility } from '../../components/events-utils';
 
   setupEventModal({
     modalId: 'event-modal',
@@ -185,5 +229,10 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
     titleId: 'event-modal-title',
     cardSelector: '[data-image]',
     linkSelector: '.event-modal-link',
+  });
+
+  setupEventVisibility({
+    cardSelector: '[data-professional-event-card]',
+    emptyStateSelector: '[data-professional-events-empty]',
   });
 </script>

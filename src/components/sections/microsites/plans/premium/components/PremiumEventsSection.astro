@@ -1,4 +1,9 @@
 ---
+import {
+  filterActiveEvents,
+  getEventDateParts,
+  getEventMeta,
+} from '@/components/sections/microsites/plans/components/events-utils';
 import PremiumSectionTitle from './PremiumSectionTitle.astro';
 import type { PremiumEventsSectionConfig } from '../types';
 
@@ -7,6 +12,7 @@ interface Props {
 }
 
 const { events } = Astro.props as Props;
+const visibleEvents = filterActiveEvents(events.items);
 ---
 
 <section data-absolute-section data-section-padding="5" class="events-section min-h-[10dvh] relative px-10">
@@ -17,22 +23,64 @@ const { events } = Astro.props as Props;
     class="premium-events-surface absolute top-12 left-1/2 -translate-x-1/2 w-full backdrop-blur-xs"
   >
     <div
-      class="max-w-7xl mx-auto px-10 grid md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-3 gap-y-5  h-full py-20"
+      class="max-w-7xl mx-auto px-10 grid md:grid-cols-2 lg:grid-cols-3 place-items-center gap-x-3 gap-y-5 h-full py-20"
     >
       {
-        events.items.map((event) => (
-          <a
-            href={event.href}
-            class="event-item opacity-0 premium-event-card group text-lg lg:text-xl font-bold transition-all duration-400 rounded-lg px-5 py-6 w-[300px] sm:w-[350px] h-[117px] flex items-center justify-between gap-3"
-          >
-            <h3>{event.title}</h3>
-            <div class="premium-event-card__icon hidden group-hover:flex items-center justify-center rounded-full px-2.5 py-3">
-              <i class="fa fa-arrow-right rounded-full" />
-            </div>
-          </a>
-        ))
+        visibleEvents.length > 0 ? (
+          visibleEvents.map((event: PremiumEventsSectionConfig['items'][number]) => {
+            const { day, month } = getEventDateParts(event.eventDate);
+            const meta = getEventMeta(event);
+
+            return (
+              <a
+                href={event.href}
+                class="event-item premium-event-card group text-lg lg:text-xl font-bold transition-all duration-400 rounded-lg px-5 py-6 w-[300px] sm:w-[350px] h-[117px] flex items-center gap-4"
+                data-premium-event-card
+                data-event-date={event.eventDate}
+              >
+                <div class="premium-event-card__date" aria-label={`Fecha del evento ${day} ${month}`}>
+                  <span class="premium-event-card__date-day">{day}</span>
+                  <span class="premium-event-card__date-month">{month}</span>
+                </div>
+
+                <div class="premium-event-card__content">
+                  <h3 class="premium-event-card__title">{event.title}</h3>
+                  {meta.length > 0 && <p class="premium-event-card__meta">{meta.join(' · ')}</p>}
+                </div>
+
+                <div class="premium-event-card__icon items-center justify-center rounded-full" aria-hidden="true">
+                  <svg
+                    class="premium-event-card__icon-glyph"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M5 12h12" />
+                    <path d="m13 6 6 6-6 6" />
+                  </svg>
+                </div>
+              </a>
+            );
+          })
+        ) : (
+          <p class="col-span-full py-10 text-center text-base lg:text-lg" data-premium-events-empty>
+            No hay eventos disponibles en este momento.
+          </p>
+        )
       }
     </div>
+
+    {
+      visibleEvents.length > 0 && (
+        <p class="col-span-full hidden py-10 text-center text-base lg:text-lg" data-premium-events-empty>
+          No hay eventos disponibles en este momento.
+        </p>
+      )
+    }
   </div>
 </section>
 
@@ -42,8 +90,10 @@ const { events } = Astro.props as Props;
   }
 
   .premium-event-card {
+    align-items: center;
     background: var(--premium-event-card-background);
     color: var(--premium-event-card-text-color);
+    position: relative;
   }
 
   .premium-event-card:hover {
@@ -51,8 +101,103 @@ const { events } = Astro.props as Props;
     color: var(--premium-event-card-hover-text-color);
   }
 
+  .premium-event-card__date {
+    align-items: center;
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 1rem;
+    color: #fff;
+    display: inline-flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 3.6rem;
+    min-width: 3.6rem;
+    padding: 0.45rem;
+    text-align: center;
+  }
+
+  .premium-event-card__date-day {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .premium-event-card__date-month {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.1;
+    margin-top: 0.25rem;
+  }
+
+  .premium-event-card__content {
+    flex: 1;
+    min-width: 0;
+    padding-right: 4.5rem;
+    transition: transform 0.35s ease;
+  }
+
+  .premium-event-card__title {
+    line-height: 1.15;
+  }
+
+  .premium-event-card__meta {
+    color: currentColor;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-top: 0.45rem;
+    opacity: 0.72;
+    text-transform: uppercase;
+  }
+
   .premium-event-card__icon {
+    display: inline-flex;
     background: var(--premium-event-card-icon-background);
     color: var(--premium-event-card-icon-color);
+    height: 2.75rem;
+    justify-content: center;
+    pointer-events: none;
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    opacity: 0;
+    transform: translate3d(10px, -50%, 0) scale(0.9);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease,
+      background-color 0.35s ease,
+      color 0.35s ease;
+    will-change: transform, opacity;
+    width: 2.75rem;
+  }
+
+  .premium-event-card__icon-glyph {
+    display: block;
+    height: 1rem;
+    transform: translateX(0.5px);
+    width: 1rem;
+  }
+
+  .premium-event-card:hover .premium-event-card__content,
+  .premium-event-card:focus-visible .premium-event-card__content {
+    transform: translateX(6px);
+  }
+
+  .premium-event-card:hover .premium-event-card__icon,
+  .premium-event-card:focus-visible .premium-event-card__icon {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0) scale(1);
   }
 </style>
+
+<script>
+  import { setupEventVisibility } from '@/components/sections/microsites/plans/components/events-utils';
+
+  setupEventVisibility({
+    cardSelector: '[data-premium-event-card]',
+    emptyStateSelector: '[data-premium-events-empty]',
+  });
+</script>
