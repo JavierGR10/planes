@@ -7,10 +7,12 @@ import type {
   MicrositeDetailTextBlock,
   MicrositeDetailTextWithMedia,
   MicrositeFooterContact,
+  MicrositeEventMetadata,
   MicrositeMetaConfig,
   MicrositeNavigationConfig,
   MicrositePlanTheme,
   MicrositeResponsiveImage,
+  MicrositeVideoSectionConfig,
 } from '../../shared.types';
 
 export type PremiumNavbarTone = 'light' | 'dark';
@@ -205,7 +207,7 @@ export interface PremiumCatalogueSectionConfig {
   ctaLink: string;
 }
 
-export interface PremiumEventItem {
+export interface PremiumEventItem extends MicrositeEventMetadata {
   title: string;
   href: string;
   image?: string;
@@ -313,6 +315,7 @@ export interface PremiumSectionsConfig {
   heroes: PremiumHeroItem[];
   products: PremiumProductsSectionConfig;
   services: PremiumServicesSectionConfig;
+  video?: MicrositeVideoSectionConfig;
   catalogue: PremiumCatalogueSectionConfig;
   events: PremiumEventsSectionConfig;
   productDetails?: PremiumProductDetailConfig[];

@@ -9,6 +9,7 @@ import type {
   MicrositeNavigationConfig as SharedMicrositeNavigationConfig,
   MicrositePlanTheme,
   MicrositeResponsiveImage,
+  MicrositeVideoSectionConfig,
 } from '../../shared.types';
 
 export interface HeroWithSlider {
@@ -91,16 +92,7 @@ export interface BusinessServicesSectionConfig {
   items: BusinessServiceItem[];
 }
 
-export interface VideoSectionConfig {
-  enabled: boolean;
-  url: string;
-  title: string;
-  poster?: string;
-  autoplay?: boolean;
-  muted?: boolean;
-  loop?: boolean;
-  controls?: boolean;
-}
+export type VideoSectionConfig = MicrositeVideoSectionConfig;
 
 export interface CatalogueSectionConfig {
   sectionTitle: string;
