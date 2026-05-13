@@ -102,12 +102,27 @@ export interface PremiumPopupTheme {
   closeHoverBackground?: string;
 }
 
-export interface PremiumHeroSliderBanner {
+export interface PremiumHeroSliderImageBanner {
   name: string;
   subtitle: string;
   image: string;
   responsiveImage?: MicrositeResponsiveImage;
 }
+
+export interface PremiumHeroSliderVideoBanner {
+  name: string;
+  subtitle: string;
+  mediaType: 'video';
+  video: string;
+  posterImage?: string;
+  responsivePosterImage?: MicrositeResponsiveImage;
+  autoplay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  playsInline?: boolean;
+}
+
+export type PremiumHeroSliderBanner = PremiumHeroSliderImageBanner | PremiumHeroSliderVideoBanner;
 
 export interface PremiumHeroWithSlider {
   type: 'with-slider';
@@ -138,7 +153,10 @@ export interface PremiumHeroSimple {
 
 export interface PremiumHeroImageBackground {
   type: 'image-background';
-  backgroundImage: string;
+  backgroundImage?: string;
+  backgroundVideo?: string;
+  backgroundVideoPoster?: string;
+  responsiveBackgroundVideoPoster?: MicrositeResponsiveImage;
   responsiveBackgroundImage?: MicrositeResponsiveImage;
   title?: string;
   titleHtml?: string;
