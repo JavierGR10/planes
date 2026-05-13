@@ -25,7 +25,24 @@ import LegionFeatureMaxQ from '@/assets/microsites/lenovo/details/legion/feature
 import Product4 from '@/assets/microsites/lenovo/index/producto_04.webp';
 import Product5 from '@/assets/microsites/lenovo/index/producto_05.webp';
 import Product6 from '@/assets/microsites/lenovo/index/producto_06.webp';
+import Product7 from '@/assets/microsites/lenovo/index/producto_07.webp';
+import Product8 from '@/assets/microsites/lenovo/index/producto_08.webp';
+import Product9 from '@/assets/microsites/lenovo/index/producto_09.webp';
+import Product10 from '@/assets/microsites/lenovo/index/producto_10.webp';
 
+// Servicios
+import Service1 from '@/assets/microsites/lenovo/index/services/servicio_1.webp';
+import Service2 from '@/assets/microsites/lenovo/index/services/servicio_2.webp';
+import Service3 from '@/assets/microsites/lenovo/index/services/servicio_3.webp';
+import Service4 from '@/assets/microsites/lenovo/index/services/servicio_4.webp';
+import Service5 from '@/assets/microsites/lenovo/index/services/servicio_5.webp';
+import Service6 from '@/assets/microsites/lenovo/index/services/servicio_6.webp';
+//Nosotros
+import Us from '@/assets/microsites/lenovo/index/nosotros.webp';
+import BannerUs from '@/assets/microsites/lenovo/index/banner_nosotros.webp';
+
+// Modal
+import Modal from '@/assets/microsites/lenovo/index/business_modal.webp';
 export const lenovoConfig = {
   brand: {
     slug: 'lenovo',
@@ -93,6 +110,25 @@ export const lenovoConfig = {
           textColor: '#FFFFFF',
         },
       },
+      services: {
+        panelBackground: '#FFFFFF',
+        panelBorderColor: '#FFFFFF',
+        cardBorderColor: '#1F242D',
+        cardTitleColor: '#FFFFFF',
+        cardDescriptionColor: '#152938',
+        // cardBorderRadius: '22px',
+        ctaBackground: '#F55D56',
+        ctaTextColor: '#FFFFFF',
+        ctaHoverBackground: '#E1140A',
+        ctaHoverTextColor: '#FFFFFF',
+        ctaBorderColor: '#313741',
+        ctaHoverBorderColor: '#313741',
+      },
+      popup: {
+        overlay: 'rgba(0, 0, 0, 0.72)',
+        closeBackground: 'rgba(31, 36, 45, 0.55)',
+        closeHoverBackground: 'rgba(225, 20, 10, 0.92)',
+      },
       footer: {
         backgroundColor: '#FFFFFF',
         dividerGradient: 'linear-gradient(90deg, #EEEEF1 0%, #000000 50%, #EEEEF0 100%)',
@@ -107,20 +143,9 @@ export const lenovoConfig = {
   navigation: {
     basePath: '/micrositios/lenovo',
     items: [
-      {
-        label: 'Catálogo',
-        type: 'dropdown' as const,
-        items: [
-          { label: 'Legion', href: '/micrositios/lenovo/legion' },
-          { label: 'IdeaPad', href: '/micrositios/lenovo/ideapad' },
-          { label: 'ThinkPad', href: '/micrositios/lenovo/thinkpad' },
-        ],
-      },
-      {
-        label: 'Contacto',
-        href: 'https://api.whatsapp.com/send/?phone=523315994174&text=%C2%A1Hola%21+Me+interesa+conocer+m%C3%A1s+sobre+las+soluciones+de+CVA.+%C2%BFPodr%C3%ADan+brindarme+informaci%C3%B3n%2C+por+favor%3F&type=phone_number&app_absent=0',
-        type: 'link' as const,
-      },
+      { label: 'Nosotros', href: '/micrositios/lenovo/nosotros', type: 'link' },
+      { label: 'Productos', href: '/micrositios/lenovo#productos', type: 'scroll' },
+      { label: 'Servicios', href: '/micrositios/lenovo#servicios', type: 'scroll' },
     ],
   },
 
@@ -159,19 +184,10 @@ export const lenovoConfig = {
       {
         type: 'image-background',
         backgroundImage: BannerFeatured2.src,
-        // title: 'Segundo Banner',
-        // subtitle: 'Promoción especial',
-        // description: 'Texto adicional opcional',
-        // buttonText: 'Comprar',
-        // buttonHref: '/productos',
       },
       {
         type: 'image-background',
         backgroundImage: BannerFeatured3.src,
-        // title: 'Tercer Banner',
-        // subtitle: 'Evento especial',
-        // buttonText: 'Registrarse',
-        // buttonHref: '/evento',
       },
     ],
 
@@ -247,39 +263,39 @@ export const lenovoConfig = {
           href: '/micrositios/lenovo/ideapad',
         },
         {
-          image: Product4.src,
-          titleProduct: 'Producto 07',
-          subtitleProduct: 'Lorem Ipsum is\nsimply dummy text',
-          descriptionTitle: 'Lorem ipsum dolor sit amet',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
+          image: Product7.src,
+          titleProduct: 'Mochila',
+          subtitleProduct: 'ThinkPad\nProfessional',
+          // descriptionTitle: 'Lorem ipsum dolor sit amet',
+          // description:
+          //   'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
           href: '/micrositios/lenovo/legion',
         },
         {
-          image: Product5.src,
-          titleProduct: 'Producto 08',
-          subtitleProduct: 'Lorem Ipsum is\nsimply dummy text',
-          descriptionTitle: 'Lorem ipsum dolor sit amet',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
+          image: Product8.src,
+          titleProduct: 'Docking Station',
+          subtitleProduct: 'ThinkPad Universal',
+          // descriptionTitle: 'Lorem ipsum dolor sit amet',
+          // description:
+          //   'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
           href: '/micrositios/lenovo/thinkpad',
         },
         {
-          image: Product6.src,
-          titleProduct: 'Producto 09',
+          image: Product9.src,
+          titleProduct: 'Mochila',
           subtitleProduct: 'Lorem Ipsum is\nsimply dummy text',
-          descriptionTitle: 'Lorem ipsum dolor sit amet',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
+          // descriptionTitle: 'Lenovo',
+          // description:
+          //   'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
           href: '/micrositios/lenovo/ideapad',
         },
         {
-          image: HeroSlideLegion.src,
-          titleProduct: 'Producto 10',
-          subtitleProduct: 'Lorem Ipsum is\nsimply dummy text',
-          descriptionTitle: 'Lorem ipsum dolor sit amet',
+          image: Product10.src,
+          titleProduct: 'IdeaPad Pro',
+          subtitleProduct: '5 Gen 10 (16” AMD)\n¡Personalizable!',
+          descriptionTitle: 'Rompe el límite y aumenta la\nproductividad',
           description:
-            'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.',
+            'Rompe las barreras de la productividad con la laptop Lenovo IdeaPad Pro 5 de 10ma Gen 16". Esta PC Copilot+, que cuenta con la tecnología de los procesadores AMD Ryzen™ de la serie 300 y la tecnología de PC con IA de Lenovo, garantiza un rendimiento fluido, sin importar la tarea.',
           href: '/micrositios/lenovo/legion',
         },
       ],
@@ -290,6 +306,53 @@ export const lenovoConfig = {
         description:
           'Glacier White Legion 7i combina un estilo llamativo con la ingeniería de precisión. Hecho de aluminio de grado aeroespacial, es ligero, ultraduradero y más delgado que una moneda de diez centavos—perfecto para estudiantes de STEM en movimiento. Las funciones como una cámara IR de 5 MP con eShutter, los indicadores del modo de rendimiento RGB y la marca grabada con láser llevan la innovación al siguiente nivel.',
       },
+    },
+
+    services: {
+      sectionTitle: 'Servicios',
+      items: [
+        {
+          image: Service1.src,
+          title: 'Protección de ThinkShield',
+          description:
+            'Lenovo ThinkShield ofrece a las empresas un marco de ciberseguridad integral, lo que garantiza la integridad de la cadena de suministro.',
+          // href: '/micrositios/lenovo#contacto',
+        },
+        {
+          image: Service2.src,
+          title: 'Digital Workplace',
+          description:
+            'Las organizaciones obtienen un ecosistema completo de hardware, software y servicios creados para respaldar el trabajo hibrido e impulsar resultados medibles.',
+          // href: '/micrositios/lenovo#contacto',
+        },
+        {
+          image: Service3.src,
+          title: 'Sustainability Solutions',
+          description:
+            'Lenovo Solutions impulsa la eficiencia: Reduce los costos energéticos, optimiza el rendimiento y maximiza el valor de TI.',
+          // href: '/micrositios/lenovo#contacto',
+        },
+        {
+          image: Service4.src,
+          title: 'Servicio de IA de Lenovo',
+          description: 'Experiencia en IA de extremo a extremo para un impacto empresarial real.',
+          // href: '/micrositios/lenovo#contacto',
+        },
+        {
+          image: Service5.src,
+          title: 'IA Discover',
+          description:
+            'Evaluamos tu preparación para la IA en seguridad, personas, procesos y tecnología para identificar casos de uso de alto impacto.',
+          // href: '/micrositios/lenovo#contacto',
+        },
+        {
+          image: Service6.src,
+          title: 'AI Fast Start',
+          description:
+            'Obtén una solución de IA totalmente operativa y preparada para el futuro que se adapta a las necesidades de tu empresa y es capaz de ofrecer resultados en 90 días',
+          // href: '/micrositios/lenovo#contacto',
+        },
+      ],
     },
 
     catalogue: {
@@ -492,6 +555,59 @@ export const lenovoConfig = {
         ],
       },
     ],
+  },
+
+  aboutPage: {
+    metaTitle: 'Nosotros Lenovo - Grupo CVA',
+    title: '1 Empresario, 10 Ingenierosy  25 000 USD',
+    subtitle: 'NOSOTROS',
+    description:
+      '<p class="mb-5">Lenovo fue pionera en el mercado mundial de ordenadores cuando se fundó hace cuatro décadas. A partir de una inversión inicial de tan solo 25 000 USD, Lenovo ha crecido hasta convertirse en no solo uno de los mayores fabricantes de ordenadores del mundo, si no también en líder tecnológico mundial en campos como la sostenibilidad corporativa.</p><p>La historia de Lenovo comienza en una habitación polvorienta de Pekín en 1984, el mismo año en que IBM lanzó su primer ordenador portátil, el IBM Portable PC, con un peso de 13,60 kg. La historia de ambas empresas fue entrelazándose a lo largo de los siguientes años.</p>',
+    image: Us.src,
+    imageAlt: 'Dell Technologies impulsando la innovación',
+    additionalInfo: `
+          <ul class="business-detail-timeline space-y-5 text-justify">
+            <li>
+              <strong class="block font-extrabold text-xl">1984</strong>
+              Lenovo presentó y vendió ordenadores de marca propia y se convirtió en la marca líder en China, con una
+              cuota de mercado del 30%
+            </li>
+            <li>
+              <strong class="block font-extrabold text-xl">1986</strong>
+              Creación de la primera tarjeta de caracteres chinos que permitió a los ordenadores procesar el idioma
+              chino
+            </li>
+            <li>
+              <strong class="block font-extrabold text-xl">1990</strong>
+              Operando bajo el nombre Legend, Lenovo presentó el primer ordenador con su marca en China.
+            </li>
+            <li>
+              <strong class="block font-extrabold text-xl">1992</strong>
+              Primeros hitos de ThinkPad: Pantalla TFT en color y más tarde chip de seguridad integrado; innovaciones
+              que acabaron convirtiéndose en estándares del sector.
+            </li>
+            <li>
+              <strong class="block font-extrabold text-xl">1999</strong>
+              El primer ordenador con Internet para China, con la primera conexión directa entre un ordenador y una
+              línea telefónica.
+            </li>
+            <li>
+              <strong class="block font-extrabold text-xl">2003</strong>
+              La empresa pasó a llamarse Lenovo.
+            </li>
+            <li>
+              <strong class="block font-extrabold text-xl">2005</strong>
+              Lenovo adquirió la división de ordenadores de IBM, inlcuido ThinkPad
+            </li>
+          </ul>`,
+    banner: BannerUs.src,
+  },
+
+  popupModal: {
+    enabled: true,
+    image: Modal.src,
+    alt: 'Promoción Lenovo',
+    href: '/micrositios/lenovo/nosotros',
   },
 
   footer: {
