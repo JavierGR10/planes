@@ -18,25 +18,57 @@ const {
   index,
 } = Astro.props as Props;
 
-const surfaceColor = index === 0
-  ? 'var(--premium-product-card-featured-background)'
-  : 'var(--premium-product-card-default-background)';
+const surfaceColor =
+  index === 0 ? 'var(--premium-product-card-featured-background)' : 'var(--premium-product-card-default-background)';
 ---
 
 <article
-  class="item-stagger opacity-0 premium-product-card rounded-3xl border px-5 py-8 flex flex-col space-y-5 backdrop-blur-xs relative overflow-hidden"
-  style={`background-color: ${surfaceColor}; background-image: var(--premium-product-card-gradient);`}
+  class="item-stagger premium-product-card rounded-3xl border px-5 py-8 flex flex-col space-y-5 backdrop-blur-xs relative overflow-hidden"
+  style={`opacity: 0; visibility: hidden; transform: translate3d(0, 96px, 0); filter: blur(12px); background-color: ${surfaceColor}; background-image: var(--premium-product-card-gradient);`}
 >
-  <h3 class="font-bold text-lg lg:text-xl mb-4 relative z-10">{titleProduct}</h3>
-  {subtitleProduct && <p class="relative z-10 whitespace-pre-line">{subtitleProduct}</p>}
-  <img src={image} alt={titleProduct} class="mx-auto relative z-10" loading="lazy" />
-  {descriptionTitle && <p class="text-justify relative z-10">{descriptionTitle}</p>}
-  <p class="flex-1 relative z-10">{description}</p>
+  <div class="premium-product-card__surface absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+  <div class="premium-product-card__body relative z-10 flex flex-1 flex-col space-y-5">
+    <div class="premium-product-card__copy space-y-4 pb-5">
+      {subtitleProduct && <p class="premium-product-card__eyebrow whitespace-pre-line">{subtitleProduct}</p>}
+
+      <div class="premium-product-card__title-stack" aria-label={titleProduct}>
+        <h3
+          class="premium-product-card__title-line premium-product-card__title-line--primary font-bold text-lg lg:text-xl"
+        >
+          {titleProduct}
+        </h3>
+        <h3
+          class="premium-product-card__title-line premium-product-card__title-line--secondary font-bold text-lg lg:text-xl"
+          aria-hidden="true"
+        >
+          {titleProduct}
+        </h3>
+      </div>
+    </div>
+
+    <div class="premium-product-card__image-wrap flex justify-center">
+      <img
+        src={image}
+        alt={titleProduct}
+        class="premium-product-card__image mx-auto relative z-10 h-[90%]"
+        loading="lazy"
+      />
+    </div>
+
+    {
+      descriptionTitle && (
+        <p class="premium-product-card__description-title text-justify relative z-10">{descriptionTitle}</p>
+      )
+    }
+    <p class="premium-product-card__description flex-1 relative z-10">{description}</p>
+  </div>
+
   <PremiumActionButton
     href={href}
     label={buttonText}
     variant="wave-outline"
-    class="w-fit self-end px-8 py-2 mb-2 text-sm lg:text-[15px]"
+    class="premium-product-card__cta w-fit self-end px-8 py-2 mb-2 text-sm lg:text-[15px]"
     style="--premium-button-wave-border-color: var(--premium-product-card-cta-border-color); --premium-button-wave-text-color: var(--premium-product-card-cta-text-color); --premium-button-wave-hover-text-color: var(--premium-product-card-cta-hover-text-color); --premium-button-wave-fill-color: var(--premium-product-card-cta-fill-color); --premium-button-wave-filled-background: var(--premium-product-card-cta-filled-background);"
   />
 </article>
@@ -45,13 +77,45 @@ const surfaceColor = index === 0
   .premium-product-card {
     border-color: var(--premium-panel-border-color);
     color: var(--premium-product-card-text-color);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
   }
 
-  .premium-product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 45px -20px var(--premium-card-hover-shadow);
+  .premium-product-card__surface {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 42%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 0.18) 100%);
+    opacity: 0.72;
+  }
+
+  .premium-product-card__eyebrow {
+    opacity: 0.74;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .premium-product-card__title-stack {
+    display: grid;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .premium-product-card__title-line {
+    grid-area: 1 / 1;
+    display: block;
+    line-height: 1.15;
+    will-change: transform;
+  }
+
+  .premium-product-card__title-line--secondary {
+    inset: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .premium-product-card__image-wrap,
+  .premium-product-card__image,
+  .premium-product-card__cta {
+    will-change: transform;
   }
 </style>

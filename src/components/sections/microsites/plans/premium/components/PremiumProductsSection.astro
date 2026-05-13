@@ -11,12 +11,31 @@ interface Props {
 const { products } = Astro.props as Props;
 ---
 
-<section data-absolute-section data-section-padding="48" class="section-container min-h-[50dvh] mt-10 relative mx-10">
+<section
+  data-absolute-section
+  data-section-padding="48"
+  class="premium-products-section section-container min-h-[50dvh] mt-10 relative mx-10"
+>
   <PremiumSectionTitle title={products.sectionTitle} />
+
+  <noscript>
+    <style>
+      .premium-products-section .premium-product-card {
+        filter: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+      }
+    </style>
+  </noscript>
 
   <div data-absolute-inner class="absolute top-0 left-1/2 -translate-x-1/2 w-full">
     <article class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12">
-      {products.items.slice(0, 6).map((item, index) => <ProductCard {...item} buttonText={products.buttonText} index={index} />)}
+      {
+        products.items
+          .slice(0, 6)
+          .map((item, index) => <ProductCard {...item} buttonText={products.buttonText} index={index} />)
+      }
     </article>
 
     <div class="flex justify-center mt-8">
