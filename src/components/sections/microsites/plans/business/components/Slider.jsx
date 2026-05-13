@@ -40,10 +40,11 @@ function Slider({ banners, theme }) {
   return (
     <>
       <Swiper
-        grabCursor
-        // autoplay
-        loop={true}
         modules={[Pagination, Autoplay]}
+        grabCursor
+        loop={true}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        speed={1500}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         slidesPerView={3}
         breakpoints={{
