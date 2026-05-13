@@ -8,8 +8,10 @@ export type {
   // Products types
   ProductItem,
   ProductBanner,
+  BusinessServiceItem,
   BusinessBannerTheme,
   ProductsSectionConfig,
+  BusinessServicesSectionConfig,
   // Video types
   VideoSectionConfig,
   // Catalogue types
@@ -24,6 +26,7 @@ export type {
   ProductDetailConfig,
   // Branding types
   BusinessFooterTheme,
+  BusinessPopupTheme,
   BusinessProductCardTheme,
   BusinessProductCardCtaTheme,
   BusinessHeroCtaTheme,
@@ -31,11 +34,14 @@ export type {
   BusinessHeroTheme,
   BusinessButtonsTheme,
   BusinessSurfacesTheme,
+  BusinessServicesTheme,
   BusinessBrandTheme,
   BusinessBrandingConfig,
   // Footer types
   FooterContact,
   FooterConfig,
+  BusinessPopupModalConfig,
+  BusinessAboutPageConfig,
   // Sections
   BusinessSectionsConfig,
   // Navigation & Meta

@@ -46,8 +46,8 @@ export interface ProductItem {
   titleProduct: string;
   /** Soporta \n para saltos de línea */
   subtitleProduct: string;
-  descriptionTitle: string;
-  description: string;
+  descriptionTitle?: string;
+  description?: string;
   href?: string;
 }
 
@@ -56,6 +56,15 @@ export interface ProductBanner {
   image: string;
   title: string;
   description: string;
+}
+
+export interface BusinessServiceItem {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  href?: string;
+  ctaLabel?: string;
 }
 
 export interface BusinessBannerTheme {
@@ -71,6 +80,15 @@ export interface ProductsSectionConfig {
   collapseProductsLabel?: string;
   items: ProductItem[];
   bannerProduct: ProductBanner;
+}
+
+export interface BusinessServicesSectionConfig {
+  sectionTitle: string;
+  description?: string;
+  cardButtonText?: string;
+  allServicesLabel?: string;
+  collapseServicesLabel?: string;
+  items: BusinessServiceItem[];
 }
 
 export interface VideoSectionConfig {
@@ -137,6 +155,12 @@ export interface BusinessFooterTheme {
   linkHoverColor?: string;
 }
 
+export interface BusinessPopupTheme {
+  overlay?: string;
+  closeBackground?: string;
+  closeHoverBackground?: string;
+}
+
 export interface BusinessProductCardTheme {
   featuredBackground?: string;
   defaultBackground?: string;
@@ -183,11 +207,30 @@ export interface BusinessSurfacesTheme {
   productCard?: BusinessProductCardTheme;
 }
 
+export interface BusinessServicesTheme {
+  panelBackground?: string;
+  panelBorderColor?: string;
+  descriptionColor?: string;
+  cardBackground?: string;
+  cardBorderColor?: string;
+  cardBorderRadius?: string;
+  cardTitleColor?: string;
+  cardDescriptionColor?: string;
+  ctaBackground?: string;
+  ctaTextColor?: string;
+  ctaHoverBackground?: string;
+  ctaHoverTextColor?: string;
+  ctaBorderColor?: string;
+  ctaHoverBorderColor?: string;
+}
+
 export type BusinessBrandTheme = Omit<MicrositePlanTheme, 'footerGradient'> & {
   hero?: BusinessHeroTheme;
   banner?: BusinessBannerTheme;
   buttons?: BusinessButtonsTheme;
   surfaces?: BusinessSurfacesTheme;
+  services?: BusinessServicesTheme;
+  popup?: BusinessPopupTheme;
   footer?: BusinessFooterTheme;
 };
 export interface BusinessBrandingConfig extends SharedMicrositeBrandingConfig<BusinessBrandTheme> {}
@@ -198,10 +241,29 @@ export interface FooterConfig {
   contact: FooterContact;
 }
 
+export interface BusinessPopupModalConfig {
+  enabled: boolean;
+  image: string;
+  alt: string;
+  href: string;
+}
+
+export interface BusinessAboutPageConfig {
+  metaTitle?: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  additionalInfo?: string;
+  banner?: string;
+}
+
 export interface BusinessSectionsConfig {
   heroes: HeroItem[];
   video?: VideoSectionConfig;
   products: ProductsSectionConfig;
+  services?: BusinessServicesSectionConfig;
   catalogue: CatalogueSectionConfig;
   events: BusinessEventsSectionConfig;
   productDetails?: ProductDetailConfig[];
@@ -218,7 +280,9 @@ export interface BusinessMicrositeConfig {
   navigation: BusinessNavigationConfig;
   contact?: SharedMicrositeContactConfig;
   sections: BusinessSectionsConfig;
+  aboutPage?: BusinessAboutPageConfig;
   footer: FooterConfig;
+  popupModal?: BusinessPopupModalConfig;
 }
 
 export interface SectionTitleProps {
