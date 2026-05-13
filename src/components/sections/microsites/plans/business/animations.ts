@@ -1,5 +1,6 @@
 import { animateSplitText, setupPlanGsap, prefersReducedMotion } from '../gsap';
 import { clearBusinessProductAnimationProps, initBusinessProductAnimations } from './product-animations';
+import { clearBusinessServiceAnimationProps, initBusinessServiceAnimations } from './service-animations';
 
 const { gsap } = setupPlanGsap();
 
@@ -14,6 +15,8 @@ if (prefersReducedMotion()) {
       '.events-description',
       '.banner-content',
       '.banner-product',
+      '.business-services-title',
+      '.business-services-description',
     ],
     {
       clearProps: 'all',
@@ -21,8 +24,10 @@ if (prefersReducedMotion()) {
   );
 
   clearBusinessProductAnimationProps(gsap);
+  clearBusinessServiceAnimationProps(gsap);
 } else {
   animateSplitText('.business-products-title');
+  animateSplitText('.business-services-title');
 
   animateSplitText('.events-title', {
     trigger: '.events-section',
@@ -52,6 +57,7 @@ if (prefersReducedMotion()) {
   };
 
   initBusinessProductAnimations(gsap);
+  initBusinessServiceAnimations(gsap);
 
   const catalogueTimeline = gsap.timeline({
     scrollTrigger: {
@@ -156,7 +162,7 @@ if (prefersReducedMotion()) {
       '<0.12'
     );
 
-  const videoSection = document.querySelector('section iframe')?.parentElement;
+  const videoSection = document.querySelector<HTMLElement>('[data-video-section]');
 
   if (videoSection) {
     gsap.from(videoSection, {

@@ -6,6 +6,8 @@ import MicrositeFooter from '../components/MicrositeFooter.astro';
 import HeroCarousel from './components/HeroCarousel';
 import ProductCard from './components/ProductCard.astro';
 import BannerSection from './components/BannerSection.astro';
+import ServicesSection from './components/ServicesSection.astro';
+import PopupModal from '@/components/sections/microsites/plans/components/PopupModal.astro';
 
 import type {
   BusinessMicrositeConfig,
@@ -25,7 +27,7 @@ interface Props {
 
 const { config } = Astro.props;
 
-const { brand, meta, branding, navigation, sections, footer, contact } = config;
+const { brand, meta, branding, navigation, sections, footer, popupModal, contact } = config;
 
 const {
   primaryColor,
@@ -70,6 +72,8 @@ const bannerTheme: BusinessBannerTheme = branding.theme.banner ?? {
   descriptionColor: '#FFFFFF',
   overlayBackground: 'rgba(0, 0, 0, 0.1)',
 };
+const servicesTheme = branding.theme.services;
+const popupTheme = branding.theme.popup;
 
 const heroItems = sections.heroes;
 const productItems = sections.products.items;
@@ -104,6 +108,8 @@ const getProductSlotClass = (itemIndex: number) => {
   favicon={meta.favicon}
   whatsappUrl={contact?.whatsapp}
 >
+  {popupModal?.enabled && <PopupModal popupModal={popupModal} theme={popupTheme} />}
+
   <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
 
   <div class="px-3 md:px-5">
@@ -115,7 +121,7 @@ const getProductSlotClass = (itemIndex: number) => {
     />
   </div>
 
-  <section id="products">
+  <section id="productos">
     <SectionTitle color={primaryColor} class="business-products-title">
       {sections.products.sectionTitle}
     </SectionTitle>
@@ -177,7 +183,7 @@ const getProductSlotClass = (itemIndex: number) => {
 
     {
       extraProductItems.length > 0 && (
-        <div class="max-w-7xl mx-auto px-10 pb-8 flex justify-center">
+        <div class="max-w-7xl mx-auto px-10 my-12 flex justify-center">
           <button
             type="button"
             class="business-products-toggle"
@@ -193,6 +199,17 @@ const getProductSlotClass = (itemIndex: number) => {
       )
     }
   </section>
+
+  {
+    sections.services?.items?.length ? (
+      <ServicesSection
+        services={sections.services}
+        primaryColor={primaryColor}
+        accentColor={accentColor}
+        theme={servicesTheme}
+      />
+    ) : null
+  }
 
   {
     sections.video?.enabled && (
