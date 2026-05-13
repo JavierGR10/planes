@@ -39,6 +39,16 @@ type SplitRevealOptions = {
   once?: boolean;
 };
 
+type SplitTextHoverAnimationOptions = {
+  enterDuration?: number;
+  exitDuration?: number;
+  exitStagger?: number;
+  enterEase?: string;
+  exitEase?: string;
+  splitType?: SplitRevealOptions['split'];
+  linesClass?: string;
+};
+
 const resolveSplitTargets = (split: SplitText, type: SplitRevealOptions['split']) => {
   if (type?.includes('chars')) {
     return split.chars;
@@ -105,4 +115,115 @@ export const animateSplitText = (
       },
     });
   });
+};
+
+export const createSplitTextHoverAnimation = (
+  baseElement: HTMLElement,
+  splitElement: HTMLElement,
+  {
+    enterDuration = 0.3,
+    exitDuration = 0.35,
+    exitStagger = 0.03,
+    enterEase = 'power1.inOut',
+    exitEase = 'sine.in',
+    splitType = 'lines',
+    linesClass = 'line',
+  }: SplitTextHoverAnimationOptions = {}
+) => {
+  const { gsap, SplitText } = setupPlanGsap();
+
+  let splitInstance: SplitText | null = null;
+  let currentTimeline: gsap.core.Timeline | null = null;
+  let isInitialized = false;
+
+  const initializeSplit = () => {
+    if (isInitialized) {
+      return;
+    }
+
+    splitInstance = new SplitText(splitElement, {
+      type: splitType,
+      linesClass,
+    });
+
+    const splitTargets = resolveSplitTargets(splitInstance, splitType);
+
+    gsap.set(splitTargets, {
+      yPercent: 100,
+      autoAlpha: 0,
+      willChange: 'transform, opacity',
+    });
+
+    gsap.set(baseElement, {
+      yPercent: 0,
+      autoAlpha: 1,
+      willChange: 'transform, opacity',
+    });
+
+    isInitialized = true;
+  };
+
+  const onEnter = () => {
+    initializeSplit();
+
+    currentTimeline?.kill();
+    currentTimeline = gsap.timeline();
+
+    currentTimeline
+      .to(baseElement, {
+        yPercent: -100,
+        autoAlpha: 0,
+        duration: enterDuration,
+        ease: enterEase,
+      })
+      .to(
+        splitInstance ? resolveSplitTargets(splitInstance, splitType) : splitElement,
+        {
+          yPercent: 0,
+          autoAlpha: 1,
+          duration: enterDuration,
+          ease: enterEase,
+          stagger: 0.02,
+        },
+        '-=0.2'
+      );
+  };
+
+  const onLeave = () => {
+    if (!splitInstance) {
+      return;
+    }
+
+    currentTimeline?.kill();
+    currentTimeline = gsap.timeline();
+
+    currentTimeline
+      .to(resolveSplitTargets(splitInstance, splitType), {
+        yPercent: 100,
+        autoAlpha: 0,
+        duration: exitDuration,
+        stagger: exitStagger,
+        ease: exitEase,
+      })
+      .to(
+        baseElement,
+        {
+          yPercent: 0,
+          autoAlpha: 1,
+          duration: exitDuration,
+          ease: 'power2.out',
+        },
+        '-=0.15'
+      );
+  };
+
+  const cleanup = () => {
+    currentTimeline?.kill();
+    splitInstance?.revert();
+    splitInstance = null;
+    isInitialized = false;
+    gsap.set([baseElement, splitElement], { clearProps: 'all' });
+  };
+
+  return { onEnter, onLeave, cleanup };
 };
