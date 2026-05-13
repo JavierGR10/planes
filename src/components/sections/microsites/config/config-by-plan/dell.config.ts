@@ -17,6 +17,7 @@ import Service1 from '@/assets/microsites/dell/index/service-1.png';
 import Service2 from '@/assets/microsites/dell/index/service-2.png';
 import Service3 from '@/assets/microsites/dell/index/service-3.png';
 import VideoDell from '@/assets/microsites/dell/index/video.mp4';
+import BannerVideoDell from '@/assets/microsites/dell/index/banner_video.mp4';
 import BannerUs from '@/assets/microsites/dell/index/banner-us.png';
 import type { PremiumMicrositeConfig } from '@/components/sections/microsites/plans/premium/types';
 
@@ -176,6 +177,10 @@ export const dellConfig = {
     heroes: [
       {
         type: 'image-background',
+        backgroundImage: Banner2.src,
+      },
+      {
+        type: 'image-background',
         backgroundImage: Banner1.src,
         responsiveBackgroundImage: {
           mobile: {
@@ -196,15 +201,16 @@ export const dellConfig = {
       },
       {
         type: 'image-background',
-        backgroundImage: Banner2.src,
-      },
-      {
-        type: 'image-background',
         backgroundImage: Banner3.src,
       },
       {
         type: 'image-background',
-        backgroundImage: Banner4.src,
+        backgroundVideo: BannerVideoDell,
+        backgroundVideoPoster: Banner4.src,
+        // title: 'Soluciones Dell para entornos de alto desempeño',
+        // subtitle: 'Infraestructura y movilidad para equipos que exigen continuidad.',
+        // buttonText: 'Explora el portafolio Dell',
+        buttonHref: '/micrositios/dell/productos',
       },
     ],
 
