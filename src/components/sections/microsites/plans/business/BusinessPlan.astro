@@ -8,6 +8,7 @@ import ProductCard from './components/ProductCard.astro';
 import BannerSection from './components/BannerSection.astro';
 import ServicesSection from './components/ServicesSection.astro';
 import PopupModal from '@/components/sections/microsites/plans/components/PopupModal.astro';
+import MicrositeMediaSection from '@/components/sections/microsites/plans/components/MicrositeMediaSection.astro';
 
 import type {
   BusinessMicrositeConfig,
@@ -83,8 +84,6 @@ const extraProductItems = productItems.slice(3);
 const allProductsLabel = sections.products.allProductsLabel ?? 'Ver todos los productos';
 const collapseProductsLabel = sections.products.collapseProductsLabel ?? 'Ver menos productos';
 const productsToggleStyle = `--business-products-toggle-background: ${heroCtaTheme.background ?? buttonColor}; --business-products-toggle-text: ${heroCtaTheme.textColor ?? '#FFFFFF'}; --business-products-toggle-border: ${heroCtaTheme.borderColor ?? accentColor}; --business-products-toggle-hover-background: ${heroCtaTheme.hoverBackground ?? buttonHoverColor}; --business-products-toggle-hover-text: ${heroCtaTheme.hoverTextColor ?? '#FFFFFF'}; --business-products-toggle-hover-border: ${heroCtaTheme.hoverBorderColor ?? accentColor};`;
-const videoSource = sections.video?.url;
-const isDirectVideoSource = typeof videoSource === 'string' && /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(videoSource);
 
 const getProductSlotClass = (itemIndex: number) => {
   switch (itemIndex) {
@@ -211,34 +210,14 @@ const getProductSlotClass = (itemIndex: number) => {
     ) : null
   }
 
-  {
-    sections.video?.enabled && (
-      <section class="grid place-items-center mb-5 " data-video-section>
-        {isDirectVideoSource ? (
-          <video
-            class="w-full h-screen object-cover [&::-webkit-media-controls-fullscreen-button]:hidden"
-            src={sections.video.url}
-            poster={sections.video.poster}
-            autoplay={sections.video.autoplay}
-            muted={sections.video.muted ?? sections.video.autoplay}
-            loop={sections.video.loop}
-            controls={sections.video.controls ?? true}
-            preload="metadata"
-          />
-        ) : (
-          <iframe
-            class="w-full h-[70dvh]"
-            src={sections.video.url}
-            title={sections.video.title}
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          />
-        )}
-      </section>
-    )
-  }
+  <MicrositeMediaSection
+    config={sections.video}
+    sectionClass="mb-5"
+    videoClass="w-full h-screen object-cover [&::-webkit-media-controls-fullscreen-button]:hidden"
+    iframeClass="w-full h-[70dvh]"
+    videoOptions={{ preload: 'metadata', playsInline: true, controlsList: 'nofullscreen' }}
+    iframeOptions={{ loading: 'lazy' }}
+  />
 
   <BannerSection {...sections.products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} />
 

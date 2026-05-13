@@ -1,7 +1,6 @@
 ---
 import MicrositeLayout from '@/layouts/MicrositeLayout.astro';
 import Navbar from '../components/Navbar.astro';
-import BannerSection from './components/BannerSection.astro';
 import HeroCarousel from './components/HeroCarousel';
 import PremiumCatalogueSection from './components/PremiumCatalogueSection.astro';
 import PremiumEventsSection from './components/PremiumEventsSection.astro';
@@ -9,8 +8,9 @@ import PremiumFooter from './components/PremiumFooter.astro';
 import PopupModal from '../components/PopupModal.astro';
 import PremiumProductsSection from './components/PremiumProductsSection.astro';
 import PremiumServicesSection from './components/PremiumServicesSection.astro';
+import MicrositeMediaSection from '@/components/sections/microsites/plans/components/MicrositeMediaSection.astro';
 import { resolvePremiumTheme } from './theme';
-import type { PremiumBannerTheme, PremiumMicrositeConfig } from './types';
+import type { PremiumMicrositeConfig } from './types';
 
 interface Props {
   config: PremiumMicrositeConfig;
@@ -23,11 +23,6 @@ const { products, services, catalogue, events } = sections;
 
 const heroItems = sections.heroes;
 const resolvedTheme = resolvePremiumTheme(branding.theme);
-const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
-  titleColor: '#FFFFFF',
-  descriptionColor: '#FFFFFF',
-  overlayBackground: 'var(--premium-service-card-overlay)',
-};
 ---
 
 <MicrositeLayout
@@ -55,7 +50,15 @@ const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
 
     <PremiumProductsSection products={products} />
     <PremiumServicesSection services={services} cardButtonText={products.buttonText} />
-    <BannerSection {...products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} />
+    <MicrositeMediaSection
+      config={sections.video}
+      sectionClass="mb-8"
+      videoClass="w-full h-screen object-cover [&::-webkit-media-controls-fullscreen-button]:hidden"
+      iframeClass="w-full h-[70dvh] rounded-3xl"
+      videoOptions={{ preload: 'metadata', playsInline: true, controlsList: 'nofullscreen' }}
+      iframeOptions={{ loading: 'lazy' }}
+    />
+    {/* <BannerSection {...products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} /> */}
     <PremiumCatalogueSection catalogue={catalogue} />
     <PremiumEventsSection events={events} />
     <PremiumFooter footer={footer} footerTheme={resolvedTheme.footer} />
@@ -64,10 +67,6 @@ const bannerTheme: PremiumBannerTheme = branding.theme.banner ?? {
       .premium-plan {
         background: var(--premium-page-background);
         color: var(--premium-text-color);
-      }
-
-      .event-image {
-        opacity: 0;
       }
     </style>
 

@@ -1,0 +1,565 @@
+---
+import type { MicrositeVideoSectionConfig } from '../shared.types';
+
+interface MediaVideoOptions {
+  preload?: 'none' | 'metadata' | 'auto';
+  playsInline?: boolean;
+  controlsList?: string;
+  disablePictureInPicture?: boolean;
+  customControls?: boolean;
+}
+
+interface MediaIframeOptions {
+  allow?: string;
+  referrerpolicy?:
+    | 'no-referrer'
+    | 'no-referrer-when-downgrade'
+    | 'origin'
+    | 'origin-when-cross-origin'
+    | 'same-origin'
+    | 'strict-origin'
+    | 'strict-origin-when-cross-origin'
+    | 'unsafe-url';
+  loading?: 'eager' | 'lazy';
+}
+
+interface Props {
+  config?: MicrositeVideoSectionConfig;
+  sectionClass?: string;
+  videoClass?: string;
+  iframeClass?: string;
+  videoOptions?: MediaVideoOptions;
+  iframeOptions?: MediaIframeOptions;
+}
+
+const {
+  config,
+  sectionClass = '',
+  videoClass = '',
+  iframeClass = '',
+  videoOptions,
+  iframeOptions,
+} = Astro.props as Props;
+
+const videoSource = config?.url;
+const isEnabled = Boolean(config?.enabled && videoSource);
+const isDirectVideoSource = typeof videoSource === 'string' && /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(videoSource);
+const resolvedVideoOptions: Required<MediaVideoOptions> = {
+  preload: videoOptions?.preload ?? 'metadata',
+  playsInline: videoOptions?.playsInline ?? true,
+  controlsList: videoOptions?.controlsList ?? 'nofullscreen',
+  disablePictureInPicture: videoOptions?.disablePictureInPicture ?? false,
+  customControls: videoOptions?.customControls ?? true,
+};
+const resolvedIframeOptions: Required<MediaIframeOptions> = {
+  allow:
+    iframeOptions?.allow ??
+    'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+  referrerpolicy: iframeOptions?.referrerpolicy ?? 'strict-origin-when-cross-origin',
+  loading: iframeOptions?.loading ?? 'lazy',
+};
+---
+
+{
+  isEnabled && config && (
+    <section class:list={['grid place-items-center', sectionClass]} data-video-section>
+      {isDirectVideoSource ? (
+        <div
+          class="microsite-media-player"
+          data-media-player
+          data-playing="false"
+          data-controls-visible="true"
+          data-muted={String(config.muted ?? config.autoplay ?? false)}
+        >
+          <video
+            class:list={[videoClass, 'microsite-media-player__video']}
+            src={config.url}
+            poster={config.poster}
+            autoplay={config.autoplay}
+            muted={config.muted ?? config.autoplay}
+            loop={config.loop}
+            controls={resolvedVideoOptions.customControls ? false : (config.controls ?? true)}
+            preload={resolvedVideoOptions.preload}
+            playsinline={resolvedVideoOptions.playsInline}
+            controlslist={resolvedVideoOptions.controlsList}
+            disablepictureinpicture={resolvedVideoOptions.disablePictureInPicture}
+            data-media-element="true"
+          />
+
+          {resolvedVideoOptions.customControls && (
+            <>
+              <div class="microsite-media-player__veil" aria-hidden="true" />
+
+              <button
+                type="button"
+                class="microsite-media-player__center-toggle"
+                data-media-toggle
+                aria-label={config.autoplay ? 'Pausar video' : 'Reproducir video'}
+              >
+                <span
+                  class="microsite-media-player__center-icon microsite-media-player__center-icon--play"
+                  aria-hidden="true"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                    <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 0 0 0-1.69L9.54 5.98A1 1 0 0 0 8 6.82Z" />
+                  </svg>
+                </span>
+                <span
+                  class="microsite-media-player__center-icon microsite-media-player__center-icon--pause"
+                  aria-hidden="true"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                    <path d="M8 5h3v14H8zm5 0h3v14h-3z" />
+                  </svg>
+                </span>
+              </button>
+
+              <div class="microsite-media-player__controls" role="group" aria-label="Controles de video">
+                <button
+                  type="button"
+                  class="microsite-media-player__control microsite-media-player__control--icon-only"
+                  data-media-toggle
+                  aria-label="Reproducir video"
+                >
+                  <span
+                    class="microsite-media-player__control-icon microsite-media-player__control-icon--play"
+                    aria-hidden="true"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                      <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 0 0 0-1.69L9.54 5.98A1 1 0 0 0 8 6.82Z" />
+                    </svg>
+                  </span>
+                  <span
+                    class="microsite-media-player__control-icon microsite-media-player__control-icon--pause"
+                    aria-hidden="true"
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                      <path d="M8 5h3v14H8zm5 0h3v14h-3z" />
+                    </svg>
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  class="microsite-media-player__control"
+                  data-media-mute
+                  aria-label="Silenciar video"
+                >
+                  <span
+                    class="microsite-media-player__control-icon microsite-media-player__control-icon--volume-on"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M5 9v6h4l5 4V5l-5 4H5Z" />
+                      <path d="M18 9.5a4.5 4.5 0 0 1 0 5" />
+                      <path d="M20 7a8 8 0 0 1 0 10" />
+                    </svg>
+                  </span>
+                  <span
+                    class="microsite-media-player__control-icon microsite-media-player__control-icon--volume-off"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M5 9v6h4l5 4V5l-5 4H5Z" />
+                      <path d="m17 9 4 6" />
+                      <path d="m21 9-4 6" />
+                    </svg>
+                  </span>
+                  <span class="microsite-media-player__control-label" data-media-mute-label>
+                    Audio activo
+                  </span>
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <iframe
+          class={iframeClass}
+          src={config.url}
+          title={config.title}
+          frameborder="0"
+          allow={resolvedIframeOptions.allow}
+          referrerpolicy={resolvedIframeOptions.referrerpolicy}
+          loading={resolvedIframeOptions.loading}
+          allowfullscreen
+        />
+      )}
+    </section>
+  )
+}
+
+<style>
+  .microsite-media-player {
+    isolation: isolate;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .microsite-media-player__video {
+    display: block;
+  }
+
+  .microsite-media-player__veil {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.42) 100%);
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  .microsite-media-player[data-playing='true'] .microsite-media-player__veil {
+    opacity: 0.18;
+  }
+
+  .microsite-media-player__center-toggle {
+    align-items: center;
+    backdrop-filter: blur(18px);
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    height: 5.5rem;
+    inset: 50% auto auto 50%;
+    justify-content: center;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition:
+      opacity 0.28s ease,
+      transform 0.28s ease,
+      background-color 0.28s ease,
+      border-color 0.28s ease;
+    width: 5.5rem;
+    z-index: 3;
+    opacity: 0.72;
+  }
+
+  .microsite-media-player__center-toggle:hover {
+    background: rgba(15, 23, 42, 0.72);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%) scale(1.04);
+    opacity: 1;
+  }
+
+  .microsite-media-player[data-playing='true'] .microsite-media-player__center-toggle {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  .microsite-media-player__center-icon,
+  .microsite-media-player__control-icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  .microsite-media-player__center-icon svg {
+    height: 1.75rem;
+    width: 1.75rem;
+  }
+
+  .microsite-media-player__center-icon--play svg,
+  .microsite-media-player__control-icon--play svg {
+    transform: translateX(1px);
+  }
+
+  .microsite-media-player__center-icon--pause,
+  .microsite-media-player__control-icon--pause,
+  .microsite-media-player__control-icon--volume-off {
+    display: none;
+  }
+
+  .microsite-media-player[data-playing='true'] .microsite-media-player__control-icon--play,
+  .microsite-media-player[data-playing='true'] .microsite-media-player__center-icon--play,
+  .microsite-media-player[data-muted='true'] .microsite-media-player__control-icon--volume-on {
+    display: none;
+  }
+
+  .microsite-media-player[data-playing='true'] .microsite-media-player__control-icon--pause,
+  .microsite-media-player[data-playing='true'] .microsite-media-player__center-icon--pause,
+  .microsite-media-player[data-muted='true'] .microsite-media-player__control-icon--volume-off {
+    display: inline-flex;
+  }
+
+  .microsite-media-player__controls {
+    bottom: 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+    left: 1.25rem;
+    position: absolute;
+    transition:
+      opacity 0.24s ease,
+      transform 0.24s ease;
+    z-index: 3;
+  }
+
+  .microsite-media-player__control {
+    align-items: center;
+    backdrop-filter: blur(18px);
+    background: rgba(15, 23, 42, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.65rem 1rem;
+    transition:
+      transform 0.24s ease,
+      background-color 0.24s ease,
+      border-color 0.24s ease,
+      opacity 0.24s ease;
+    opacity: 0.72;
+  }
+
+  .microsite-media-player__control:hover {
+    background: rgba(15, 23, 42, 0.78);
+    border-color: rgba(255, 255, 255, 0.28);
+    transform: translateY(-1px);
+    opacity: 1;
+  }
+
+  .microsite-media-player__control svg {
+    height: 1.1rem;
+    width: 1.1rem;
+  }
+
+  .microsite-media-player__control--icon-only {
+    gap: 0;
+    justify-content: center;
+    min-width: 3rem;
+    padding: 0.65rem;
+  }
+
+  .microsite-media-player__control-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .microsite-media-player[data-playing='true'] .microsite-media-player__controls {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+    }
+
+    .microsite-media-player[data-playing='true']:hover .microsite-media-player__controls,
+    .microsite-media-player[data-playing='true']:focus-within .microsite-media-player__controls {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .microsite-media-player__center-toggle {
+      height: 4.5rem;
+      width: 4.5rem;
+    }
+
+    .microsite-media-player__controls {
+      bottom: 0.85rem;
+      gap: 0.55rem;
+      left: 0.85rem;
+    }
+
+    .microsite-media-player__control {
+      padding: 0.6rem 0.85rem;
+    }
+
+    .microsite-media-player__control-label {
+      font-size: 0.72rem;
+    }
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .microsite-media-player[data-playing='true'][data-controls-visible='false'] .microsite-media-player__controls {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+    }
+
+    .microsite-media-player[data-playing='true'][data-controls-visible='false'] .microsite-media-player__veil {
+      opacity: 0.08;
+    }
+  }
+</style>
+
+<script>
+  const mediaPlayers = document.querySelectorAll('[data-media-player]');
+  const isTouchLikeDevice =
+    typeof window !== 'undefined' && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+  mediaPlayers.forEach((player) => {
+    if (player instanceof HTMLElement === false || player.dataset.mediaReady === 'true') {
+      return;
+    }
+
+    const video = player.querySelector('[data-media-element]');
+    const toggleButtons = player.querySelectorAll('[data-media-toggle]');
+    const muteButton = player.querySelector('[data-media-mute]');
+    const toggleLabels = player.querySelectorAll('[data-media-toggle-label]');
+    const muteLabel = player.querySelector('[data-media-mute-label]');
+
+    if (!(video instanceof HTMLVideoElement)) {
+      return;
+    }
+
+    player.dataset.mediaReady = 'true';
+
+    let hideControlsTimeout = 0;
+
+    const clearHideControlsTimeout = () => {
+      if (hideControlsTimeout) {
+        window.clearTimeout(hideControlsTimeout);
+        hideControlsTimeout = 0;
+      }
+    };
+
+    const showControls = () => {
+      player.dataset.controlsVisible = 'true';
+    };
+
+    const hideControls = () => {
+      if (!isTouchLikeDevice) {
+        return;
+      }
+
+      if (!video.paused && !video.ended) {
+        player.dataset.controlsVisible = 'false';
+      }
+    };
+
+    const queueControlsAutoHide = () => {
+      clearHideControlsTimeout();
+
+      if (!isTouchLikeDevice) {
+        return;
+      }
+
+      if (video.paused || video.ended) {
+        showControls();
+        return;
+      }
+
+      hideControlsTimeout = window.setTimeout(() => {
+        hideControls();
+      }, 2400);
+    };
+
+    const syncState = () => {
+      const isPlaying = !video.paused && !video.ended;
+      const isMuted = video.muted || video.volume === 0;
+
+      player.dataset.playing = String(isPlaying);
+      player.dataset.muted = String(isMuted);
+
+      toggleButtons.forEach((button) => {
+        if (button instanceof HTMLButtonElement) {
+          button.setAttribute('aria-label', isPlaying ? 'Pausar video' : 'Reproducir video');
+        }
+      });
+
+      toggleLabels.forEach((label) => {
+        label.textContent = isPlaying ? 'Pausar' : 'Reproducir';
+      });
+
+      if (muteButton instanceof HTMLButtonElement) {
+        muteButton.setAttribute('aria-label', isMuted ? 'Activar audio' : 'Silenciar video');
+      }
+
+      if (muteLabel instanceof HTMLElement) {
+        muteLabel.textContent = isMuted ? 'Activar audio' : 'Audio activo';
+      }
+
+      if (!isPlaying) {
+        clearHideControlsTimeout();
+        showControls();
+      } else {
+        queueControlsAutoHide();
+      }
+    };
+
+    const togglePlayback = async () => {
+      if (video.paused || video.ended) {
+        try {
+          await video.play();
+        } catch {
+          syncState();
+        }
+      } else {
+        video.pause();
+      }
+    };
+
+    const toggleMute = () => {
+      video.muted = !video.muted;
+      syncState();
+    };
+
+    toggleButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        showControls();
+        togglePlayback();
+      });
+    });
+
+    if (muteButton instanceof HTMLButtonElement) {
+      muteButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        showControls();
+        queueControlsAutoHide();
+        toggleMute();
+      });
+    }
+
+    player.addEventListener('click', (event) => {
+      if (!isTouchLikeDevice || !video || video.paused || video.ended) {
+        return;
+      }
+
+      const target = event.target;
+
+      if (target instanceof HTMLElement && target.closest('button')) {
+        return;
+      }
+
+      if (player.dataset.controlsVisible === 'false') {
+        showControls();
+        queueControlsAutoHide();
+      }
+    });
+
+    video.addEventListener('play', syncState);
+    video.addEventListener('pause', syncState);
+    video.addEventListener('volumechange', syncState);
+    video.addEventListener('loadedmetadata', syncState);
+    video.addEventListener('ended', syncState);
+
+    syncState();
+  });
+</script>
