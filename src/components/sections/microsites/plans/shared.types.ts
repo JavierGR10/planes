@@ -82,3 +82,20 @@ export interface MicrositeDetailTextWithMedia extends MicrositeDetailTextBlock {
   media?: MicrositeDetailMedia[];
   bottomMedia?: MicrositeDetailMedia[];
 }
+
+export interface MicrositeEventMetadata {
+  eventDate: string;
+  location?: string;
+  eventType?: string;
+}
+
+export interface MicrositeVideoSectionConfig {
+  enabled: boolean;
+  url: string;
+  title: string;
+  poster?: string;
+  autoplay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  controls?: boolean;
+}
