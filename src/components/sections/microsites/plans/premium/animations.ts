@@ -1,11 +1,27 @@
 import { animateSplitText, setupPlanGsap, prefersReducedMotion } from '../gsap';
+import { clearPremiumProductAnimationProps, initPremiumProductAnimations } from './product-animations.ts';
 
 const { gsap } = setupPlanGsap();
 
 if (prefersReducedMotion()) {
-  gsap.set(['.event-image', '.product-card', '.section-title', '.events-description', '.item-stagger'], {
-    clearProps: 'all',
-  });
+  gsap.set(
+    [
+      '.premium-event-card',
+      '.section-title',
+      '.events-description',
+      '.item-stagger',
+      '.catalogue-text',
+      '.catalogue-image',
+      '.banner-content',
+      '.banner-product',
+      '.scrolling-section',
+    ],
+    {
+      clearProps: 'all',
+    }
+  );
+
+  clearPremiumProductAnimationProps(gsap);
 } else {
   animateSplitText('.section-title', {
     split: 'chars',
@@ -35,26 +51,7 @@ if (prefersReducedMotion()) {
     once: true,
   };
 
-  gsap.utils.toArray<HTMLElement>('.product-card').forEach((card, index) => {
-    const fromLeft = index % 2 === 0;
-
-    gsap.from(card, {
-      autoAlpha: 0,
-      x: fromLeft ? -130 : 130,
-      y: 48,
-      rotateZ: fromLeft ? -3 : 3,
-      rotateY: fromLeft ? -16 : 16,
-      scale: 0.88,
-      duration: 1.15,
-      ease: 'expo.out',
-      clearProps: 'transform,opacity,visibility',
-      scrollTrigger: {
-        trigger: '.products-section',
-        ...defaultScrollTrigger,
-      },
-      delay: index * 0.08,
-    });
-  });
+  initPremiumProductAnimations(gsap);
 
   const catalogueTimeline = gsap.timeline({
     scrollTrigger: {
@@ -89,11 +86,36 @@ if (prefersReducedMotion()) {
       rotateX: -24,
       scale: 0.9,
       transformOrigin: '50% 100%',
-      duration: 1,
+      duration: 0.92,
       ease: 'expo.out',
       stagger: 0.18,
       clearProps: 'transform,opacity,visibility',
     })
+    .from(
+      '.premium-event-card__title',
+      {
+        autoAlpha: 0,
+        x: -18,
+        duration: 0.62,
+        ease: 'power3.out',
+        stagger: 0.12,
+        clearProps: 'transform,opacity,visibility',
+      },
+      '<0.16'
+    )
+    .from(
+      '.premium-event-card__icon',
+      {
+        autoAlpha: 0,
+        x: -14,
+        scale: 0.88,
+        duration: 0.56,
+        ease: 'power3.out',
+        stagger: 0.12,
+        clearProps: 'transform,opacity,visibility',
+      },
+      '<0.05'
+    )
     .from(
       '.events-description',
       {
@@ -147,7 +169,7 @@ if (prefersReducedMotion()) {
 
     section.dataset.animated = 'true';
 
-    const items = section.querySelectorAll('.item-stagger');
+    const items = section.querySelectorAll('.item-stagger:not(.premium-product-card)');
 
     if (!items.length) {
       return;
