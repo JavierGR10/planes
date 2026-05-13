@@ -28,10 +28,7 @@ const overlayStyle = `background: ${bannerTheme?.overlayBackground ?? 'var(--pre
       <>
         <div class="premium-banner-overlay absolute inset-0 z-0" style={overlayStyle} />
 
-        <div
-          class="banner-content relative z-10 text-center lg:text-left mb-8 lg:mb-0"
-          style={`opacity: 0; ${contentStyle}`}
-        >
+        <div class="banner-content relative z-10 text-center lg:text-left mb-8 lg:mb-0" style={contentStyle}>
           {title && (
             <h3 class="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4" style={titleStyle}>
               {title}
@@ -49,7 +46,6 @@ const overlayStyle = `background: ${bannerTheme?.overlayBackground ?? 'var(--pre
             src={image}
             alt={title ?? `Banner ${brandName}`}
             class="banner-product relative z-10 w-full max-w-70 md:max-w-100 xl:max-w-150 object-contain"
-            style="opacity: 0;"
             loading="lazy"
           />
         )}

@@ -26,7 +26,7 @@ const { services, cardButtonText } = Astro.props as Props;
         {
           services.items.map((item) => (
             <div
-              class="premium-service-card item-stagger opacity-0 relative rounded-3xl border bg-cover bg-center overflow-hidden aspect-square h-full"
+              class="premium-service-card item-stagger relative rounded-3xl border bg-cover bg-center overflow-hidden aspect-square h-full"
               style={`background-image: url('${item.image}');`}
             >
               <div class="premium-service-card__overlay absolute inset-0" />
