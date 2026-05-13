@@ -127,17 +127,6 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
   navigation: {
     basePath: '/micrositios/huawei',
     items: [
-      // {
-      //   label: 'Huawei-CVA',
-      //   type: 'dropdown',
-      //   items: [
-      //     { label: 'IdeaHub', href: '#hero' },
-      //     { label: 'Storage', href: '#products' },
-      //     { label: 'Wi-Fi 6', href: '#products' },
-      //     { label: 'UPS SmartLi', href: '#events' },
-      //     { label: 'GPON', href: '#events' },
-      //   ],
-      // },
       { label: 'Productos', href: '/micrositios/huawei#products', type: 'scroll' },
       { label: 'Servicios', href: '/micrositios/huawei?catalogo=servicios#products', type: 'scroll' },
     ],
