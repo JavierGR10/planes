@@ -47,12 +47,12 @@ const currentYear = new Date().getFullYear();
         <section class="bg-[#1F242D] text-white">
           <div class="px-3 md:px-5">
             <section
-              class={`w-full h-[50vh] md:h-[60vh] lg:h-[70vh] rounded-3xl flex items-end ${product.hero.image ? 'bg-no-repeat bg-contain bg-center' : 'bg-[#27303B]'}`}
+              class={`premium-secondary-hero premium-secondary-hero-media w-full h-[50vh] md:h-[60vh] lg:h-[70vh] rounded-3xl flex items-end ${product.hero.image ? 'bg-no-repeat bg-contain bg-center' : 'bg-[#27303B]'}`}
               style={product.hero.image ? `background-image: url(${product.hero.image});` : undefined}
             >
-              <div class="p-6 md:p-10 lg:p-16 z-10 tracking-[2px]">
-                <h1 class="text-4xl lg:text-5xl font-extrabold mb-2">{product.hero.title}</h1>
-                <p class="text-lg lg:text-xl">{product.hero.subtitle}</p>
+              <div class="premium-secondary-hero-copy p-6 md:p-10 lg:p-16 z-10 tracking-[2px]">
+                <h1 class="premium-secondary-title text-4xl lg:text-5xl font-extrabold mb-2">{product.hero.title}</h1>
+                <p class="premium-secondary-subtitle text-lg lg:text-xl">{product.hero.subtitle}</p>
               </div>
             </section>
           </div>
@@ -68,7 +68,7 @@ const currentYear = new Date().getFullYear();
             )}
 
             {product.secondBanner?.image && (
-              <section class="w-full h-full grid place-items-center overflow-hidden rounded-3xl px-10 my-15">
+              <section class="premium-detail-banner w-full h-full grid place-items-center overflow-hidden rounded-3xl px-10 my-15">
                 <img
                   src={product.secondBanner.image}
                   alt={`Banner ${product.hero.title}`}
@@ -118,4 +118,8 @@ const currentYear = new Date().getFullYear();
       )
     }
   </div>
+
+  <script>
+    import '@/components/sections/microsites/plans/premium/secondary-pages-animations';
+  </script>
 </MicrositeLayout>
