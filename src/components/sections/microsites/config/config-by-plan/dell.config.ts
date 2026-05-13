@@ -16,6 +16,7 @@ import ProductPortatil from '@/assets/microsites/dell/index/product-portatil.png
 import Service1 from '@/assets/microsites/dell/index/service-1.png';
 import Service2 from '@/assets/microsites/dell/index/service-2.png';
 import Service3 from '@/assets/microsites/dell/index/service-3.png';
+import VideoDell from '@/assets/microsites/dell/index/video.mp4';
 import BannerUs from '@/assets/microsites/dell/index/banner-us.png';
 import type { PremiumMicrositeConfig } from '@/components/sections/microsites/plans/premium/types';
 
@@ -320,6 +321,15 @@ export const dellConfig = {
         },
       ],
     },
+    video: {
+      enabled: true,
+      url: VideoDell,
+      title: 'Video promocional Dell',
+      controls: true,
+      autoplay: true,
+      muted: true,
+      loop: true,
+    },
     catalogue: {
       sectionTitle: 'Catálogo',
       description: 'Conoce nuestro catálogo',
@@ -335,14 +345,21 @@ export const dellConfig = {
         {
           title: 'Demostración Dell G15 5525',
           href: 'https://www.grupocva.com/mkt/imagenes/2026/01/Elfuturodelatecnolog%C3%ADa.jpg',
+          eventDate: '2026-05-22',
+          eventType: 'Demo Day',
+          location: 'Guadalajara',
         },
         {
           title: 'Soluciones Dell para empresas',
           href: '/micrositios/dell/nosotros',
+          eventDate: '2026-06-05',
+          eventType: 'Seminario',
         },
         {
           title: 'Explora el portafolio Dell',
           href: 'https://www.grupocva.com/mkt/imagenes/2025/05/05_dell_cancun_catamaran.php',
+          eventDate: '2026-06-19',
+          location: 'Cancún',
         },
       ],
     },
