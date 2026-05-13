@@ -1,0 +1,73 @@
+.hero-carousel {
+  padding: 0;
+}
+
+.hero-banner__media-frame {
+  transform-origin: right center;
+  will-change: clip-path;
+}
+
+.hero-banner__veil {
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 28%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 24%, rgba(255, 255, 255, 0) 52%);
+  mix-blend-mode: screen;
+  will-change: clip-path, opacity, transform;
+}
+
+.hero-banner__content {
+  will-change: clip-path, transform, opacity;
+}
+
+.hero-carousel .swiper-pagination {
+  bottom: 10px !important;
+}
+
+.hero-carousel .swiper-pagination-bullet {
+  background: var(--premium-hero-pagination-color, white);
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+}
+
+.hero-carousel .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--premium-hero-pagination-active-color, white);
+}
+
+.hero-carousel .swiper-button-next,
+.hero-carousel .swiper-button-prev {
+  color: var(--premium-hero-navigation-color, white);
+  background: var(--premium-hero-navigation-background, rgba(0, 0, 0, 0.3));
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.hero-carousel .swiper-button-next:hover,
+.hero-carousel .swiper-button-prev:hover {
+  background: var(--premium-hero-navigation-hover-background, rgba(0, 0, 0, 0.5));
+}
+
+.hero-carousel .swiper-button-next:active,
+.hero-carousel .swiper-button-prev:active {
+  scale: 0.9;
+}
+
+.hero-carousel .swiper-button-next::after,
+.hero-carousel .swiper-button-prev::after {
+  content: none;
+}
+
+.hero-carousel .swiper-button-next svg,
+.hero-carousel .swiper-button-prev svg,
+.hero-carousel .swiper-navigation-icon {
+  display: block;
+  flex-shrink: 0;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  transition: transform 0.3s ease;
+  width: 15px;
+}
