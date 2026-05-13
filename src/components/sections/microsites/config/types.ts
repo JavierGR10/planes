@@ -47,6 +47,9 @@ export interface EventItem {
   flyer?: string;
   title: string;
   href: string;
+  eventDate: string;
+  location?: string;
+  eventType?: string;
 }
 
 export interface ProductDetailSpecItem {
