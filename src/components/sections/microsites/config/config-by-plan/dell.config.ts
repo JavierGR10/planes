@@ -21,7 +21,6 @@ import BannerVideoDell from '@/assets/microsites/dell/index/banner_video.mp4';
 import BannerUs from '@/assets/microsites/dell/index/banner-us.png';
 import VideoUs from '@/assets/microsites/dell/index/nosotros.mp4';
 import type { PremiumMicrositeConfig } from '@/components/sections/microsites/plans/premium/types';
-import { withBasePathConfig } from '@/components/sections/microsites/config/path-utils';
 
 // details
 import LaptopDellEleganceColors from '@/assets/microsites/dell/details/laptop-dell/elegance-colors.png';
@@ -32,6 +31,7 @@ import LaptopDellPorts2 from '@/assets/microsites/dell/details/laptop-dell/ports
 import LaptopDellPorts from '@/assets/microsites/dell/details/laptop-dell/ports-and-slots.png';
 import LaptopDellTechnologyGameBottom from '@/assets/microsites/dell/details/laptop-dell/technology-game-bottom-image.png';
 import LaptopDellTechnologyGame from '@/assets/microsites/dell/details/laptop-dell/technology-game.png';
+import { withBasePathConfig } from '../path-utils';
 
 export const dellConfig = withBasePathConfig({
   brand: {
