@@ -17,5 +17,5 @@ export default defineConfig({
   integrations: [react()],
 
   site: 'https://JavierGR10.github.io',
-  // base: '/micrositios/',
+  base: '/planes',
 });
