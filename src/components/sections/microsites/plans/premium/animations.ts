@@ -23,16 +23,7 @@ if (prefersReducedMotion()) {
 
   clearPremiumProductAnimationProps(gsap);
 } else {
-  animateSplitText('.section-title', {
-    split: 'chars',
-    yPercent: 135,
-    rotateX: -85,
-    skewY: 6,
-    stagger: 0.012,
-    duration: 0.9,
-    ease: 'expo.out',
-    start: 'top 82%',
-  });
+  animateSplitText('.section-title');
 
   animateSplitText('.catalogue-text', {
     trigger: '.catalogue-section',
