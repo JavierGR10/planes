@@ -138,14 +138,14 @@ function Slider({ banners, theme }) {
           </motion.div>
         </AnimatePresence>
       </div>
-      <div className="hidden md:block absolute top-30 md:top-40 xl:top-40 right-[8%] lg:right-[15%] z-10">
+      <div className="hidden md:block absolute top-30 md:top-40 lg:top-60 xl:top-40 right-[8%] lg:right-[15%] z-10">
         <AnimatePresence mode="wait">
           <ResponsivePicture
             key={activeIndex}
             responsiveImage={banners[activeIndex]?.responsiveImage}
             src={banners[activeIndex]?.image}
             alt={`Imagen del banner ${banners[activeIndex]?.name}`}
-            imgClassName="max-h-[331px] select-none"
+            imgClassName="lg:max-h-[240px] xl:max-h-[300px] 2xl:max-h-[331px] select-none"
             motionProps={{
               variants: imageVariants,
               initial: 'initial',
