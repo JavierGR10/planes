@@ -32,7 +32,7 @@ const sectionStyle = `--business-services-panel-background: ${theme?.panelBackgr
       )
     }
 
-    <div class="business-services-grid grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3" data-services-grid>
+    <div class="business-services-grid grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" data-services-grid>
       {
         visibleServices.map((item: BusinessServiceItem) => (
           <article class="business-service-card flex h-full flex-col overflow-hidden group" data-service-extra="false">
@@ -72,12 +72,12 @@ const sectionStyle = `--business-services-panel-background: ${theme?.panelBackgr
       {
         extraServices.length > 0 && (
           <div
-            class="business-services-extra-shell md:col-span-2 xl:col-span-3 overflow-hidden"
+            class="business-services-extra-shell md:col-span-2 lg:col-span-3 overflow-hidden"
             data-services-extra-shell
             hidden
           >
             <div
-              class="business-services-extra-grid grid grid-cols-1 gap-5 pt-5 md:grid-cols-2 xl:grid-cols-3"
+              class="business-services-extra-grid grid grid-cols-1 gap-5 pt-5 md:grid-cols-2 lg:grid-cols-3"
               data-services-extra-grid
             >
               {extraServices.map((item: BusinessServiceItem) => (
