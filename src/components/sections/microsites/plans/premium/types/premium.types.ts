@@ -322,11 +322,12 @@ export interface PremiumAboutPageConfig {
   metaTitle?: string;
   title: string;
   description: string;
-  image: string;
-  imageAlt: string;
+  image?: string;
+  imageAlt?: string;
   imageHeadline: string;
   gridTitle: string;
   gridDescription: string;
+  video?: MicrositeVideoSectionConfig;
 }
 
 export interface PremiumSectionsConfig {

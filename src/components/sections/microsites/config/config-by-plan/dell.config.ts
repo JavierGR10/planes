@@ -19,6 +19,7 @@ import Service3 from '@/assets/microsites/dell/index/service-3.png';
 import VideoDell from '@/assets/microsites/dell/index/video.mp4';
 import BannerVideoDell from '@/assets/microsites/dell/index/banner_video.mp4';
 import BannerUs from '@/assets/microsites/dell/index/banner-us.png';
+import VideoUs from '@/assets/microsites/dell/index/nosotros.mp4';
 import type { PremiumMicrositeConfig } from '@/components/sections/microsites/plans/premium/types';
 
 // details
@@ -152,7 +153,7 @@ export const dellConfig = {
         type: 'link' as const,
       },
       {
-        label: 'Catálogo',
+        label: 'Productos',
         type: 'dropdown' as const,
         items: [
           { label: 'Laptop Dell 15 DC15255', href: '/micrositios/dell/laptop-dell' },
@@ -161,9 +162,14 @@ export const dellConfig = {
         ],
       },
       {
-        label: 'Contacto',
-        href: 'https://api.whatsapp.com/send/?phone=523315994174&text=%C2%A1Hola%21+Me+interesa+conocer+m%C3%A1s+sobre+las+soluciones+de+CVA.+%C2%BFPodr%C3%ADan+brindarme+informaci%C3%B3n%2C+por+favor%3F&type=phone_number&app_absent=0',
-        type: 'link' as const,
+        label: 'Servicios',
+        href: '/micrositios/dell#servicios',
+        type: 'scroll',
+      },
+      {
+        label: 'Catálogo',
+        href: '/micrositios/dell#catalogo',
+        type: 'scroll',
       },
     ],
   },
@@ -526,6 +532,16 @@ export const dellConfig = {
     gridTitle: 'Innovamos contigo,\nimpulsando soluciones\nque transforman ideas\nen resultados.',
     gridDescription:
       'Creemos en la innovación como motor de transformación y en las alianzas estratégicas como base del éxito. Nuestro objetivo es ofrecer soluciones integrales que conecten personas, procesos y resultados.',
+    video: {
+      enabled: true,
+      url: VideoUs,
+      title: 'Video institucional Dell',
+      poster: BannerUs.src,
+      autoplay: true,
+      muted: true,
+      loop: true,
+      controls: false,
+    },
   },
 
   footer: {

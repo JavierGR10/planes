@@ -10,7 +10,12 @@ interface Props {
 const { catalogue } = Astro.props as Props;
 ---
 
-<section data-absolute-section data-section-padding="48" class="catalogue-section min-h-[30dvh] relative mb-4 mx-10">
+<section
+  data-absolute-section
+  data-section-padding="48"
+  class="catalogue-section min-h-[30dvh] relative mb-4 mx-10"
+  id="catalogo"
+>
   <PremiumSectionTitle title={catalogue.sectionTitle} />
 
   <div data-absolute-inner class="absolute top-12 left-1/2 -translate-x-1/2 w-full">
