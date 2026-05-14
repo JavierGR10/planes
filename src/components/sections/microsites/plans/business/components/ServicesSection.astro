@@ -1,5 +1,4 @@
 ---
-import SectionTitle from '../../components/SectionTitle.astro';
 import type {
   BusinessServiceItem,
   BusinessServicesSectionConfig,
@@ -51,9 +50,7 @@ const sectionStyle = `--business-services-panel-background: ${theme?.panelBackgr
             )}
             <div class="p-5">
               <div class="flex flex-1 flex-col gap-3 min-h-45">
-                <p class="business-service-card-description  leading-relaxed text-sm lg:text-base font-medium">
-                  {item.description}
-                </p>
+                <p class="business-service-card-description  leading-relaxed font-medium">{item.description}</p>
               </div>
 
               {item.href && (

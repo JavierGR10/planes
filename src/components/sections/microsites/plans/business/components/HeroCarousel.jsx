@@ -64,7 +64,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
   if (bannerType === 'with-slider') {
     return (
       <section
-        className={`relative w-full ${roundedClass} py-6 md:py-0 md:h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
+        className={`relative w-full ${roundedClass} py-6 md:py-0 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
         style={heroBackgroundStyle}
       >
         <div className="flex flex-col w-full md:w-1/2 lg:w-[40%] px-5 md:px-15">
@@ -82,7 +82,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
           {hero.buttonText && (
             <a
               href={hero.buttonHref ?? '#'}
-              className={`${buttonClass} mt-4 md:mt-0`}
+              className={`${buttonClass} my-4 md:mt-0 max-md:hidden`}
               style={buttonStyle}
               onMouseOver={(e) => applyHoverState(e.currentTarget)}
               onMouseOut={(e) => resetHoverState(e.currentTarget)}
@@ -98,7 +98,7 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
   if (bannerType === 'simple') {
     return (
       <section
-        className={`relative w-full ${roundedClass} py-6 md:py-10 h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
+        className={`relative w-full ${roundedClass} py-6 md:py-10 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
         style={heroBackgroundStyle}
       >
         <div className="flex flex-col w-full md:w-1/2">
@@ -142,7 +142,9 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
 
   if (bannerType === 'image-background') {
     return (
-      <section className={`relative w-full ${roundedClass} h-100 lg:h-125 flex items-center overflow-hidden`}>
+      <section
+        className={`relative w-full ${roundedClass}  min-h-75 md:min-h-100 xl:min-h-125 flex items-center overflow-hidden`}
+      >
         <ResponsivePicture
           responsiveImage={hero.responsiveBackgroundImage}
           src={hero.backgroundImage}

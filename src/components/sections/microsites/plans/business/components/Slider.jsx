@@ -56,10 +56,10 @@ function Slider({ banners, theme }) {
         className="w-full h-full relative"
       >
         {banners.map((banner, index) => (
-          <SwiperSlide className="pb-10 pl-1 pt-1 flex items-center justify-center" key={index}>
+          <SwiperSlide className="pb-5 md:pb-10 pl-1 pt-1 flex items-center justify-center" key={index}>
             {({ isActive }) => (
               <article
-                className={`cursor-pointer banner-item rounded-[10px] p-4 h-25 lg:h-[119px] w-[100px] lg:w-[132px] flex items-center justify-center transition-colors duration-500  ease-in-out
+                className={`cursor-pointer banner-item rounded-[10px] p-4 h-25 lg:h-30 w-25 lg:w-33 flex items-center justify-center transition-colors duration-500  ease-in-out
                   ${isActive ? 'border scale-105' : ''}`}
                 style={isActive ? activeBorderStyle : undefined}
               >
@@ -76,7 +76,7 @@ function Slider({ banners, theme }) {
       </Swiper>
 
       {/* Versión móvil - flujo normal, centrado */}
-      <div className="md:hidden flex flex-col items-center py-4">
+      <div className="md:hidden flex flex-col items-center md:py-4">
         <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0, filter: 'blur(10px)' }}
@@ -97,19 +97,6 @@ function Slider({ banners, theme }) {
             </p>
           </motion.div>
         </AnimatePresence>
-
-        {/* <AnimatePresence mode="wait">
-          <motion.img
-            key={`mobile-img-${activeIndex}`}
-            src={banners[activeIndex]?.image}
-            variants={imageVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            alt={`Imagen del banner ${banners[activeIndex]?.name}`}
-            className="max-w-[180px] sm:max-w-[220px] max-h-[180px] sm:max-h-[220px] select-none"
-          />
-        </AnimatePresence> */}
       </div>
 
       {/* Versión tablet/desktop - posición absoluta */}

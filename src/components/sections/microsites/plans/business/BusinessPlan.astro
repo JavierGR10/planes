@@ -241,7 +241,10 @@ const getProductSlotClass = (itemIndex: number) => {
           <SectionTitle color={primaryColor} class="business-section-title">
             {sections.catalogue.sectionTitle}
           </SectionTitle>
-          <div set:html={sections.catalogue.description} class="font-medium text-base lg:text-[18px] max-w-lg pl-15" />
+          <div
+            set:html={sections.catalogue.description}
+            class="font-medium text-base lg:text-[18px] max-w-lg max-md:px-10 md:pl-15"
+          />
         </div>
         <img
           src={sections.catalogue.image}
