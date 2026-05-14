@@ -1,4 +1,5 @@
 ---
+import '../../components/event-modal.css';
 import {
   filterActiveEvents,
   getEventDateParts,
@@ -13,6 +14,10 @@ interface Props {
 
 const { events } = Astro.props as Props;
 const visibleEvents = filterActiveEvents(events.items);
+const modalId = 'premium-event-modal';
+const modalImageId = 'premium-event-modal-image';
+const modalTitleId = 'premium-event-modal-title';
+const imageHrefPattern = /\.(avif|gif|jpe?g|png|webp|svg)(\?.*)?$/i;
 ---
 
 <section data-absolute-section data-section-padding="5" class="events-section min-h-[10dvh] relative px-10">
@@ -30,13 +35,19 @@ const visibleEvents = filterActiveEvents(events.items);
           visibleEvents.map((event: PremiumEventsSectionConfig['items'][number]) => {
             const { day, month } = getEventDateParts(event.eventDate);
             const meta = getEventMeta(event);
+            const modalFlyer = event.flyer ?? (imageHrefPattern.test(event.href) ? event.href : undefined);
 
             return (
-              <a
-                href={event.href}
-                class="event-item premium-event-card group text-lg lg:text-xl font-bold transition-all duration-400 rounded-lg px-5 py-6 w-[300px] sm:w-[350px] h-[117px] flex items-center gap-4"
+              <button
+                type="button"
+                class="event-item cursor-pointer premium-event-card group text-lg lg:text-xl font-bold transition-all duration-400 rounded-lg px-5 py-6 w-75 sm:w-87.5 h-29.25 flex items-center gap-4 text-left"
+                popovertarget={modalId}
                 data-premium-event-card
                 data-event-date={event.eventDate}
+                data-image={event.image}
+                data-flyer={modalFlyer}
+                data-title={event.title}
+                data-href={event.href}
               >
                 <div class="premium-event-card__date" aria-label={`Fecha del evento ${day} ${month}`}>
                   <span class="premium-event-card__date-day">{day}</span>
@@ -63,7 +74,7 @@ const visibleEvents = filterActiveEvents(events.items);
                     <path d="m13 6 6 6-6 6" />
                   </svg>
                 </div>
-              </a>
+              </button>
             );
           })
         ) : (
@@ -81,6 +92,34 @@ const visibleEvents = filterActiveEvents(events.items);
         </p>
       )
     }
+  </div>
+
+  <div id={modalId} popover class="premium-event-modal event-modal-base">
+    <figure class="relative grid place-items-center">
+      <a target="_blank" rel="noopener noreferrer" class="premium-event-modal__link">
+        <img
+          id={modalImageId}
+          src=""
+          alt=""
+          class="max-h-[90vh] max-w-[90vw] rounded-2xl object-contain premium-event-modal__image event-modal-image"
+        />
+      </a>
+
+      <figcaption
+        id={modalTitleId}
+        class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-sm font-bold backdrop-blur premium-event-modal__title event-modal-title"
+      >
+      </figcaption>
+
+      <button
+        popovertarget={modalId}
+        popovertargetaction="hide"
+        aria-label="Cerrar"
+        class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full text-sm premium-event-modal__close event-modal-close backdrop-blur ease-in-out duration-300 cursor-pointer"
+      >
+        ✕
+      </button>
+    </figure>
   </div>
 </section>
 
@@ -194,7 +233,16 @@ const visibleEvents = filterActiveEvents(events.items);
 </style>
 
 <script>
+  import { setupEventModal } from '@/components/sections/microsites/plans/components/event-modal';
   import { setupEventVisibility } from '@/components/sections/microsites/plans/components/events-utils';
+
+  setupEventModal({
+    modalId: 'premium-event-modal',
+    imageId: 'premium-event-modal-image',
+    titleId: 'premium-event-modal-title',
+    cardSelector: '[data-premium-event-card]',
+    linkSelector: '.premium-event-modal__link',
+  });
 
   setupEventVisibility({
     cardSelector: '[data-premium-event-card]',

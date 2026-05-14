@@ -357,20 +357,23 @@ export const dellConfig = withBasePathConfig({
       items: [
         {
           title: 'Demostración Dell G15 5525',
-          href: 'https://www.grupocva.com/mkt/imagenes/2026/01/Elfuturodelatecnolog%C3%ADa.jpg',
+          href: '#',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2026/01/Elfuturodelatecnolog%C3%ADa.jpg',
           eventDate: '2026-05-22',
           eventType: 'Demo Day',
           location: 'Guadalajara',
         },
         {
           title: 'Soluciones Dell para empresas',
-          href: '/micrositios/dell/nosotros',
+          href: '#',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2025/06/06_dell_673894.jpg',
           eventDate: '2026-06-05',
           eventType: 'Seminario',
         },
         {
           title: 'Explora el portafolio Dell',
-          href: 'https://www.grupocva.com/mkt/imagenes/2025/05/05_dell_cancun_catamaran.php',
+          href: '#',
+          flyer: 'https://www.grupocva.com/mkt/imagenes/2025/06/06_dell_capacitacion.jpg',
           eventDate: '2026-06-19',
           location: 'Cancún',
         },

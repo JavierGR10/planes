@@ -229,6 +229,7 @@ export interface PremiumEventItem extends MicrositeEventMetadata {
   title: string;
   href: string;
   image?: string;
+  flyer?: string;
 }
 
 export interface PremiumEventsSectionConfig {
