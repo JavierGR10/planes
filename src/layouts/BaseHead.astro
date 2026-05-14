@@ -1,0 +1,106 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  favicon?: string;
+  keywords?: string;
+  siteName?: string;
+  applicationName?: string;
+  themeColor?: string;
+  ogImage?: string;
+  ogLogo?: string;
+  ogImageAlt?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  twitterImageAlt?: string;
+}
+
+const ABSOLUTE_URL_PATTERN = /^[a-z][a-z\d+\-.]*:/i;
+
+const withBasePath = (value: string): string => {
+  if (
+    !value ||
+    value.startsWith('#') ||
+    value.startsWith('?') ||
+    ABSOLUTE_URL_PATTERN.test(value) ||
+    value.startsWith('//') ||
+    !value.startsWith('/')
+  ) {
+    return value;
+  }
+
+  const baseUrl = import.meta.env.BASE_URL === '/' ? '' : (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
+
+  if (!baseUrl || value === baseUrl || value.startsWith(`${baseUrl}/`)) {
+    return value;
+  }
+
+  return `${baseUrl}${value}`;
+};
+
+const {
+  title = 'CVA - Mayorista de Tecnologia',
+  description = 'Grupo CVA es uno de los mayoristas de tecnologia mas importante de Mexico, comercializamos y damos asesoria en marcas para desarrollar proyectos de tecnologia desde equipos de computo hasta infraestructura y mas. Apoyamos el desarrollo de su negocio con atencion personalizada, apoyo financiero y red logistica.',
+  favicon = '/favicon.png',
+  keywords = 'Distribuidor de tecnologia, mayorista de computo y tecnologia en Mexico, soluciones tecnologicas, distribuidor de computo, computadoras mayoreo, proveedores de equipo de computo',
+  siteName = 'Grupo CVA',
+  applicationName = 'Grupo CVA',
+  themeColor = '#0F172A',
+  ogImage,
+  ogLogo,
+  ogImageAlt = title,
+  twitterTitle = title,
+  twitterDescription = description,
+  twitterImage,
+  twitterImageAlt = ogImageAlt,
+} = Astro.props as Props;
+
+const pageUrl = Astro.url;
+const pageHostname = pageUrl.hostname;
+const canonicalUrl = pageUrl.toString();
+const resolvedFavicon = withBasePath(favicon);
+const resolvedOgImage = new URL(
+  ogImage ? withBasePath(ogImage) : withBasePath('/og_image.png'),
+  Astro.site ?? pageUrl
+).toString();
+const resolvedOgLogo = new URL(
+  ogLogo ? withBasePath(ogLogo) : withBasePath('/cva_logo.webp'),
+  Astro.site ?? pageUrl
+).toString();
+const resolvedTwitterImage = new URL(
+  twitterImage ? withBasePath(twitterImage) : withBasePath('/og_image.png'),
+  Astro.site ?? pageUrl
+).toString();
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" href={resolvedFavicon} />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="application-name" content={applicationName} />
+<meta name="theme-color" content={themeColor} />
+<link rel="apple-touch-icon" href={resolvedFavicon} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta property="og:logo" content={resolvedOgLogo} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_MX" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:domain" content={pageHostname} />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={twitterTitle} />
+<meta name="twitter:description" content={twitterDescription} />
+<meta name="twitter:image" content={resolvedTwitterImage} />
+<meta name="twitter:image:alt" content={twitterImageAlt} />
+<link rel="canonical" href={canonicalUrl} />

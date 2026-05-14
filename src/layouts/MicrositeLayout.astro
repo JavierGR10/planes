@@ -11,7 +11,7 @@ import 'swiper/css/parallax';
 import '../styles/global.css';
 import '@/components/sections/microsites/templates/styles-microwebsites.css';
 import WhatsApp from '@/components/sections/microsites/plans/components/WhatsApp.astro';
-import { withBasePath } from '@/components/sections/microsites/config/path-utils';
+import BaseHead from './BaseHead.astro';
 
 const { pathname } = Astro.url;
 const {
@@ -20,57 +20,18 @@ const {
   favicon = '/favicon.png',
   whatsappUrl,
 } = Astro.props;
-
-const pageUrl = Astro.url;
-const pageOrigin = pageUrl.origin;
-const canonicalUrl = pageUrl.toString();
-const resolvedFavicon = withBasePath(favicon);
-const ogImageUrl = new URL(withBasePath('/og_image.png'), Astro.site ?? pageUrl).toString();
-const ogLogoUrl = new URL(withBasePath('/cva_logo.webp'), Astro.site ?? pageUrl).toString();
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href={resolvedFavicon} />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-
-    <meta name="Description" content={description} />
-    <meta
-      name="keywords"
-      content="Distribuidor de tecnología, mayorista de computo y tecnologia en Mexico, soluciones tecnologicas, distribuidor de computo, computadoras mayoreo, proveedores de equipo de computo"
+    <BaseHead
+      title={title}
+      description={description}
+      favicon={favicon}
+      twitterTitle="Grupo CVA"
+      twitterDescription="Mayorista de tecnologia en Mexico. Comercializamos y distribuimos las mejores marcas de tecnologia en el pais"
     />
-
-    <!-- OG -->
-    <title>{title}</title>
-    <meta name="description" content={description} />
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:logo" content={ogLogoUrl} />
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content={pageOrigin} />
-    <meta property="twitter:url" content={canonicalUrl} />
-    <meta name="twitter:title" content="Grupo CVA" />
-    <meta
-      name="twitter:description"
-      content="Mayorista de tecnología en Mexico. Comercializamos y distribuimos las mejores marcas de tecnologia en el país"
-    />
-    <meta name="twitter:image" content={ogImageUrl} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_MX" />
-    <link rel="canonical" href={canonicalUrl} />
 
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

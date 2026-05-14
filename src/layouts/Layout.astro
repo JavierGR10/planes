@@ -1,21 +1,19 @@
 ---
 // Estilos globales
 import '../styles/global.css';
-import { withBasePath } from '@/components/sections/microsites/config/path-utils';
+import BaseHead from './BaseHead.astro';
 
-const faviconPng = withBasePath('/favicon.png');
-const faviconIco = withBasePath('/favicon.ico');
+const {
+  title = 'CVA - Micrositios',
+  description = 'Micrositios de marcas y soluciones tecnologicas de Grupo CVA.',
+  favicon = '/favicon.png',
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href={faviconPng} />
-    <link rel="icon" href={faviconIco} />
-    <meta name="generator" content={Astro.generator} />
-    <title>CVA - Micrositios</title>
+    <BaseHead title={title} description={description} favicon={favicon} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
