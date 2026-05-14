@@ -45,7 +45,7 @@ const resolvedTheme = resolvePremiumTheme(branding.theme);
     />
 
     <section class="pt-18">
-      <HeroCarousel heroes={heroItems} theme={resolvedTheme.hero} rounded={false} client:load />
+      <HeroCarousel heroes={heroItems} theme={resolvedTheme.hero} rounded={false} client:only="react" />
     </section>
 
     <PremiumProductsSection products={products} />
