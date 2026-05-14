@@ -45,8 +45,8 @@ const columns = Math.min(Math.max(visibleItems.length, 1), 4);
 const gridColsClass: Record<number, string> = {
   1: 'grid-cols-1',
   2: 'grid-cols-2',
-  3: 'grid-cols-3',
-  4: 'grid-cols-4',
+  3: 'sm:grid-cols-3',
+  4: 'min-[480px]:grid-cols-2 md:grid-cols-4',
 };
 
 // altura cuando solo hay 1 columna
@@ -61,7 +61,7 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
 
   <!-- Grid -->
   <section id="events" class={`mx-auto px-15 max-w-350 ${singleColHeight}`}>
-    <div class={`grid overflow-hidden ${gridColsClass[columns]}`}>
+    <div class={`grid overflow-hidden  max-md:gap-4 ${gridColsClass[columns]}`}>
       {
         visibleItems.length > 0 ? (
           visibleItems.map((event, idx) => {
@@ -71,14 +71,14 @@ const singleColHeight = columns === 1 ? 'max-w-md mx-auto' : '';
             const meta = getEventMeta(event);
 
             let roundedClass = '';
-            if (isFirst) roundedClass += ' rounded-l-3xl';
-            if (isLast) roundedClass += ' rounded-r-3xl';
+            if (isFirst) roundedClass += ' md:rounded-l-3xl';
+            if (isLast) roundedClass += ' md:rounded-r-3xl';
             return (
               <button
                 class={`
                   professional-event-card
             group relative aspect-square cursor-pointer overflow-hidden 
-            ${roundedClass} 
+            ${roundedClass} max-md:rounded-2xl
           `}
                 style={eventCardStyle}
                 popovertarget="event-modal"
