@@ -1,6 +1,7 @@
 ---
 import type { ImageAsset, NavItem } from '@/components/sections/microsites/config';
 import { withBasePath } from '@/components/sections/microsites/config/path-utils';
+import NavbarDesktopDropdown from './NavbarDesktopDropdown.astro';
 
 interface Props {
   logo: ImageAsset;
@@ -111,50 +112,15 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
         items.map((item, idx) => {
           if (item.type === 'dropdown') {
             return (
-              <li class="relative">
-                <button
-                  id={`dropdownButton-${idx}`}
-                  data-dropdown-toggle={`dropdownMenu-${idx}`}
-                  class={navButtonClass}
-                  type="button"
-                >
-                  {item.label}
-                  <svg
-                    class="navbar-icon transition-colors duration-300"
-                    fill="currentColor"
-                    version="1.1"
-                    id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    width="10px"
-                    height="10px"
-                    viewBox="0 0 96.154 96.154"
-                    xml:space="preserve"
-                  >
-                    <g>
-                      <path
-                        d="M0.561,20.971l45.951,57.605c0.76,0.951,2.367,0.951,3.127,0l45.956-57.609c0.547-0.689,0.709-1.716,0.414-2.61
-		c-0.061-0.187-0.129-0.33-0.186-0.437c-0.351-0.65-1.025-1.056-1.765-1.056H2.093c-0.736,0-1.414,0.405-1.762,1.056
-		c-0.059,0.109-0.127,0.253-0.184,0.426C-0.15,19.251,0.011,20.28,0.561,20.971z"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <div
-                  id={`dropdownMenu-${idx}`}
-                  class="hidden absolute z-10 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                    {item.items?.map((subitem) => (
-                      <li>
-                        <a href={subitem.href} class="block px-4 py-2 hover:bg-gray-100 ">
-                          {subitem.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
+              <NavbarDesktopDropdown
+                label={item.label}
+                items={item.items ?? []}
+                index={idx}
+                buttonClass={navButtonClass}
+                initialTextColor={initialTextColor}
+                transparent={transparent}
+                initialTone={initialTone}
+              />
             );
           } else if (item.type === 'link' || item.type === 'scroll') {
             const externalHref = isExternalHref(item.href);
