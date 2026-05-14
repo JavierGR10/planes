@@ -71,6 +71,11 @@ export const lenovoConfig = withBasePathConfig({
       },
     },
     theme: {
+      typography: {
+        headingFontFamily: 'var(--font-dm-sans, "DM Sans", sans-serif)',
+        bodyFontFamily: 'var(--font-dm-sans, "DM Sans", sans-serif)',
+        ctaFontFamily: 'var(--font-plus-jakarta, "Plus Jakarta Sans", sans-serif)',
+      },
       primaryColor: '#E1140A',
       secondaryColor: '#1F242D',
       accentColor: '#313741',

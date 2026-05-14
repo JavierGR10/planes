@@ -60,6 +60,11 @@ export const dellConfig = withBasePathConfig({
       },
     },
     theme: {
+      typography: {
+        headingFontFamily: 'var(--font-dm-sans, "DM Sans", sans-serif)',
+        bodyFontFamily: 'var(--font-dm-sans, "DM Sans", sans-serif)',
+        ctaFontFamily: 'var(--font-plus-jakarta, "Plus Jakarta Sans", sans-serif)',
+      },
       primaryColor: '#007EBB',
       secondaryColor: '#1F242D',
       accentColor: '#313741',

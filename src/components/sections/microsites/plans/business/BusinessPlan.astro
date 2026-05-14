@@ -84,6 +84,19 @@ const extraProductItems = productItems.slice(3);
 const allProductsLabel = sections.products.allProductsLabel ?? 'Ver todos los productos';
 const collapseProductsLabel = sections.products.collapseProductsLabel ?? 'Ver menos productos';
 const productsToggleStyle = `--business-products-toggle-background: ${heroCtaTheme.background ?? buttonColor}; --business-products-toggle-text: ${heroCtaTheme.textColor ?? '#FFFFFF'}; --business-products-toggle-border: ${heroCtaTheme.borderColor ?? accentColor}; --business-products-toggle-hover-background: ${heroCtaTheme.hoverBackground ?? buttonHoverColor}; --business-products-toggle-hover-text: ${heroCtaTheme.hoverTextColor ?? '#FFFFFF'}; --business-products-toggle-hover-border: ${heroCtaTheme.hoverBorderColor ?? accentColor};`;
+const businessCssVars = [
+  branding.theme.typography?.headingFontFamily
+    ? `--microsite-heading-font-family: ${branding.theme.typography.headingFontFamily}`
+    : '',
+  branding.theme.typography?.bodyFontFamily
+    ? `--microsite-body-font-family: ${branding.theme.typography.bodyFontFamily}`
+    : '',
+  branding.theme.typography?.ctaFontFamily
+    ? `--microsite-cta-font-family: ${branding.theme.typography.ctaFontFamily}`
+    : '',
+]
+  .filter(Boolean)
+  .join('; ');
 
 const getProductSlotClass = (itemIndex: number) => {
   switch (itemIndex) {
@@ -107,145 +120,147 @@ const getProductSlotClass = (itemIndex: number) => {
   favicon={meta.favicon}
   whatsappUrl={contact?.whatsapp}
 >
-  {popupModal?.enabled && <PopupModal popupModal={popupModal} theme={popupTheme} />}
+  <div class="business-plan" style={businessCssVars}>
+    {popupModal?.enabled && <PopupModal popupModal={popupModal} theme={popupTheme} />}
 
-  <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
+    <Navbar logo={branding.logos.header} basePath={navigation.basePath} items={navigation.items} />
 
-  <div class="px-3 md:px-5">
-    <HeroCarousel
-      heroes={heroItems}
-      theme={{ buttonColor, buttonHoverColor, accentColor, heroCta: heroCtaTheme, heroText: heroTextTheme }}
-      buttonBorder={accentColor}
-      client:load
-    />
-  </div>
+    <div class="px-3 md:px-5">
+      <HeroCarousel
+        heroes={heroItems}
+        theme={{ buttonColor, buttonHoverColor, accentColor, heroCta: heroCtaTheme, heroText: heroTextTheme }}
+        buttonBorder={accentColor}
+        client:load
+      />
+    </div>
 
-  <section id="productos">
-    <SectionTitle color={primaryColor} class="business-products-title">
-      {sections.products.sectionTitle}
-    </SectionTitle>
+    <section id="productos">
+      <SectionTitle color={primaryColor} class="business-products-title">
+        {sections.products.sectionTitle}
+      </SectionTitle>
 
-    <div
-      class="products-grid max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 mb-5"
-      data-products-grid
-    >
-      {
-        baseProductItems.map((item: ProductItem, index: number) => (
-          <div class:list={[getProductSlotClass(index), 'h-full']}>
-            <ProductCard
-              {...item}
-              accentColor={accentColor}
-              buttonText={sections.products.buttonText}
-              index={index}
-              featured={featuredProductIndexes.has(index)}
-              productCardTheme={productCardTheme}
-              productCardCtaTheme={productCardCtaTheme}
-            />
-          </div>
-        ))
-      }
+      <div
+        class="products-grid max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 mb-5"
+        data-products-grid
+      >
+        {
+          baseProductItems.map((item: ProductItem, index: number) => (
+            <div class:list={[getProductSlotClass(index), 'h-full']}>
+              <ProductCard
+                {...item}
+                accentColor={accentColor}
+                buttonText={sections.products.buttonText}
+                index={index}
+                featured={featuredProductIndexes.has(index)}
+                productCardTheme={productCardTheme}
+                productCardCtaTheme={productCardCtaTheme}
+              />
+            </div>
+          ))
+        }
+
+        {
+          extraProductItems.length > 0 && (
+            <div
+              class="products-extra-shell md:col-span-2 xl:col-span-6 overflow-hidden"
+              data-products-extra-shell
+              hidden
+            >
+              <div
+                class="products-extra-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 pt-5"
+                data-products-extra-grid
+              >
+                {extraProductItems.map((item: ProductItem, index: number) => {
+                  const itemIndex = index + 3;
+
+                  return (
+                    <div class:list={[getProductSlotClass(itemIndex), 'h-full']}>
+                      <ProductCard
+                        {...item}
+                        accentColor={accentColor}
+                        buttonText={sections.products.buttonText}
+                        index={itemIndex}
+                        featured={featuredProductIndexes.has(itemIndex)}
+                        isExtra={true}
+                        productCardTheme={productCardTheme}
+                        productCardCtaTheme={productCardCtaTheme}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )
+        }
+      </div>
 
       {
         extraProductItems.length > 0 && (
-          <div
-            class="products-extra-shell md:col-span-2 xl:col-span-6 overflow-hidden"
-            data-products-extra-shell
-            hidden
-          >
-            <div
-              class="products-extra-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 pt-5"
-              data-products-extra-grid
+          <div class="max-w-7xl mx-auto px-10 my-12 flex justify-center">
+            <button
+              type="button"
+              class="business-products-toggle"
+              data-products-toggle
+              data-expand-label={allProductsLabel}
+              data-collapse-label={collapseProductsLabel}
+              aria-expanded="false"
+              style={productsToggleStyle}
             >
-              {extraProductItems.map((item: ProductItem, index: number) => {
-                const itemIndex = index + 3;
-
-                return (
-                  <div class:list={[getProductSlotClass(itemIndex), 'h-full']}>
-                    <ProductCard
-                      {...item}
-                      accentColor={accentColor}
-                      buttonText={sections.products.buttonText}
-                      index={itemIndex}
-                      featured={featuredProductIndexes.has(itemIndex)}
-                      isExtra={true}
-                      productCardTheme={productCardTheme}
-                      productCardCtaTheme={productCardCtaTheme}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+              {allProductsLabel}
+            </button>
           </div>
         )
       }
-    </div>
+    </section>
 
     {
-      extraProductItems.length > 0 && (
-        <div class="max-w-7xl mx-auto px-10 my-12 flex justify-center">
-          <button
-            type="button"
-            class="business-products-toggle"
-            data-products-toggle
-            data-expand-label={allProductsLabel}
-            data-collapse-label={collapseProductsLabel}
-            aria-expanded="false"
-            style={productsToggleStyle}
-          >
-            {allProductsLabel}
-          </button>
-        </div>
-      )
+      sections.services?.items?.length ? (
+        <ServicesSection
+          services={sections.services}
+          primaryColor={primaryColor}
+          accentColor={accentColor}
+          theme={servicesTheme}
+        />
+      ) : null
     }
-  </section>
 
-  {
-    sections.services?.items?.length ? (
-      <ServicesSection
-        services={sections.services}
-        primaryColor={primaryColor}
-        accentColor={accentColor}
-        theme={servicesTheme}
-      />
-    ) : null
-  }
+    <MicrositeMediaSection
+      config={sections.video}
+      sectionClass="mb-5"
+      videoClass="w-full h-screen object-cover [&::-webkit-media-controls-fullscreen-button]:hidden"
+      iframeClass="w-full h-[70dvh]"
+      videoOptions={{ preload: 'metadata', playsInline: true, controlsList: 'nofullscreen' }}
+      iframeOptions={{ loading: 'lazy' }}
+    />
 
-  <MicrositeMediaSection
-    config={sections.video}
-    sectionClass="mb-5"
-    videoClass="w-full h-screen object-cover [&::-webkit-media-controls-fullscreen-button]:hidden"
-    iframeClass="w-full h-[70dvh]"
-    videoOptions={{ preload: 'metadata', playsInline: true, controlsList: 'nofullscreen' }}
-    iframeOptions={{ loading: 'lazy' }}
-  />
+    <BannerSection {...sections.products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} />
 
-  <BannerSection {...sections.products.bannerProduct} brandName={brand.name} bannerTheme={bannerTheme} />
-
-  <section class="catalogue-section">
-    <div class="flex flex-col lg:flex-row justify-between">
-      <div class="catalogue-text flex flex-col">
-        <SectionTitle color={primaryColor} class="business-section-title">
-          {sections.catalogue.sectionTitle}
-        </SectionTitle>
-        <div set:html={sections.catalogue.description} class="font-medium text-base lg:text-[18px] max-w-lg pl-15" />
+    <section class="catalogue-section">
+      <div class="flex flex-col lg:flex-row justify-between">
+        <div class="catalogue-text flex flex-col">
+          <SectionTitle color={primaryColor} class="business-section-title">
+            {sections.catalogue.sectionTitle}
+          </SectionTitle>
+          <div set:html={sections.catalogue.description} class="font-medium text-base lg:text-[18px] max-w-lg pl-15" />
+        </div>
+        <img
+          src={sections.catalogue.image}
+          alt={sections.catalogue.imageAlt ?? `Catálogo ${brand.name}`}
+          class="catalogue-image mt-5"
+          loading="lazy"
+        />
       </div>
-      <img
-        src={sections.catalogue.image}
-        alt={sections.catalogue.imageAlt ?? `Catálogo ${brand.name}`}
-        class="catalogue-image mt-5"
-        loading="lazy"
-      />
-    </div>
-  </section>
+    </section>
 
-  <EventsGallery events={sections.events} primaryColor={primaryColor} />
+    <EventsGallery events={sections.events} primaryColor={primaryColor} />
 
-  <MicrositeFooter
-    logo={branding.logos.footer}
-    brandName={brand.name}
-    contact={footer.contact}
-    footerTheme={footerTheme}
-  />
+    <MicrositeFooter
+      logo={branding.logos.footer}
+      brandName={brand.name}
+      contact={footer.contact}
+      footerTheme={footerTheme}
+    />
+  </div>
 </MicrositeLayout>
 
 <script>
@@ -253,12 +268,16 @@ const getProductSlotClass = (itemIndex: number) => {
 </script>
 
 <style scoped>
+  .business-plan {
+    font-family: var(--microsite-body-font-family, inherit);
+  }
+
   .business-products-toggle {
     background: var(--business-products-toggle-background);
     border-radius: 10px;
     color: var(--business-products-toggle-text);
     cursor: pointer;
-    font-family: var(--font-plus-jakarta, 'Plus Jakarta Sans', sans-serif);
+    font-family: var(--microsite-cta-font-family, var(--font-plus-jakarta, 'Plus Jakarta Sans', sans-serif));
     font-size: 1rem;
     font-weight: 800;
     min-width: min(100%, 21rem);

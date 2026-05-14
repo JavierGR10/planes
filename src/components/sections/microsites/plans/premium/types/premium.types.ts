@@ -102,6 +102,12 @@ export interface PremiumPopupTheme {
   closeHoverBackground?: string;
 }
 
+export interface PremiumTypographyTheme {
+  headingFontFamily?: string;
+  bodyFontFamily?: string;
+  ctaFontFamily?: string;
+}
+
 export interface PremiumHeroSliderImageBanner {
   name: string;
   subtitle: string;
@@ -280,6 +286,7 @@ export type PremiumBrandTheme = Omit<MicrositePlanTheme, 'footerGradient'> & {
   textColor?: string;
   titleColor?: string;
   mutedTextColor?: string;
+  typography?: PremiumTypographyTheme;
   navbar?: PremiumNavbarTheme;
   heroControls?: PremiumHeroControlsTheme;
   banner?: PremiumBannerTheme;

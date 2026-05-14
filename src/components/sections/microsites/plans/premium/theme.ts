@@ -72,6 +72,9 @@ export const resolvePremiumTheme = (theme: PremiumBrandTheme): ResolvedPremiumTh
   const textColor = theme.textColor ?? '#FFFFFF';
   const titleColor = theme.titleColor ?? textColor;
   const mutedTextColor = theme.mutedTextColor ?? '#92939E';
+  const headingFontFamily = theme.typography?.headingFontFamily ?? 'inherit';
+  const bodyFontFamily = theme.typography?.bodyFontFamily ?? 'inherit';
+  const ctaFontFamily = theme.typography?.ctaFontFamily ?? 'inherit';
   const panelBorderColor = theme.surfaces?.cardBorderColor ?? 'rgba(255, 255, 255, 0.92)';
   const productCardFeaturedBackground = theme.surfaces?.productCardFeaturedBackground ?? '#20252e';
   const productCardDefaultBackground = theme.surfaces?.productCardDefaultBackground ?? '#303640';
@@ -133,6 +136,9 @@ export const resolvePremiumTheme = (theme: PremiumBrandTheme): ResolvedPremiumTh
       '--premium-text-color': textColor,
       '--premium-title-color': titleColor,
       '--premium-muted-text-color': mutedTextColor,
+      '--microsite-heading-font-family': headingFontFamily,
+      '--microsite-body-font-family': bodyFontFamily,
+      '--microsite-cta-font-family': ctaFontFamily,
       '--premium-panel-border-color': panelBorderColor,
       '--premium-product-card-featured-background': productCardFeaturedBackground,
       '--premium-product-card-default-background': productCardDefaultBackground,

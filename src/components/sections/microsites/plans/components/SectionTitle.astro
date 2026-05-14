@@ -24,3 +24,9 @@ const { color, class: className = '' } = Astro.props;
 >
   <slot />
 </h2>
+
+<style>
+  h2 {
+    font-family: var(--microsite-heading-font-family, inherit);
+  }
+</style>

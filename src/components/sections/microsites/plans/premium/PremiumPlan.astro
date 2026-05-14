@@ -45,7 +45,7 @@ const resolvedTheme = resolvePremiumTheme(branding.theme);
     />
 
     <section class="pt-18">
-      <HeroCarousel heroes={heroItems} theme={resolvedTheme.hero} rounded={false} client:only="react" />
+      <HeroCarousel heroes={heroItems} theme={resolvedTheme.hero} rounded={false} client:load />
     </section>
 
     <PremiumProductsSection products={products} />
@@ -67,6 +67,7 @@ const resolvedTheme = resolvePremiumTheme(branding.theme);
       .premium-plan {
         background: var(--premium-page-background);
         color: var(--premium-text-color);
+        font-family: var(--microsite-body-font-family, inherit);
       }
     </style>
 

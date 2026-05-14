@@ -216,12 +216,19 @@ export interface BusinessServicesTheme {
   ctaHoverBorderColor?: string;
 }
 
+export interface BusinessTypographyTheme {
+  headingFontFamily?: string;
+  bodyFontFamily?: string;
+  ctaFontFamily?: string;
+}
+
 export type BusinessBrandTheme = Omit<MicrositePlanTheme, 'footerGradient'> & {
   hero?: BusinessHeroTheme;
   banner?: BusinessBannerTheme;
   buttons?: BusinessButtonsTheme;
   surfaces?: BusinessSurfacesTheme;
   services?: BusinessServicesTheme;
+  typography?: BusinessTypographyTheme;
   popup?: BusinessPopupTheme;
   footer?: BusinessFooterTheme;
 };

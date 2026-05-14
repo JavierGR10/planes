@@ -10,7 +10,16 @@ interface Props {
   style?: string;
 }
 
-const { href = '#', label, variant = 'wave-outline', target, rel, id, class: className = '', style = '' } = Astro.props as Props;
+const {
+  href = '#',
+  label,
+  variant = 'wave-outline',
+  target,
+  rel,
+  id,
+  class: className = '',
+  style = '',
+} = Astro.props as Props;
 
 const safeRel = target === '_blank' ? (rel ?? 'noopener noreferrer') : rel;
 const isWaveVariant = variant === 'wave-outline' || variant === 'wave-filled';
@@ -39,6 +48,7 @@ const isWaveVariant = variant === 'wave-outline' || variant === 'wave-filled';
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    font-family: var(--microsite-cta-font-family, inherit);
     font-weight: 800;
     transition:
       background-color 0.3s ease,
