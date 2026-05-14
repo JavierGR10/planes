@@ -11,7 +11,7 @@ interface Props {
 const { section, features = [], primaryColor, topSpacing = false } = Astro.props as Props;
 
 const titleClassName = 'text-xl lg:text-2xl font-extrabold mb-5';
-const paragraphClassName = 'text-lg md:text-xl leading-relaxed font-semibold text-justify';
+const paragraphClassName = 'text-lg lg:text-xl leading-relaxed font-semibold text-justify';
 ---
 
 {
@@ -21,7 +21,7 @@ const paragraphClassName = 'text-lg md:text-xl leading-relaxed font-semibold tex
     >
       <div class="premium-detail-copy flex-1 tracking-[1px]">
         <h2 class={titleClassName}>{section.title}</h2>
-        <div class="space-y-5 text-lg md:text-xl leading-relaxed font-semibold text-justify">
+        <div class="space-y-5 text-lg lg:text-xl leading-relaxed font-semibold text-justify">
           {section.paragraphs.map((paragraph) => (
             <p>{paragraph}</p>
           ))}

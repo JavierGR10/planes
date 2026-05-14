@@ -51,7 +51,9 @@ const currentYear = new Date().getFullYear();
               style={product.hero.image ? `background-image: url(${product.hero.image});` : undefined}
             >
               <div class="premium-secondary-hero-copy p-6 md:p-10 lg:p-16 z-10 tracking-[2px]">
-                <h1 class="premium-secondary-title text-4xl lg:text-5xl font-extrabold mb-2">{product.hero.title}</h1>
+                <h1 class="premium-secondary-title text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2">
+                  {product.hero.title}
+                </h1>
                 <p class="premium-secondary-subtitle text-lg lg:text-xl">{product.hero.subtitle}</p>
               </div>
             </section>

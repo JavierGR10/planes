@@ -34,7 +34,9 @@ const resolvedTheme = resolvePremiumTheme(branding.theme);
         isAboutEnabled && aboutPage ? (
           <main class="max-w-7xl mx-auto px-6 md:px-10 lg:px-12 pt-30 md:pt-34 lg:pt-38 pb-18 ">
             <section class="premium-secondary-hero space-y-6 md:space-y-8">
-              <h1 class="premium-secondary-title text-4xl lg:text-5xl tracking-[5px] font-bold">{aboutPage.title}</h1>
+              <h1 class="premium-secondary-title text-3xl md:text-4xl lg:text-5xl tracking-[5px] font-bold">
+                {aboutPage.title}
+              </h1>
               <p class="premium-secondary-subtitle text-lg lg:text-xl font-medium text-white text-justify">
                 {aboutPage.description}
               </p>
@@ -60,7 +62,7 @@ const resolvedTheme = resolvePremiumTheme(branding.theme);
             <div class:list={['premium-detail-divider h-px w-full bg-[#828282]']} />
 
             <section class="premium-about-grid grid gap-8 md:gap-10 lg:grid-cols-2 lg:gap-16 pt-10 md:pt-12 lg:pt-14 items-start">
-              <h3 class="premium-about-grid-title whitespace-pre-line text-3xl md:text-4xl lg:text-[50px] font-bold leading-tight tracking-tight">
+              <h3 class="premium-about-grid-title whitespace-pre-line text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
                 {aboutPage.gridTitle}
               </h3>
               <p class="premium-about-grid-copy text-lg md:text-xl font-medium leading-relaxed text-white text-justify">

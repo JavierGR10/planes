@@ -24,7 +24,7 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
   const bannerType = hero.type || 'with-slider';
   const roundedClass = rounded ? 'rounded-2xl md:rounded-3xl' : '';
   const buttonClass =
-    'cursor-pointer w-full sm:max-w-[280px] transition-colors duration-500 py-2 px-3 font-extrabold text-sm lg:text-base text-center border';
+    'cursor-pointer w-1/2 sm:max-w-[280px] transition-colors duration-500 py-2 px-3 font-extrabold text-sm lg:text-base text-center border';
   const titleClass = 'text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold';
   const subtitleClass = 'mb-4 md:mb-5 font-bold text-xs sm:text-sm lg:text-base';
   const imageBackgroundTitleClass = 'max-w-xl text-xl md:text-2xl lg:text-3xl font-extrabold';
@@ -56,7 +56,7 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
   if (bannerType === 'with-slider') {
     return (
       <motion.section
-        className={`hero-banner relative w-full ${roundedClass} py-6 md:py-0 md:h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
+        className={`hero-banner relative w-full ${roundedClass} py-6 md:py-0 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
         style={heroBackgroundStyle}
         initial={reduceMotion ? false : 'inactive'}
         animate={animateState}
@@ -97,7 +97,7 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
           {hero.buttonText && (
             <motion.a
               href={hero.buttonHref ?? '#'}
-              className={`hero-banner__cta ${buttonClass} mt-4 md:mt-0`}
+              className={`hero-banner__cta ${buttonClass} mt-4 md:mt-0 `}
               style={buttonBaseStyle}
               onMouseOver={handleButtonHover}
               onMouseOut={handleButtonLeave}
@@ -114,7 +114,7 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
   if (bannerType === 'simple') {
     return (
       <motion.section
-        className={`hero-banner relative w-full ${roundedClass} py-6 md:py-10 h-100 lg:h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
+        className={`hero-banner relative w-full ${roundedClass} py-6 md:py-10 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
         style={heroBackgroundStyle}
         initial={reduceMotion ? false : 'inactive'}
         animate={animateState}
@@ -193,7 +193,7 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
   if (bannerType === 'image-background') {
     return (
       <motion.section
-        className={`hero-banner relative w-full ${roundedClass} h-100 lg:h-125 flex items-center overflow-hidden`}
+        className={`hero-banner relative w-full ${roundedClass} min-h-75 md:min-h-100 xl:min-h-125 flex items-center overflow-hidden`}
         initial={reduceMotion ? false : 'inactive'}
         animate={animateState}
         variants={heroVariants.section}
