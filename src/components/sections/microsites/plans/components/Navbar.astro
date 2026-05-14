@@ -34,6 +34,8 @@ const scrolledTextColor = scrollTone === 'dark' ? lightTextColor : darkTextColor
 const initialStyle = transparent ? 'background: transparent;' : `background: ${initialBackground};`;
 const isExternalHref = (href?: string) => Boolean(href && /^(https?:)?\/\//.test(href));
 const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg transition-colors duration-300`;
+const navButtonClass = `navbar-text inline-flex items-center justify-center gap-1 font-medium ${initialTextColor} rounded-lg focus:border-none focus:outline-none cursor-pointer transition-colors duration-300`;
+const mobilePanelLinkClass = 'block rounded-2xl px-4 py-3 text-base font-semibold transition-colors duration-200';
 const cvaLogoDefault = withBasePath('/cva_logo.webp');
 const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
 ---
@@ -71,7 +73,40 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
       />
     </div>
 
-    <ul class="flex flex-row gap-2 md:space-x-8 font-medium">
+    <button
+      type="button"
+      class={`navbar-text inline-flex h-11 w-11 items-center justify-center rounded-full border border-current/15 transition-colors duration-300 lg:hidden ${initialTextColor}`}
+      aria-label="Abrir menú"
+      aria-controls="navbar-mobile-panel"
+      aria-expanded="false"
+      data-mobile-toggle
+    >
+      <svg
+        data-menu-open-icon
+        class="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d="M4 7H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path d="M4 12H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path d="M8 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+      <svg
+        data-menu-close-icon
+        class="hidden h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+    </button>
+
+    <ul class="hidden lg:flex lg:flex-row lg:gap-2 lg:space-x-8 font-medium">
       {
         items.map((item, idx) => {
           if (item.type === 'dropdown') {
@@ -80,13 +115,13 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
                 <button
                   id={`dropdownButton-${idx}`}
                   data-dropdown-toggle={`dropdownMenu-${idx}`}
-                  class={`navbar-text inline-flex items-center justify-center gap-1 font-medium ${initialTextColor} rounded-lg focus:border-none focus:outline-none cursor-pointer transition-colors duration-300`}
+                  class={navButtonClass}
                   type="button"
                 >
                   {item.label}
                   <svg
                     class="navbar-icon transition-colors duration-300"
-                    fill={transparent && initialTone === 'dark' ? '#FFFFFF' : '#24272A'}
+                    fill="currentColor"
                     version="1.1"
                     id="Capa_1"
                     xmlns="http://www.w3.org/2000/svg"
@@ -144,9 +179,155 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
       }
     </ul>
   </div>
+
+  <div
+    class="pointer-events-none fixed inset-0 z-70 opacity-0 transition-opacity duration-200 lg:hidden"
+    data-mobile-shell
+    aria-hidden="true"
+  >
+    <button
+      type="button"
+      class="absolute inset-0 z-0 bg-[#0D1218]/45 opacity-0 transition-opacity duration-200"
+      data-mobile-overlay
+      aria-label="Cerrar menú"
+      tabindex="-1"></button>
+
+    <aside
+      id="navbar-mobile-panel"
+      class="relative z-10 ml-auto flex h-full w-full max-w-sm flex-col px-5 pb-6 pt-5 shadow-2xl backdrop-blur-xl transition-transform duration-300 ease-out will-change-transform"
+      data-mobile-panel
+      aria-hidden="true"
+      style="transform: translateX(100%); background: var(--mobile-panel-bg, #FFFFFF); color: var(--mobile-panel-fg, #24272A); border-left: 1px solid var(--mobile-panel-border, rgba(36, 39, 42, 0.12));"
+    >
+      <div
+        class="flex items-center justify-between gap-4 border-b pb-4"
+        style="border-color: var(--mobile-panel-border, rgba(36, 39, 42, 0.12));"
+      >
+        <div class="flex min-w-0 items-center gap-3">
+          {
+            logo.src && (
+              <>
+                <img src={logo.src} alt={logo.alt} class="max-h-8 max-w-28 object-contain" />
+                <div class="h-8 w-px" style="background-color: var(--mobile-panel-border, rgba(36, 39, 42, 0.12));" />
+              </>
+            )
+          }
+          <img src={cvaLogoDefault} alt="cva_logo" class="h-7 max-w-24 object-contain" data-mobile-cva-logo />
+        </div>
+
+        <button
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors duration-200 hover:bg-black/5"
+          style="color: var(--mobile-panel-fg, #24272A); border-color: var(--mobile-panel-border, rgba(36, 39, 42, 0.12));"
+          data-mobile-close
+          aria-label="Cerrar menú"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto pt-6">
+        <ul class="flex flex-col gap-3">
+          {
+            items.map((item, idx) => {
+              if (item.type === 'dropdown') {
+                return (
+                  <li class="mobile-nav-item" data-mobile-item>
+                    <div
+                      class="rounded-[1.25rem] p-2"
+                      style="background: var(--mobile-panel-card-bg, #F5F7FA); color: var(--mobile-panel-fg, #24272A);"
+                    >
+                      <button
+                        type="button"
+                        class="flex w-full items-center justify-between gap-4 rounded-2xl px-3 py-3 text-left text-base font-semibold"
+                        style="color: var(--mobile-panel-fg, #24272A);"
+                        data-mobile-dropdown-button
+                        data-target={`mobileDropdown-${idx}`}
+                        aria-expanded="false"
+                        aria-controls={`mobileDropdown-${idx}`}
+                      >
+                        <span>{item.label}</span>
+                        <svg
+                          class="pointer-events-none h-4 w-4 shrink-0 transition-transform duration-300"
+                          style="color: var(--mobile-panel-fg, #24272A);"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                          data-mobile-dropdown-icon
+                        >
+                          <path
+                            d="M2 4L6 8L10 4"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+
+                      <div
+                        id={`mobileDropdown-${idx}`}
+                        class="hidden overflow-hidden px-3 pb-2"
+                        data-mobile-dropdown-panel
+                      >
+                        <ul
+                          class="flex flex-col gap-2 border-t pt-3"
+                          style="border-color: var(--mobile-panel-border, rgba(36, 39, 42, 0.12));"
+                        >
+                          {item.items?.map((subitem) => (
+                            <li>
+                              <a
+                                href={subitem.href}
+                                class={mobilePanelLinkClass}
+                                style="color: var(--mobile-panel-fg, #24272A); background: transparent;"
+                              >
+                                {subitem.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                );
+              }
+
+              if (item.type === 'link' || item.type === 'scroll') {
+                const externalHref = isExternalHref(item.href);
+                const isScrollItem = item.type === 'scroll';
+
+                return (
+                  <li class="mobile-nav-item" data-mobile-item>
+                    <a
+                      href={item.href}
+                      target={externalHref ? '_blank' : undefined}
+                      rel={externalHref ? 'noopener noreferrer' : undefined}
+                      data-nav-scroll={isScrollItem ? 'true' : undefined}
+                      class={mobilePanelLinkClass}
+                      style="color: var(--mobile-panel-fg, #24272A); background: var(--mobile-panel-card-bg, #F5F7FA);"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              }
+
+              return null;
+            })
+          }
+        </ul>
+      </div>
+    </aside>
+  </div>
 </nav>
 
 <script>
+  import { prefersReducedMotion, setupPlanGsap } from '../gsap';
+
   document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('main-navbar');
     if (!navbar) return;
@@ -160,14 +341,183 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
 
     const textElements = navbar.querySelectorAll('.navbar-text');
     const divider = navbar.querySelector('.navbar-divider') as HTMLElement;
-    const icons = navbar.querySelectorAll('.navbar-icon') as NodeListOf<SVGElement>;
     const cvaLogo = navbar.querySelector('.navbar-cva-logo') as HTMLImageElement;
+    const mobileToggle = navbar.querySelector<HTMLElement>('[data-mobile-toggle]');
+    const mobileOpenIcon = navbar.querySelector<HTMLElement>('[data-menu-open-icon]');
+    const mobileCloseIcon = navbar.querySelector<HTMLElement>('[data-menu-close-icon]');
+    const mobileShell = navbar.querySelector<HTMLElement>('[data-mobile-shell]');
+    const mobileOverlay = navbar.querySelector<HTMLElement>('[data-mobile-overlay]');
+    const mobilePanel = navbar.querySelector<HTMLElement>('[data-mobile-panel]');
+    const mobileCloseButton = navbar.querySelector<HTMLElement>('[data-mobile-close]');
+    const mobileDropdownButtons = mobilePanel?.querySelectorAll<HTMLElement>('[data-mobile-dropdown-button]') ?? [];
+    const mobileLinks = mobilePanel?.querySelectorAll<HTMLAnchorElement>('a[href]') ?? [];
+    const mobileCvaLogo = mobilePanel?.querySelector<HTMLImageElement>('[data-mobile-cva-logo]');
+    const desktopMediaQuery = window.matchMedia('(min-width: 1024px)');
+    const shouldReduceMotion = prefersReducedMotion();
+    const { gsap } = shouldReduceMotion ? { gsap: null } : setupPlanGsap();
 
     // Clases de texto
     const lightTextClasses = ['text-white', 'hover:text-white/80'];
     const darkTextClasses = ['text-[#24272A]', 'hover:text-[#24272A]/80'];
 
     let isScrolled = false;
+    let isMobileMenuOpen = false;
+    let mobileCloseTimer: number | undefined;
+
+    const getMobileTheme = () => {
+      const initialText = navbar.dataset.initialText || '';
+      const initialIsDark = initialText.includes('text-white');
+      const scrolledIsDark = (navbar.dataset.scrollTheme || 'light') === 'dark';
+      const useScrolledTheme = isScrolled;
+      const toneIsDark = useScrolledTheme ? scrolledIsDark : initialIsDark;
+
+      let background = useScrolledTheme ? scrollBackground : initialBackground;
+
+      if (isTransparent || !background || background === 'transparent' || background === 'rgba(0, 0, 0, 0)') {
+        background = toneIsDark ? scrollBackground : '#FFFFFF';
+      }
+
+      return {
+        background,
+        toneIsDark,
+        foreground: toneIsDark ? '#FFFFFF' : '#24272A',
+        border: toneIsDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(36, 39, 42, 0.12)',
+        cardBackground: toneIsDark ? 'rgba(255, 255, 255, 0.08)' : '#F5F7FA',
+      };
+    };
+
+    const applyMobileTheme = () => {
+      if (!mobilePanel) return;
+
+      const theme = getMobileTheme();
+      mobilePanel.style.setProperty('--mobile-panel-bg', theme.background);
+      mobilePanel.style.setProperty('--mobile-panel-fg', theme.foreground);
+      mobilePanel.style.setProperty('--mobile-panel-border', theme.border);
+      mobilePanel.style.setProperty('--mobile-panel-card-bg', theme.cardBackground);
+
+      if (mobileCvaLogo) {
+        mobileCvaLogo.src = theme.toneIsDark ? cvaLogoLight : cvaLogoDefault;
+      }
+    };
+
+    const setMobileToggleState = (isOpen: boolean) => {
+      if (!mobileToggle) return;
+
+      mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      mobileOpenIcon?.classList.toggle('hidden', isOpen);
+      mobileCloseIcon?.classList.toggle('hidden', !isOpen);
+    };
+
+    const setMobileDropdownState = (button: HTMLElement, isExpanded: boolean) => {
+      const panelId = button.dataset.target;
+      if (!panelId || !mobilePanel) return;
+
+      const panel = mobilePanel.querySelector<HTMLElement>(`#${panelId}`);
+      const icon = button.querySelector<HTMLElement>('[data-mobile-dropdown-icon]');
+      if (!panel) return;
+
+      button.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      icon?.classList.toggle('rotate-180', isExpanded);
+
+      if (isExpanded) {
+        panel.classList.remove('hidden');
+
+        if (!gsap) {
+          panel.style.height = 'auto';
+          panel.style.opacity = '1';
+          return;
+        }
+
+        gsap.killTweensOf(panel);
+        gsap.fromTo(
+          panel,
+          { height: 0, autoAlpha: 0 },
+          {
+            height: panel.scrollHeight,
+            autoAlpha: 1,
+            duration: 0.28,
+            ease: 'power2.out',
+            onComplete: () => {
+              panel.style.height = 'auto';
+            },
+          }
+        );
+
+        return;
+      }
+
+      if (!gsap) {
+        panel.style.height = '0px';
+        panel.style.opacity = '0';
+        panel.classList.add('hidden');
+        return;
+      }
+
+      gsap.killTweensOf(panel);
+      gsap.fromTo(
+        panel,
+        { height: panel.offsetHeight, autoAlpha: 1 },
+        {
+          height: 0,
+          autoAlpha: 0,
+          duration: 0.22,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            panel.classList.add('hidden');
+            panel.style.height = '';
+          },
+        }
+      );
+    };
+
+    const closeMobileDropdowns = () => {
+      mobileDropdownButtons.forEach((button) => setMobileDropdownState(button, false));
+    };
+
+    const openMobileMenu = () => {
+      if (!mobileShell || !mobileOverlay || !mobilePanel || isMobileMenuOpen) return;
+
+      window.clearTimeout(mobileCloseTimer);
+      isMobileMenuOpen = true;
+      applyMobileTheme();
+      mobileShell.classList.remove('pointer-events-none');
+      mobileShell.setAttribute('aria-hidden', 'false');
+      mobilePanel.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('overflow-hidden');
+      setMobileToggleState(true);
+
+      window.requestAnimationFrame(() => {
+        mobileShell.style.opacity = '1';
+        mobileOverlay.style.opacity = '1';
+        mobilePanel.style.transform = 'translateX(0)';
+      });
+    };
+
+    const closeMobileMenu = (shouldAnimate = true) => {
+      if (!mobileShell || !mobileOverlay || !mobilePanel || !isMobileMenuOpen) return;
+
+      isMobileMenuOpen = false;
+      mobileShell.setAttribute('aria-hidden', 'true');
+      mobilePanel.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('overflow-hidden');
+      setMobileToggleState(false);
+      closeMobileDropdowns();
+
+      if (!shouldAnimate) {
+        mobileShell.style.opacity = '0';
+        mobileOverlay.style.opacity = '0';
+        mobilePanel.style.transform = 'translateX(100%)';
+        mobileShell.classList.add('pointer-events-none');
+        return;
+      }
+
+      mobileShell.style.opacity = '0';
+      mobileOverlay.style.opacity = '0';
+      mobilePanel.style.transform = 'translateX(100%)';
+      mobileCloseTimer = window.setTimeout(() => {
+        mobileShell.classList.add('pointer-events-none');
+      }, 300);
+    };
 
     const updateNavbar = () => {
       const shouldBeScrolled = window.scrollY > scrollThreshold;
@@ -193,7 +543,6 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
           });
 
           if (divider) divider.style.backgroundColor = isScrolledDark ? 'white' : '#24272A';
-          icons.forEach((icon) => icon.setAttribute('fill', isScrolledDark ? '#FFFFFF' : '#24272A'));
           if (cvaLogo) cvaLogo.src = isScrolledDark ? cvaLogoLight : cvaLogoDefault;
         } else {
           navbar.classList.remove('shadow-md', 'fixed');
@@ -215,17 +564,17 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
           // Restaurar divider
           if (divider) divider.style.backgroundColor = isLightTheme ? 'white' : '#24272A';
 
-          // Restaurar iconos
-          icons.forEach((icon) => icon.setAttribute('fill', isLightTheme ? '#FFFFFF' : '#24272A'));
-
           // Restaurar logo CVA según el tema
           if (cvaLogo) cvaLogo.src = isLightTheme ? cvaLogoLight : cvaLogoDefault;
         }
+
+        applyMobileTheme();
       }
     };
 
     // Ejecutar una vez al cargar
     updateNavbar();
+    applyMobileTheme();
 
     // Añadir listener de scroll con throttle para mejor rendimiento
     let ticking = false;
@@ -238,6 +587,10 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
         ticking = true;
       }
     });
+
+    if (isMobileMenuOpen) {
+      closeMobileMenu(false);
+    }
 
     const scrollLinks = navbar.querySelectorAll<HTMLAnchorElement>('[data-nav-scroll="true"]');
 
@@ -286,6 +639,54 @@ const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
 
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
+    });
+
+    setMobileToggleState(false);
+
+    mobileToggle?.addEventListener('click', () => {
+      if (isMobileMenuOpen) {
+        closeMobileMenu();
+        return;
+      }
+
+      openMobileMenu();
+    });
+
+    mobileOverlay?.addEventListener('click', () => closeMobileMenu());
+    mobileCloseButton?.addEventListener('click', () => closeMobileMenu());
+
+    mobileDropdownButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+        mobileDropdownButtons.forEach((otherButton) => {
+          if (otherButton !== button) {
+            setMobileDropdownState(otherButton, false);
+          }
+        });
+
+        setMobileDropdownState(button, !isExpanded);
+      });
+    });
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (isMobileMenuOpen) {
+          closeMobileMenu(false);
+        }
+      });
+    });
+
+    desktopMediaQuery.addEventListener('change', (event) => {
+      if (event.matches) {
+        closeMobileMenu(false);
+      }
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isMobileMenuOpen) {
+        closeMobileMenu();
+      }
     });
   });
 </script>
