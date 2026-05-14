@@ -43,7 +43,9 @@ import BannerUs from '@/assets/microsites/lenovo/index/banner_nosotros.webp';
 
 // Modal
 import Modal from '@/assets/microsites/lenovo/index/business_modal.webp';
-export const lenovoConfig = {
+import { withBasePathConfig } from '@/components/sections/microsites/config/path-utils';
+
+export const lenovoConfig = withBasePathConfig({
   brand: {
     slug: 'lenovo',
     name: 'Lenovo',
@@ -627,4 +629,4 @@ export const lenovoConfig = {
       address: 'Av. Mariano Otero 2489',
     },
   },
-} satisfies BusinessMicrositeConfig;
+} satisfies BusinessMicrositeConfig);

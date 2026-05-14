@@ -1,4 +1,5 @@
 import type { BrandRegistryEntry, BrandStatus, PlanId } from './domain';
+import { withBasePath } from './path-utils';
 
 // REGISTRO DE MARCAS CON MICROSITIOS
 // Este archivo contiene el registro de marcas activas.
@@ -13,7 +14,7 @@ export const BRAND_REGISTRY: Record<string, BrandRegistryEntry> = {
     slug: 'dell',
     name: 'Dell',
     plan: 'premium',
-    basePath: '/micrositios/dell',
+    basePath: withBasePath('/micrositios/dell'),
     status: 'active',
     configKey: 'dell',
     enabledPages: ['home', 'detail', 'products', 'about'],
@@ -22,7 +23,7 @@ export const BRAND_REGISTRY: Record<string, BrandRegistryEntry> = {
     slug: 'huawei',
     name: 'Huawei',
     plan: 'professional',
-    basePath: '/micrositios/huawei',
+    basePath: withBasePath('/micrositios/huawei'),
     status: 'active',
     configKey: 'huawei',
     enabledPages: ['home', 'detail'],
@@ -31,7 +32,7 @@ export const BRAND_REGISTRY: Record<string, BrandRegistryEntry> = {
     slug: 'lenovo',
     name: 'Lenovo',
     plan: 'business',
-    basePath: '/micrositios/lenovo',
+    basePath: withBasePath('/micrositios/lenovo'),
     status: 'active',
     configKey: 'lenovo',
     enabledPages: ['home', 'detail'],

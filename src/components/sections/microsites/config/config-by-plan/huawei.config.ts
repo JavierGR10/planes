@@ -36,9 +36,10 @@ import Mate_x7Info from '@/assets/microsites/huawei/details/mate_x7/info.webp';
 import Mate_x7Icon1 from '@/assets/microsites/huawei/details/mate_x7/icono_1.webp';
 import Mate_x7Icon2 from '@/assets/microsites/huawei/details/mate_x7/icono_2.webp';
 import Mate_x7Icon3 from '@/assets/microsites/huawei/details/mate_x7/icono_3.webp';
+import { withBasePathConfig } from '@/components/sections/microsites/config/path-utils';
 // CONFIGURACIÓN DEL MICROSITIO HUAWEI
 
-export const huaweiConfig: ProfessionalMicrositeConfig = {
+export const huaweiConfig = withBasePathConfig({
   // IDENTIFICACIÓN DE MARCA
   brand: {
     slug: 'huawei',
@@ -396,4 +397,4 @@ export const huaweiConfig: ProfessionalMicrositeConfig = {
       },
     },
   ],
-};
+} satisfies ProfessionalMicrositeConfig);

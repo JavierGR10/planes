@@ -1,5 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { withBasePath } from '@/components/sections/microsites/config/path-utils';
+
+const cvaLogo = withBasePath('/cva_logo.webp');
+const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
 
 const NAV_ITEMS = [
   { label: 'Inicio', href: '#inicio' },
@@ -11,7 +15,7 @@ const PAGES = [
   {
     title: 'Huawei',
     plan: 'Professional',
-    href: '/micrositios/huawei',
+    href: withBasePath('/micrositios/huawei'),
     style: {
       titleGradient: 'from-[#2F3FA3] to-[#00aae8]',
       borderColor: 'border-white/90',
@@ -29,7 +33,7 @@ const PAGES = [
   {
     title: 'Dell',
     plan: 'Premium',
-    href: '/micrositios/dell',
+    href: withBasePath('/micrositios/dell'),
     featured: true,
     style: {
       titleGradient: 'from-[#00aae8] to-[#0AFFD8]',
@@ -48,7 +52,7 @@ const PAGES = [
   {
     title: 'Lenovo',
     plan: 'Business',
-    href: '/micrositios/lenovo',
+    href: withBasePath('/micrositios/lenovo'),
     style: {
       titleGradient: 'from-[#2F3FA3] to-[#00aae8]',
       borderColor: 'border-white/90',
@@ -72,12 +76,7 @@ const PAGES = [
     class="fixed inset-0 z-[80] flex items-center justify-center bg-[radial-gradient(circle_at_center,#1a406b_0%,#0b2035_48%,#06111d_100%)] px-6"
   >
     <div class="flex w-full max-w-sm flex-col items-center gap-6 text-center text-white">
-      <img
-        data-preloader-logo
-        src="/cva_logo_letras_blancas.webp"
-        alt="Grupo CVA"
-        class="h-16 w-auto opacity-0 sm:h-20"
-      />
+      <img data-preloader-logo src={cvaLogoLight} alt="Grupo CVA" class="h-16 w-auto opacity-0 sm:h-20" />
       <div class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.4em] text-white/65">Micrositios CVA</p>
         <p class="text-sm text-white/80 sm:text-base">Preparando una experiencia enfocada en conversión y marca.</p>
@@ -94,10 +93,9 @@ const PAGES = [
         class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8 lg:px-12"
       >
         <a href="#inicio" class="flex items-center gap-3">
-          <img src="/cva_logo.webp" alt="Grupo CVA" class="h-9 w-auto sm:h-10" />
+          <img src={cvaLogo} alt="Grupo CVA" class="h-9 w-auto sm:h-10" />
           <div class="hidden min-[420px]:block">
             <p class="text-sm font-black uppercase tracking-[0.26em] text-[#0f3557]">Micrositios</p>
-            <!-- <p class="text-xs text-slate-500">Landing comercial para impulsar marcas</p> -->
           </div>
         </a>
 
@@ -113,13 +111,6 @@ const PAGES = [
             ))
           }
         </nav>
-
-        <!-- <a
-          href="#premium"
-          class="inline-flex items-center rounded-full bg-linear-to-r from-[#00aae8] to-[#0AFFD8] px-5 py-2.5 text-sm font-black uppercase tracking-[0.18em] text-[#08344e] shadow-[0_14px_36px_rgba(0,170,232,0.28)] transition hover:scale-[1.02]"
-        >
-          Ver plan premium
-        </a> -->
       </div>
     </header>
 
@@ -134,6 +125,7 @@ const PAGES = [
       >
         <div class="space-y-6">
           <div
+            data-hero-copy
             class="inline-flex rounded-full border border-[#bde7f7] bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-[#0a88bc] shadow-sm"
           >
             Micrositios que captan atencion
@@ -158,12 +150,12 @@ const PAGES = [
             >
               Explorar planes
             </a>
-            <a
+            <!-- <a
               href="#premium"
               class="inline-flex items-center justify-center rounded-full border border-[#87f5e6] bg-white px-6 py-3 text-sm font-bold uppercase tracking-[0.18em] text-[#0079a9] transition hover:border-[#0AFFD8] hover:bg-[#effffc]"
             >
               Priorizar premium
-            </a>
+            </a> -->
           </div>
 
           <div data-hero-metrics class="grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
@@ -313,7 +305,7 @@ const PAGES = [
         class="mx-auto grid w-full max-w-6xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:px-12 lg:py-12"
       >
         <div class="space-y-4">
-          <img src="/cva_logo_letras_blancas.webp" alt="Grupo CVA" class="h-10 w-auto" />
+          <img src={cvaLogoLight} alt="Grupo CVA" class="h-10 w-auto" />
           <!-- <p class="max-w-2xl text-sm leading-relaxed text-white/72 sm:text-base">
             Una portada comercial debe captar atención rápido, presentar valor con claridad y dirigir al cliente hacia
             la alternativa más rentable. Aquí la marca demo atrae; el plan Premium convierte.
@@ -322,7 +314,10 @@ const PAGES = [
 
         <div class="flex flex-col gap-3 text-sm sm:items-start">
           <a href="#planes" class="font-semibold text-white/84 transition hover:text-[#0AFFD8]">Explorar planes</a>
-          <a href="#premium" class="font-semibold text-white/84 transition hover:text-[#0AFFD8]">Ir al plan premium</a>
+          <a
+            href={withBasePath('/micrositios/dell')}
+            class="font-semibold text-white/84 transition hover:text-[#0AFFD8]">Ir al plan premium</a
+          >
           <!-- <a href="mailto:contacto@grupocva.com" class="font-semibold text-white/84 transition hover:text-[#0AFFD8]">
             contacto@grupocva.com
           </a> -->

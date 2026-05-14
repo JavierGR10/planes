@@ -1,5 +1,6 @@
 ---
 import type { ImageAsset, NavItem } from '@/components/sections/microsites/config';
+import { withBasePath } from '@/components/sections/microsites/config/path-utils';
 
 interface Props {
   logo: ImageAsset;
@@ -33,6 +34,8 @@ const scrolledTextColor = scrollTone === 'dark' ? lightTextColor : darkTextColor
 const initialStyle = transparent ? 'background: transparent;' : `background: ${initialBackground};`;
 const isExternalHref = (href?: string) => Boolean(href && /^(https?:)?\/\//.test(href));
 const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg transition-colors duration-300`;
+const cvaLogoDefault = withBasePath('/cva_logo.webp');
+const cvaLogoLight = withBasePath('/cva_logo_letras_blancas.webp');
 ---
 
 <nav
@@ -44,6 +47,8 @@ const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg tra
   data-initial-background={initialBackground}
   data-initial-text={initialTextColor}
   data-scrolled-text={scrolledTextColor}
+  data-cva-logo-default={cvaLogoDefault}
+  data-cva-logo-light={cvaLogoLight}
   style={initialStyle}
 >
   <div class="w-full flex items-center justify-between py-5 px-10 lg:px-15">
@@ -60,7 +65,7 @@ const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg tra
         )
       }
       <img
-        src={transparent && initialTone === 'dark' ? '/cva_logo_letras_blancas.webp' : '/cva_logo.webp'}
+        src={transparent && initialTone === 'dark' ? cvaLogoLight : cvaLogoDefault}
         alt="cva_logo"
         class="navbar-cva-logo hidden min-[400px]:block h-8 transition-opacity duration-300"
       />
@@ -149,6 +154,8 @@ const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg tra
     const scrollBackground = navbar.dataset.scrollBackground || '#FFFFFF';
     const initialBackground = navbar.dataset.initialBackground || '#FFFFFF';
     const isTransparent = navbar.dataset.transparent === 'true';
+    const cvaLogoDefault = navbar.dataset.cvaLogoDefault || '';
+    const cvaLogoLight = navbar.dataset.cvaLogoLight || '';
     const scrollThreshold = 50;
 
     const textElements = navbar.querySelectorAll('.navbar-text');
@@ -187,7 +194,7 @@ const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg tra
 
           if (divider) divider.style.backgroundColor = isScrolledDark ? 'white' : '#24272A';
           icons.forEach((icon) => icon.setAttribute('fill', isScrolledDark ? '#FFFFFF' : '#24272A'));
-          if (cvaLogo) cvaLogo.src = isScrolledDark ? '/cva_logo_letras_blancas.webp' : '/cva_logo.webp';
+          if (cvaLogo) cvaLogo.src = isScrolledDark ? cvaLogoLight : cvaLogoDefault;
         } else {
           navbar.classList.remove('shadow-md', 'fixed');
           navbar.classList.add(isTransparent ? 'absolute' : 'sticky');
@@ -212,7 +219,7 @@ const navLinkClass = `navbar-text font-medium ${initialTextColor} rounded-lg tra
           icons.forEach((icon) => icon.setAttribute('fill', isLightTheme ? '#FFFFFF' : '#24272A'));
 
           // Restaurar logo CVA según el tema
-          if (cvaLogo) cvaLogo.src = isLightTheme ? '/cva_logo_letras_blancas.webp' : '/cva_logo.webp';
+          if (cvaLogo) cvaLogo.src = isLightTheme ? cvaLogoLight : cvaLogoDefault;
         }
       }
     };
