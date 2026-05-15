@@ -33,7 +33,7 @@ function HeroBackgroundMedia({ hero, title, isActive, reduceMotion }) {
       src={hero.backgroundImage}
       alt={title ?? 'Hero banner'}
       className="hero-banner__media absolute inset-0 w-full h-full"
-      imgClassName="absolute inset-0 w-full h-full object-contain"
+      imgClassName="absolute inset-0 w-full h-full object-cover"
       motionProps={{
         variants: heroVariants.media,
         initial: reduceMotion ? false : 'inactive',
