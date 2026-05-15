@@ -26,13 +26,29 @@ const fields = [
 ---
 
 <Layout title="Login" description="Inicia sesión en tu cuenta para acceder a tus cursos y contenido exclusivo.">
-  <main class="flex items-center justify-center h-screen">
+  <main class="grid place-items-center h-screen px-5">
     <div
-      class="relative w-226 mx-auto rounded-3xl min-h-[90dvh] 2xl:min-h-[70dvh] max-h-screen bg-linear-to-br from-white via-[#e3e5e6] to-slate-400 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] overflow-hidden"
+      class="w-full lg:w-230 xl:w-250 mx-auto rounded-3xl min-h-[74dvh] sm:min-h-[90dvh] 2xl:min-h-[75dvh] bg-linear-to-br from-white via-[#e3e5e6] to-slate-400 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col md:flex-row"
     >
-      <div class="absolute inset-0 w-2/3 h-full flex items-center justify-center p-12">
+      <div
+        class="w-full md:w-1/3 rounded-3xl flex flex-col items-center justify-center gap-2 md:gap-6 px-8 py-10 bg-[#162939]"
+      >
+        <img src={logo} alt="Background logo image" class="select-none max-w-30 md:max-w-50" id="logo-cva" />
+
+        <div class="relative w-full flex flex-col items-center gap-6 text-center overflow-hidden">
+          <div class="swap-content-block">
+            <h2 id="titleWelcome" class="text-white text-2xl md:text-3xl lg:text-4xl font-bold leading-tight py-4">
+              Bienvenido
+            </h2>
+            <p id="description" class="text-white text-lg text-center w-full max-w-110">
+              Ingresa tus credenciales para visualizar los <strong>micrositios</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="w-full md:w-2/3 flex items-center justify-center py-12 px-8 sm:px-12">
         <form id="login-form" class="flex flex-col items-center justify-center h-full w-full space-y-6">
-          <h1 class="text-4xl font-semibold text-slate-700 text-center w-full">Iniciar Sesión</h1>
+          <h1 id="titleForm" class="text-4xl font-semibold text-slate-700 text-center w-full">Iniciar Sesión</h1>
 
           <div v-for="field in fields" :key="field.placeholder" class="w-full text-gray-600">
             {
@@ -42,8 +58,7 @@ const fields = [
                   <input
                     type={field.typeInput}
                     placeholder={field.placeholder}
-                    class="bg-transparent text-gray-600 placeholder-gray-400 outline-none text-sm w-full h-full "
-                    required={field.required}
+                    class="bg-transparent text-gray-600 placeholder-gray-400 outline-none w-full h-full "
                     id={field.key}
                     name={field.key}
                   />
@@ -70,76 +85,70 @@ const fields = [
 
           <button
             type="submit"
-            class="cursor-pointer w-1/2 mt-2 overflow-hidden rounded-full font-semibold text-base py-2.5 px-10 text-white transition-all duration-400 bg-[#1e293b] hover:bg-[#2c3c56] active:bg-[#1e293b] hover:shadow-2xl active:shadow-lg"
+            id="button-login"
+            class="cursor-pointer opacity-0 md:w-1/2 mt-2 overflow-hidden rounded-full font-semibold text-base py-2.5 px-10 text-white transition-all duration-400 bg-[#1e293b] hover:bg-[#2c3c56] active:bg-[#1e293b] active:scale-90 hover:shadow-2xl"
           >
             Iniciar Sesión
           </button>
         </form>
       </div>
-      <div
-        class="absolute top-0 right-0 w-1/3 h-full rounded-3xl flex flex-col items-center justify-center gap-6 px-8 bg-[#162939]"
-      >
-        <img src={logo} alt="Background logo image" class="select-none max-w-50" />
-
-        <div
-          class="relative w-full flex flex-col items-center gap-6 text-center overflow-hidden"
-          :style="{ height: `${contentHeight}` }"
-        >
-          <div class="swap-content-block" :style="{ transform: `translateY(${contentHeight})` }">
-            <h2 class="text-white text-4xl font-bold leading-tight py-4">Bienvenido</h2>
-            <p class="text-white text-lg text-center w-full max-w-110">
-              Ingresa tus credenciales para visualizar los <strong>micrositios</strong>.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </main>
 </Layout>
 <script>
-  import Swal from 'sweetalert2';
+  import { handleLogin } from '@/lib/auth';
+  import { animateSplitText, prefersReducedMotion, setupPlanGsap } from '@/components/sections/microsites/plans/gsap';
 
-  const form = document.querySelector<HTMLFormElement>('#login-form');
-  const buttonShowPassword = document.querySelector<HTMLButtonElement>('#button-show-password');
-  const inputPassword = document.querySelector<HTMLInputElement>('#password');
+  const initLoginAnimations = () => {
+    const { gsap } = setupPlanGsap();
 
-  if (buttonShowPassword && inputPassword) {
-    buttonShowPassword.addEventListener('click', () => {
-      const isPassword = inputPassword?.type === 'password';
-      inputPassword.type = isPassword ? 'text' : 'password';
-      buttonShowPassword.innerHTML = isPassword
-        ? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M10 14.5a4.5 4.5 0 1 1 4.5-4.5a4.5 4.5 0 0 1-4.5 4.5M10 3C3 3 0 10 0 10s3 7 10 7s10-7 10-7s-3-7-10-7"/><circle cx="10" cy="10" r="2.5" fill="currentColor"/></svg>'
-        : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M12.49 9.94A2.5 2.5 0 0 0 10 7.5z"/><path fill="currentColor" d="M8.2 5.9a4.4 4.4 0 0 1 1.8-.4a4.5 4.5 0 0 1 4.5 4.5a4.3 4.3 0 0 1-.29 1.55L17 14.14A14 14 0 0 0 20 10s-3-7-10-7a9.6 9.6 0 0 0-4 .85zM2 2L1 3l2.55 2.4A13.9 13.9 0 0 0 0 10s3 7 10 7a9.7 9.7 0 0 0 4.64-1.16L18 19l1-1zm8 12.5A4.5 4.5 0 0 1 5.5 10a4.45 4.45 0 0 1 .6-2.2l1.53 1.44a2.5 2.5 0 0 0-.13.76a2.49 2.49 0 0 0 3.41 2.32l1.54 1.45a4.47 4.47 0 0 1-2.45.73"/></svg>';
-    });
-  }
+    gsap.set(['#logo-cva', '#description', '#button-login'], { autoAlpha: 0, clearProps: 'all' });
 
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
+    animateSplitText('#titleForm');
+    animateSplitText('#titleWelcome');
 
-    const user = formData.get('user');
-    const password = formData.get('password');
+    const timeLine = gsap.timeline();
 
-    const userData = {
-      user: import.meta.env.PUBLIC_ADMIN_USER,
-      password: import.meta.env.PUBLIC_ADMIN_PASSWORD,
-    };
+    timeLine
+      .fromTo(
+        '#logo-cva',
+        { autoAlpha: 0, y: 40, filter: 'blur(10px)' },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          filter: 'blur(0px)',
+          ease: 'power3.out',
+          clearProps: 'transform,opacity,visibility,filter',
+        }
+      )
+      .fromTo(
+        '#description',
+        { clipPath: 'inset(0% 100% 0%)', autoAlpha: 0 },
+        {
+          clipPath: 'inset(0% 0% 0%)',
+          autoAlpha: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+          clearProps: 'clipPath,opacity,visibility',
+        },
+        '-=0.45'
+      )
+      .fromTo(
+        '#button-login',
+        { scale: 0.8, opacity: 0 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power4.out',
+        },
+        '<0.2'
+      );
+  };
 
-    if (user === userData.user && password === userData.password) {
-      const sessionToken = crypto.randomUUID();
-      const session = {
-        token: sessionToken,
-        createdAt: Date.now(),
-      };
-      localStorage.setItem('auth', JSON.stringify(session));
-      window.location.href = '/planes';
-    } else {
-      Swal.fire({
-        title: 'Error!',
-        text: 'Usuario o contraseña incorrectos',
-        icon: 'error',
-        confirmButtonText: 'Aceptar',
-      });
-    }
+  document.addEventListener('DOMContentLoaded', () => {
+    handleLogin();
+    initLoginAnimations();
   });
 </script>
