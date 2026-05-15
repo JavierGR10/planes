@@ -104,3 +104,8 @@ const resolvedTwitterImage = new URL(
 <meta name="twitter:image" content={resolvedTwitterImage} />
 <meta name="twitter:image:alt" content={twitterImageAlt} />
 <link rel="canonical" href={canonicalUrl} />
+
+<script>
+  import { checkAuth } from '@/lib/auth';
+  checkAuth();
+</script>
