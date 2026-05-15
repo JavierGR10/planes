@@ -8,7 +8,7 @@ export const heroVariants = {
     active: {
       clipPath: 'inset(0 0 0 0%)',
       transition: {
-        duration: 1.7,
+        duration: 1,
         ease: [0.17, 0.17, 0.49, 1],
       },
     },
@@ -16,14 +16,10 @@ export const heroVariants = {
   media: {
     inactive: {
       opacity: 0.72,
-      scale: 1.04,
-      y: 8,
       filter: 'blur(8px)',
     },
     active: {
       opacity: 1,
-      scale: 1,
-      y: 0,
       filter: 'blur(0px)',
       transition: {
         duration: 1.55,
@@ -52,22 +48,22 @@ export const heroVariants = {
       },
     },
   },
-  veil: {
-    inactive: {
-      opacity: 0.18,
-      x: '-0.5%',
-      clipPath: 'inset(0 35% 0 0)',
-    },
-    active: {
-      opacity: 0,
-      x: '1%',
-      clipPath: 'inset(0 0% 0 0)',
-      transition: {
-        duration: 1.15,
-        ease: [0.17, 0.17, 0.49, 1],
-      },
-    },
-  },
+  // veil: {
+  //   // inactive: {
+  //   //   opacity: 0.18,
+  //   //   x: '-0.5%',
+  //   //   clipPath: 'inset(0 35% 0 0)',
+  //   // },
+  //   // active: {
+  //   //   opacity: 0,
+  //   //   x: '1%',
+  //   //   clipPath: 'inset(0 0% 0 0)',
+  //   //   transition: {
+  //   //     duration: 1.15,
+  //   //     ease: [0.17, 0.17, 0.49, 1],
+  //   //   },
+  //   // },
+  // },
   text: {
     inactive: {
       opacity: 0,
