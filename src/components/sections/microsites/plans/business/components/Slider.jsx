@@ -53,7 +53,7 @@ function Slider({ banners, theme }) {
           1024: { slidesPerView: 3 },
         }}
         spaceBetween={30}
-        className="w-full h-full relative"
+        className="w-full h-full "
       >
         {banners.map((banner, index) => (
           <SwiperSlide className="pb-5 md:pb-10 pl-1 pt-1 flex items-center justify-center" key={index}>
@@ -100,7 +100,7 @@ function Slider({ banners, theme }) {
       </div>
 
       {/* Versión tablet/desktop - posición absoluta */}
-      <div className="hidden md:block absolute top-30 md:top-40 xl:top-20 right-[8%] lg:right-[15%]">
+      <div className="hidden md:block absolute top-30 md:top-10 xl:top-20 right-[8%] lg:right-[15%]">
         <AnimatePresence mode="wait">
           <motion.div
             initial={{
@@ -125,14 +125,14 @@ function Slider({ banners, theme }) {
           </motion.div>
         </AnimatePresence>
       </div>
-      <div className="hidden md:block absolute top-30 md:top-40 lg:top-60 xl:top-40 right-[8%] lg:right-[15%] z-10">
+      <div className="hidden md:block absolute top-30 md:top-30 lg:top-30 xl:top-40 right-[14%] md:right-[8%] lg:right-[15%] z-10">
         <AnimatePresence mode="wait">
           <ResponsivePicture
             key={activeIndex}
             responsiveImage={banners[activeIndex]?.responsiveImage}
             src={banners[activeIndex]?.image}
             alt={`Imagen del banner ${banners[activeIndex]?.name}`}
-            imgClassName="lg:max-h-[240px] xl:max-h-[300px] 2xl:max-h-[331px] select-none"
+            imgClassName="max-h-[180px] lg:max-h-[240px] xl:max-h-[300px] 2xl:max-h-[331px] select-none"
             motionProps={{
               variants: imageVariants,
               initial: 'initial',
