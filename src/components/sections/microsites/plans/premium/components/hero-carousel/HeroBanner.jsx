@@ -1,14 +1,26 @@
 import { motion, useReducedMotion } from 'motion/react';
+import { useEffect, useRef } from 'react';
 import HtmlContent from './HtmlContent';
 import HeroBackgroundMedia from './HeroBackgroundMedia';
-import HeroRevealVeil from './HeroRevealVeil';
 import Slider from './Slider';
 import { getMotionState, heroVariants } from './heroMotion';
+import HeroBannerContent from '../../../components/HeroBannerContent';
 import ResponsivePicture from '../../../components/ResponsivePicture';
+import './HeroBanner.css';
 
 function HeroBanner({ hero, theme, rounded, isActive }) {
   const reduceMotion = useReducedMotion();
   const animateState = getMotionState(isActive, reduceMotion);
+
+  const hasPlayedSectionIntroRef = useRef(false);
+  const shouldAnimateSectionIntro = !reduceMotion && !hasPlayedSectionIntroRef.current;
+
+  useEffect(() => {
+    if (reduceMotion || hasPlayedSectionIntroRef.current) return;
+
+    hasPlayedSectionIntroRef.current = true;
+  }, [reduceMotion]);
+
   const {
     buttonColor,
     buttonHoverColor,
@@ -53,59 +65,98 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
     event.currentTarget.style.borderColor = buttonBorderColor;
   };
 
+  const renderTitle = ({ content, html, className, style }) => (
+    <HtmlContent
+      as="h2"
+      html={html}
+      className={className}
+      containerClassName={className}
+      style={style}
+      motionProps={{ variants: heroVariants.text }}
+    >
+      {content}
+    </HtmlContent>
+  );
+
+  const renderSubtitle = ({ content, html, className, style }) => (
+    <HtmlContent
+      as="p"
+      html={html}
+      className={className}
+      containerClassName={className}
+      style={style}
+      motionProps={{ variants: heroVariants.text }}
+    >
+      {content}
+    </HtmlContent>
+  );
+
+  const renderDescription = ({ content, html, className, style }) => (
+    <HtmlContent
+      as="p"
+      html={html}
+      className={className}
+      containerClassName={className}
+      style={style}
+      motionProps={{ variants: heroVariants.text }}
+    >
+      {content}
+    </HtmlContent>
+  );
+
+  const renderButton = ({ href, className, style, children, onMouseOver, onMouseOut }) => (
+    <motion.a
+      href={href}
+      className={className}
+      style={style}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+      variants={heroVariants.cta}
+    >
+      {children}
+    </motion.a>
+  );
+
   if (bannerType === 'with-slider') {
     return (
       <motion.section
         className={`hero-banner relative w-full ${roundedClass} py-6 md:py-0 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
         style={heroBackgroundStyle}
-        initial={reduceMotion ? false : 'inactive'}
-        animate={animateState}
+        initial={shouldAnimateSectionIntro ? 'inactive' : false}
+        animate={shouldAnimateSectionIntro ? 'active' : undefined}
         variants={heroVariants.section}
       >
-        <HeroRevealVeil reduceMotion={reduceMotion} animateState={animateState} />
         <motion.div
           className="hero-banner__content relative z-10 flex flex-col justify-between w-full md:w-1/2 lg:w-[40%] px-5 md:px-15"
+          initial={reduceMotion ? false : 'inactive'}
+          animate={animateState}
           variants={heroVariants.content}
         >
-          <HtmlContent
-            as="h2"
-            html={hero.titleHtml}
-            className={`hero-banner__title ${titleClass}`}
-            containerClassName={`hero-banner__title ${titleClass}`}
-            style={titleStyle}
-            motionProps={{ variants: heroVariants.text }}
-          >
-            {hero.title}
-          </HtmlContent>
-          <HtmlContent
-            as="p"
-            html={hero.subtitleHtml}
-            className={`hero-banner__subtitle ${subtitleClass}`}
-            containerClassName={`hero-banner__subtitle ${subtitleClass}`}
-            style={subtitleStyle}
-            motionProps={{ variants: heroVariants.text }}
-          >
-            {hero.subtitle}
-          </HtmlContent>
-
-          {hero.banners && hero.banners.length > 0 && (
-            <motion.div className="hero-banner__slider" variants={heroVariants.slider}>
-              <Slider banners={[...hero.banners, ...hero.banners]} theme={theme} />
-            </motion.div>
-          )}
-
-          {hero.buttonText && (
-            <motion.a
-              href={hero.buttonHref ?? '#'}
-              className={`hero-banner__cta ${buttonClass} mt-4 md:mt-0 `}
-              style={buttonBaseStyle}
-              onMouseOver={handleButtonHover}
-              onMouseOut={handleButtonLeave}
-              variants={heroVariants.cta}
-            >
-              {hero.buttonText}
-            </motion.a>
-          )}
+          <HeroBannerContent
+            title={hero.title}
+            titleHtml={hero.titleHtml}
+            titleClassName={`hero-banner__title ${titleClass}`}
+            titleStyle={titleStyle}
+            renderTitle={renderTitle}
+            subtitle={hero.subtitle}
+            subtitleHtml={hero.subtitleHtml}
+            subtitleClassName={`hero-banner__subtitle ${subtitleClass}`}
+            subtitleStyle={subtitleStyle}
+            renderSubtitle={renderSubtitle}
+            afterSubtitle={
+              hero.banners && hero.banners.length > 0 ? (
+                <motion.div className="hero-banner__slider" variants={heroVariants.slider}>
+                  <Slider banners={[...hero.banners, ...hero.banners]} theme={theme} />
+                </motion.div>
+              ) : null
+            }
+            buttonText={hero.buttonText}
+            buttonHref={hero.buttonHref}
+            buttonClassName={`hero-banner__cta ${buttonClass} mt-4 md:mt-0 `}
+            buttonStyle={buttonBaseStyle}
+            buttonProps={{ onMouseOver: handleButtonHover, onMouseOut: handleButtonLeave }}
+            renderButton={renderButton}
+          />
         </motion.div>
       </motion.section>
     );
@@ -116,59 +167,39 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
       <motion.section
         className={`hero-banner relative w-full ${roundedClass} py-6 md:py-10 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10 px-5 md:px-15`}
         style={heroBackgroundStyle}
-        initial={reduceMotion ? false : 'inactive'}
-        animate={animateState}
+        initial={shouldAnimateSectionIntro ? 'inactive' : false}
+        animate={shouldAnimateSectionIntro ? 'active' : undefined}
         variants={heroVariants.section}
       >
-        <HeroRevealVeil reduceMotion={reduceMotion} animateState={animateState} />
         <motion.div
           className="hero-banner__content relative z-10 flex flex-col w-full md:w-1/2"
+          initial={reduceMotion ? false : 'inactive'}
+          animate={animateState}
           variants={heroVariants.content}
         >
-          <HtmlContent
-            as="h2"
-            html={hero.titleHtml}
-            className={`hero-banner__title ${titleClass}`}
-            containerClassName={`hero-banner__title ${titleClass}`}
-            style={titleStyle}
-            motionProps={{ variants: heroVariants.text }}
-          >
-            {hero.title}
-          </HtmlContent>
-          <HtmlContent
-            as="p"
-            html={hero.subtitleHtml}
-            className={`hero-banner__subtitle ${subtitleClass}`}
-            containerClassName={`hero-banner__subtitle ${subtitleClass}`}
-            style={subtitleStyle}
-            motionProps={{ variants: heroVariants.text }}
-          >
-            {hero.subtitle}
-          </HtmlContent>
-          {hero.description && (
-            <HtmlContent
-              as="p"
-              html={hero.descriptionHtml}
-              className="hero-banner__description text-sm lg:text-base mb-4"
-              containerClassName="hero-banner__description text-sm lg:text-base mb-4"
-              style={descriptionStyle}
-              motionProps={{ variants: heroVariants.text }}
-            >
-              {hero.description}
-            </HtmlContent>
-          )}
-          {hero.buttonText && (
-            <motion.a
-              href={hero.buttonHref ?? '#'}
-              className={`hero-banner__cta ${buttonClass}`}
-              style={buttonBaseStyle}
-              onMouseOver={handleButtonHover}
-              onMouseOut={handleButtonLeave}
-              variants={heroVariants.cta}
-            >
-              {hero.buttonText}
-            </motion.a>
-          )}
+          <HeroBannerContent
+            title={hero.title}
+            titleHtml={hero.titleHtml}
+            titleClassName={`hero-banner__title ${titleClass}`}
+            titleStyle={titleStyle}
+            renderTitle={renderTitle}
+            subtitle={hero.subtitle}
+            subtitleHtml={hero.subtitleHtml}
+            subtitleClassName={`hero-banner__subtitle ${subtitleClass}`}
+            subtitleStyle={subtitleStyle}
+            renderSubtitle={renderSubtitle}
+            description={hero.description}
+            descriptionHtml={hero.descriptionHtml}
+            descriptionClassName="hero-banner__description text-sm lg:text-base mb-4"
+            descriptionStyle={descriptionStyle}
+            renderDescription={renderDescription}
+            buttonText={hero.buttonText}
+            buttonHref={hero.buttonHref}
+            buttonClassName={`hero-banner__cta ${buttonClass}`}
+            buttonStyle={buttonBaseStyle}
+            buttonProps={{ onMouseOver: handleButtonHover, onMouseOut: handleButtonLeave }}
+            renderButton={renderButton}
+          />
         </motion.div>
 
         {hero.image && (
@@ -193,64 +224,43 @@ function HeroBanner({ hero, theme, rounded, isActive }) {
   if (bannerType === 'image-background') {
     return (
       <motion.section
-        className={`hero-banner relative w-full ${roundedClass} min-h-75 md:min-h-100 xl:min-h-125 flex items-center overflow-hidden`}
-        initial={reduceMotion ? false : 'inactive'}
-        animate={animateState}
+        className={`hero-banner relative w-full ${roundedClass} min-h-75 md:min-h-100 xl:h-125 flex items-center overflow-hidden`}
+        initial={shouldAnimateSectionIntro ? 'inactive' : false}
+        animate={shouldAnimateSectionIntro ? 'active' : undefined}
         variants={heroVariants.section}
       >
         <motion.div className="hero-banner__media-frame absolute inset-0 z-0 overflow-hidden">
           <HeroBackgroundMedia hero={hero} title={hero.title} isActive={isActive} reduceMotion={reduceMotion} />
         </motion.div>
-        <HeroRevealVeil reduceMotion={reduceMotion} animateState={animateState} />
         <motion.div
           className="hero-banner__content relative z-10 flex flex-col justify-between w-full md:w-1/2 px-5 md:px-15 py-10"
+          initial={reduceMotion ? false : 'inactive'}
+          animate={animateState}
           variants={heroVariants.content}
         >
-          <HtmlContent
-            as="h2"
-            html={hero.titleHtml}
-            className={`hero-banner__title ${imageBackgroundTitleClass}`}
-            containerClassName={`hero-banner__title ${imageBackgroundTitleClass}`}
-            style={titleStyle}
-            motionProps={{ variants: heroVariants.text }}
-          >
-            {hero.title}
-          </HtmlContent>
-          <HtmlContent
-            as="p"
-            html={hero.subtitleHtml}
-            className={`hero-banner__subtitle ${imageBackgroundSubtitleClass}`}
-            containerClassName={`hero-banner__subtitle ${imageBackgroundSubtitleClass}`}
-            style={subtitleStyle}
-            motionProps={{ variants: heroVariants.text }}
-          >
-            {hero.subtitle}
-          </HtmlContent>
-
-          {hero.description && (
-            <HtmlContent
-              as="p"
-              html={hero.descriptionHtml}
-              className="hero-banner__description text-sm lg:text-base mb-4"
-              containerClassName="hero-banner__description text-sm lg:text-base mb-4"
-              style={descriptionStyle}
-              motionProps={{ variants: heroVariants.text }}
-            >
-              {hero.description}
-            </HtmlContent>
-          )}
-          {hero.buttonText && (
-            <motion.a
-              href={hero.buttonHref ?? '#'}
-              className={`hero-banner__cta ${buttonClass}`}
-              style={buttonBaseStyle}
-              onMouseOver={handleButtonHover}
-              onMouseOut={handleButtonLeave}
-              variants={heroVariants.cta}
-            >
-              {hero.buttonText}
-            </motion.a>
-          )}
+          <HeroBannerContent
+            title={hero.title}
+            titleHtml={hero.titleHtml}
+            titleClassName={`hero-banner__title ${imageBackgroundTitleClass}`}
+            titleStyle={titleStyle}
+            renderTitle={renderTitle}
+            subtitle={hero.subtitle}
+            subtitleHtml={hero.subtitleHtml}
+            subtitleClassName={`hero-banner__subtitle ${imageBackgroundSubtitleClass}`}
+            subtitleStyle={subtitleStyle}
+            renderSubtitle={renderSubtitle}
+            description={hero.description}
+            descriptionHtml={hero.descriptionHtml}
+            descriptionClassName="hero-banner__description text-sm lg:text-base mb-4"
+            descriptionStyle={descriptionStyle}
+            renderDescription={renderDescription}
+            buttonText={hero.buttonText}
+            buttonHref={hero.buttonHref}
+            buttonClassName={`hero-banner__cta ${buttonClass}`}
+            buttonStyle={buttonBaseStyle}
+            buttonProps={{ onMouseOver: handleButtonHover, onMouseOut: handleButtonLeave }}
+            renderButton={renderButton}
+          />
         </motion.div>
       </motion.section>
     );
