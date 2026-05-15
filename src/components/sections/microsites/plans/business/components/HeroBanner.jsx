@@ -61,10 +61,10 @@ function HeroBanner({ hero, theme, rounded, buttonBorder }) {
         className={`relative w-full ${roundedClass} py-6 md:py-0 min-h-75 md:min-h-100 xl:min-h-125 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-10`}
         style={heroBackgroundStyle}
       >
-        <div className="flex flex-col w-full md:w-1/2 lg:w-[40%] px-5 md:px-15">
+        <div className="flex flex-col w-full md:w-[55%] lg:w-1/2 px-10 md:px-15 py-2 md:py-5">
           <HeroBannerContent
             title={hero.title}
-            titleClassName="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold"
+            titleClassName="text-xl sm:text-2xl md:text-3xl xl:text-4xl font-extrabold"
             titleStyle={titleStyle}
             renderTitle={renderTitle}
             subtitle={hero.subtitle}
