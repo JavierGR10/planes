@@ -48,7 +48,7 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
 ---
 
 <div
-  class:list={['product-card flex h-full p-10 gap-5 rounded-[10px]', layoutClass]}
+  class:list={['product-card flex h-full p-5 sm:p-10 gap-5 rounded-[10px]', layoutClass]}
   data-index={index}
   data-product-extra={isExtra ? 'true' : 'false'}
   data-product-featured={featured ? 'true' : 'false'}
@@ -60,7 +60,7 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
   </div>
 
   <div class="product-card-media flex-1 flex items-start justify-center">
-    <img src={image} alt={titleProduct} class="product-card-image h-65 object-contain" loading="lazy" />
+    <img src={image} alt={titleProduct} class="product-card-image h-32 sm:h-55 xl:h-65 object-contain" loading="lazy" />
   </div>
 
   <div class:list={['product-card-meta mt-auto flex flex-col justify-end items-end gap-3', featured && 'lg:mt-20']}>
@@ -74,7 +74,7 @@ const ctaHoverBorderColor = productCardCtaTheme?.hoverBorderColor ?? ctaBorderCo
     {description && <p class="product-card-description text-justify text-xs max-w-sm">{description}</p>}
     <a
       href={href}
-      class="product-cta product-card-cta mt-4 px-15 py-2 font-bold font-Jakarta text-sm lg:text-base cursor-pointer rounded-[10px] self-end hover:shadow-lg will-change-transform"
+      class="product-cta product-card-cta mt-4 px-10 lg:px-15 py-2 font-bold font-Jakarta text-sm lg:text-base cursor-pointer rounded-[10px] self-end hover:shadow-lg will-change-transform"
       style={`--business-product-cta-background: ${ctaBackground}; --business-product-cta-text-color: ${ctaTextColor}; --business-product-cta-hover-background: ${ctaHoverBackground}; --business-product-cta-hover-text-color: ${ctaHoverTextColor}; --business-product-cta-border-color: ${ctaBorderColor}; --business-product-cta-hover-border-color: ${ctaHoverBorderColor};`}
     >
       <span class="product-cta-label">{buttonText}</span>
