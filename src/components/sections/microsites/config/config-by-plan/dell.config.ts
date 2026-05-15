@@ -160,7 +160,7 @@ export const dellConfig = withBasePathConfig({
       },
       {
         label: 'Productos',
-        type: 'dropdown' as const,
+        type: 'dropdown',
         items: [
           { label: 'Laptop Dell 15 DC15255', href: '/micrositios/dell/laptop-dell' },
           { label: 'Portátil Dell 16 Plus 2 en 1', href: '/micrositios/dell/productos' },
@@ -190,6 +190,32 @@ export const dellConfig = withBasePathConfig({
       {
         type: 'image-background',
         backgroundImage: Banner2.src,
+        responsiveBackgroundImage: {
+          mobile: {
+            image: Banner2.src,
+          },
+          tablet: {
+            image: 'https://www.grupocva.com/slider/1732_D.jpg',
+          },
+          desktop: {
+            image: 'https://www.grupocva.com/slider/1732_D.jpg',
+          },
+        },
+      },
+      {
+        type: 'image-background',
+        backgroundImage: 'https://www.grupocva.com/slider/1733_D.jpg',
+        responsiveBackgroundImage: {
+          mobile: {
+            image: 'https://www.grupocva.com/slider/1733_M.jpg',
+          },
+          tablet: {
+            image: 'https://www.grupocva.com/slider/1733_T.jpg',
+          },
+          desktop: {
+            image: 'https://www.grupocva.com/slider/1733_D.jpg',
+          },
+        },
       },
       {
         type: 'image-background',
@@ -211,10 +237,7 @@ export const dellConfig = withBasePathConfig({
         buttonText: 'Descubre todo su potencial',
         buttonHref: '/micrositios/dell/productos',
       },
-      {
-        type: 'image-background',
-        backgroundImage: Banner3.src,
-      },
+
       {
         type: 'image-background',
         backgroundVideo: BannerVideoDell,
