@@ -98,20 +98,15 @@ const businessCssVars = [
   .filter(Boolean)
   .join('; ');
 
-const getProductSlotClass = (itemIndex: number) => {
-  switch (itemIndex) {
-    case 0:
-    case 5:
-    case 9:
-      return 'md:col-span-2 xl:col-span-6';
-    case 6:
-    case 7:
-    case 8:
-      return 'md:col-span-1 xl:col-span-2';
-    default:
-      return 'md:col-span-1 xl:col-span-3';
-  }
+const layout = ['L', 'M', 'M', 'M', 'M', 'L', 'S', 'S', 'S', 'L'];
+//grid-cols-1 md:grid-cols-6
+const classes = {
+  L: 'md:col-span-6',
+  M: 'md:col-span-3 ',
+  S: 'col-span-6 min-[1100px]:col-span-2',
 };
+
+const getProductSlotClass = (index: number) => classes[layout[index] as keyof typeof classes];
 ---
 
 <MicrositeLayout
@@ -140,7 +135,7 @@ const getProductSlotClass = (itemIndex: number) => {
       </SectionTitle>
 
       <div
-        class="products-grid max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 mb-5"
+        class="products-grid max-w-7xl mx-auto px-5 sm:px-10 grid grid-cols-1 md:grid-cols-6 gap-5 mb-5"
         data-products-grid
       >
         {
@@ -161,15 +156,8 @@ const getProductSlotClass = (itemIndex: number) => {
 
         {
           extraProductItems.length > 0 && (
-            <div
-              class="products-extra-shell md:col-span-2 xl:col-span-6 overflow-hidden"
-              data-products-extra-shell
-              hidden
-            >
-              <div
-                class="products-extra-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 pt-5"
-                data-products-extra-grid
-              >
+            <div class="products-extra-shell md:col-span-6 overflow-hidden" data-products-extra-shell hidden>
+              <div class="products-extra-grid grid grid-cols-1 md:grid-cols-6 gap-5 pt-5" data-products-extra-grid>
                 {extraProductItems.map((item: ProductItem, index: number) => {
                   const itemIndex = index + 3;
 
