@@ -1,0 +1,16 @@
+.hero-banner__media-frame {
+  transform-origin: right center;
+  will-change: clip-path;
+}
+
+.hero-banner__veil {
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 28%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 24%, rgba(255, 255, 255, 0) 52%);
+  mix-blend-mode: screen;
+  will-change: clip-path, opacity, transform;
+}
+
+.hero-banner__content {
+  will-change: clip-path, transform, opacity;
+}
