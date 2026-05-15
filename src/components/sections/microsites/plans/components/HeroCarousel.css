@@ -1,0 +1,62 @@
+.hero-carousel {
+  padding: 0;
+}
+
+.hero-carousel .swiper-pagination {
+  bottom: 10px !important;
+}
+
+.hero-carousel .swiper-pagination-bullet {
+  background: var(--hero-carousel-pagination-color, white);
+  opacity: var(--hero-carousel-pagination-opacity, 0.5);
+  width: var(--hero-carousel-pagination-size, 10px);
+  height: var(--hero-carousel-pagination-size, 10px);
+}
+
+.hero-carousel .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--hero-carousel-pagination-active-color, var(--hero-carousel-pagination-color, white));
+}
+
+.hero-carousel .swiper-button-next,
+.hero-carousel .swiper-button-prev {
+  align-items: center;
+  backdrop-filter: var(--hero-carousel-navigation-backdrop, none);
+  background: var(--hero-carousel-navigation-background, rgba(0, 0, 0, 0.3));
+  border: 1px solid var(--hero-carousel-navigation-border, transparent);
+  color: var(--hero-carousel-navigation-color, white);
+  display: inline-flex;
+  height: 40px;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 40px;
+}
+
+.hero-carousel .swiper-button-next:hover,
+.hero-carousel .swiper-button-prev:hover {
+  background: var(--hero-carousel-navigation-hover-background, rgba(0, 0, 0, 0.5));
+  border-color: var(--hero-carousel-navigation-hover-border, var(--hero-carousel-navigation-border, transparent));
+}
+
+.hero-carousel .swiper-button-next:active,
+.hero-carousel .swiper-button-prev:active {
+  scale: 0.9;
+}
+
+.hero-carousel .swiper-button-next::after,
+.hero-carousel .swiper-button-prev::after {
+  content: none;
+}
+
+.hero-carousel .swiper-button-next svg,
+.hero-carousel .swiper-button-prev svg,
+.hero-carousel .swiper-navigation-icon {
+  display: block;
+  flex-shrink: 0;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  transition: transform 0.3s ease;
+  width: 15px;
+}
