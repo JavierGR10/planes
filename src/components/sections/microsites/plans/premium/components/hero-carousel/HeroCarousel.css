@@ -25,9 +25,6 @@
 
 .hero-carousel .swiper-pagination-bullet {
   background: var(--premium-hero-pagination-color, white);
-  opacity: 0.5;
-  width: 10px;
-  height: 10px;
 }
 
 .hero-carousel .swiper-pagination-bullet-active {
