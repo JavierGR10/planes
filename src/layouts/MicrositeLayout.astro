@@ -60,10 +60,11 @@ const {
 
     <!-- Flowbite -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
   </head>
 
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
     <main class="relative min-h-[80dvh]">
       <slot />
       {whatsappUrl && <WhatsApp url={whatsappUrl} />}
