@@ -48,18 +48,17 @@ function Slider({ banners, theme }) {
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         slidesPerView={3}
         breakpoints={{
-          0: { slidesPerView: 2 },
-          620: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
+          0: { slidesPerView: 2, spaceBetween: 15 },
+          550: { slidesPerView: 3, spaceBetween: 20 },
+          1024: { slidesPerView: 3, spaceBetween: 30 },
         }}
-        spaceBetween={30}
-        className="w-full h-full "
+        className="w-full h-full px-1! pt-1!"
       >
         {banners.map((banner, index) => (
-          <SwiperSlide className="pb-5 md:pb-10 pl-1 pt-1 flex items-center justify-center" key={index}>
+          <SwiperSlide className="pb-5 md:pb-10 " key={index}>
             {({ isActive }) => (
               <article
-                className={`cursor-pointer banner-item rounded-[10px] p-4 h-25 lg:h-30 w-25 lg:w-33 flex items-center justify-center transition-colors duration-500  ease-in-out
+                className={`cursor-pointer banner-item rounded-[10px] p-4 size-25 lg:size-28 flex items-center justify-center transition-colors duration-500 ease-in-out
                   ${isActive ? 'border scale-105' : ''}`}
                 style={isActive ? activeBorderStyle : undefined}
               >
